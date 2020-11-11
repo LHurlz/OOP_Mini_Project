@@ -111,17 +111,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return "Card{" +
-                "cardNumber=" + cardNumber +
-                ", name='" + name + '\'' +
-                ", attack=" + attack +
-                ", defence=" + defence +
-                ", height=" + height +
-                ", caps=" + caps +
-                ", goals=" + goals +
-                ", trophies=" + trophies +
-                ", rating=" + rating +
-                ", icon=" + icon +
-                '}';
+        return "ID: "+getCardNumber()+" Name: "+getName()+"  Attack:  "+getAttack()+"  Defence: "+getDefence()+"  Height: "+getHeight()+"cm  Caps: "+getCaps()+
+                "  Goals: "+getGoals()+"  Trophies: "+getTrophies()+"  Rating: "+getRating();
     }
 }

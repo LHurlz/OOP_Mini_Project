@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Player {
     private String type;
-    private ArrayList<Card> cards;
+    private ArrayList<Card> hand;
 
-    public Player(String type, ArrayList<Card> cards){
+    public Player(String type){
         setType(type);
-        setCards(cards);
+        setHand(hand);
     }
 
     public String getType() {
@@ -19,19 +19,22 @@ public class Player {
         this.type = type;
     }
 
-    public ArrayList<Card> getCards() {
-        return cards;
+    public ArrayList<Card> getHand() {
+        return hand;
     }
 
-    public void setCards(ArrayList<Card> cards) {
-        this.cards = cards;
+    public void setHand(ArrayList<Card> hand) {
+        this.hand = hand;
     }
 
     @Override
     public String toString() {
-        return "Player{" +
-                "type='" + type + '\'' +
-                ", cards=" + cards +
-                '}';
+        String str="Player Type: "+getType()+"\nHand:\n\n";
+
+        for(int i=0; i< hand.size(); i++){
+            str+=hand.get(i).getName()+"\n";
+        }
+
+        return str;
     }
 }

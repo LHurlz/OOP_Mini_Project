@@ -1,5 +1,6 @@
 package TopTrumps;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Game {
@@ -10,7 +11,7 @@ public class Game {
     private int result;
     private ArrayList<Card> inMiddle;
 
-    public Game(int players, Deck deck, ArrayList<Card> inMiddle){
+    public Game(int players, Deck deck,ArrayList<Card> inMiddle){
         setGameNumber();
         setPlayers(players);
         setDeck(deck);
@@ -59,10 +60,25 @@ public class Game {
         this.inMiddle = inMiddle;
     }
 
-    public int newGame(int players, Deck deck, ArrayList<Card> inMiddle){
-        System.out.println("dfdfs");
+    public void createGame(int players, Deck deck, ArrayList<Card> inMiddle){
+        int confirm = JOptionPane.showConfirmDialog(null,"Game Details:\n\n\nNumber of CPU players: "+players+"\n\nDeck: "+deck.getName()
+                                     +"\n\n\nAre these details correct?");
 
-        return 1;
+        if(confirm==JOptionPane.YES_OPTION){
+            JOptionPane.showMessageDialog(null,"Now shuffling the deck before dealing");
+            Deck shuffledDeck = deck.shuffle();
+
+            ArrayList<Player> playersReady = shuffledDeck.deal(shuffledDeck,players);
+
+            if(playersReady.size()==4){
+                inMiddle.add(shuffledDeck.getCards().get(28));
+                inMiddle.add(shuffledDeck.getCards().get(29));
+            }
+        }
+
+        /*for(int i=0; i<inMiddle.size(); i++)
+            if(inMiddle.get(i)!=null)                       --------TESTING IF INMIDDLE WORKS------- STATUS: WORKING
+                System.out.println(inMiddle.get(i).toString());*/
     }
 
     @Override

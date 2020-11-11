@@ -50,15 +50,29 @@ public class TestTopTrumps {
         int choice = JOptionPane.showConfirmDialog(null,"Would you like to play?");
 
         if(choice==JOptionPane.YES_OPTION){
-            int numPlayers = Integer.parseInt(JOptionPane.showInputDialog("Num of players"));
+            int numPlayers = Integer.parseInt(JOptionPane.showInputDialog("Num of CPU players"));
+            ArrayList<Card> inMiddle = new ArrayList<>();
+
+            while(numPlayers<1 || numPlayers>5){
+                numPlayers = Integer.parseInt(JOptionPane.showInputDialog("You may have a minimum of 1 and a maximum of 5 CPU opponents, please enter again"));
+            }
+            String deckList="";
+
+            for(int i=0; i<allDecks.size(); i++){
+                deckList+=allDecks.get(i).toString()+"\n";
+            }
+
+            int deckChoice = Integer.parseInt(JOptionPane.showInputDialog(deckList+"\n\nPlease enter the ID number of the deck you wish to play with"));
+
+            for(int i=0; i<allDecks.size(); i++){
+                while(deckChoice!=allDecks.get(i).getDeckNumber())
+                    deckChoice = Integer.parseInt(JOptionPane.showInputDialog(deckList+"\n\nDeck not found.  \nPlease enter the ID number of the deck you wish to play with"));
+            }
 
 
-            int deckChoice = Integer.parseInt(JOptionPane.showInputDialog())
-            ArrayList<Card> middle = new ArrayList<>();
+            Game game = new Game(numPlayers,allDecks.get(deckChoice-1),inMiddle);
 
-            Game game = new Game(4,worldStars2015,middle);
-
-            game.newGame(4,worldStars2015,middle);
+            game.createGame(numPlayers,allDecks.get(deckChoice-1),inMiddle);
             }
 
 
