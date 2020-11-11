@@ -3,12 +3,24 @@ package TopTrumps;
 import java.util.ArrayList;
 
 public class Deck{
+    private int deckID=0;
+    private int deckNumber;
     private String name;
     private ArrayList<Card> cards;
 
     public Deck(String name, ArrayList<Card> cards){
+        setDeckNumber();
         setName(name);
         setCards(cards);
+    }
+
+    public int getDeckNumber() {
+        return deckNumber;
+    }
+
+    public void setDeckNumber() {
+        deckID++;
+        this.deckNumber = deckID;
     }
 
     public String getName() {

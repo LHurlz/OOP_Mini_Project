@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class Game {
     private static int gameID=0;
     private int gameNumber;
-    private ArrayList<Player> players;
+    private int players;
     private Deck deck;
     private int result;
     private ArrayList<Card> inMiddle;
 
-    public Game(ArrayList<Player> players, Deck deck, ArrayList<Card> inMiddle){
+    public Game(int players, Deck deck, ArrayList<Card> inMiddle){
         setGameNumber();
         setPlayers(players);
         setDeck(deck);
@@ -27,11 +27,11 @@ public class Game {
         this.gameNumber = gameID;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public int getPlayers() {
         return players;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(int players) {
         this.players = players;
     }
 
@@ -57,5 +57,22 @@ public class Game {
 
     public void setInMiddle(ArrayList<Card> inMiddle) {
         this.inMiddle = inMiddle;
+    }
+
+    public int newGame(int players, Deck deck, ArrayList<Card> inMiddle){
+        System.out.println("dfdfs");
+
+        return 1;
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "gameNumber=" + gameNumber +
+                ", players=" + players +
+                ", deck=" + deck +
+                ", result=" + result +
+                ", inMiddle=" + inMiddle +
+                '}';
     }
 }

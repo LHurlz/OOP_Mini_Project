@@ -45,7 +45,23 @@ public class TestTopTrumps {
 
         Deck worldStars2015 = new Deck("World Football Stars 2015",allCards);
 
-        System.out.println("Deck details:\n\n"+worldStars2015);
+        ArrayList<Deck> allDecks = new ArrayList<>(Arrays.asList(worldStars2015));
+
+        int choice = JOptionPane.showConfirmDialog(null,"Would you like to play?");
+
+        if(choice==JOptionPane.YES_OPTION){
+            int numPlayers = Integer.parseInt(JOptionPane.showInputDialog("Num of players"));
+
+
+            int deckChoice = Integer.parseInt(JOptionPane.showInputDialog())
+            ArrayList<Card> middle = new ArrayList<>();
+
+            Game game = new Game(4,worldStars2015,middle);
+
+            game.newGame(4,worldStars2015,middle);
+            }
+
+
 
 
         /*int randomCard = (int)(Math.random()*(30-1+1)+1);
