@@ -16,7 +16,7 @@ public class LabelPositionTest {
         panel.setLayout(null);
 
         JLabel label=new JLabel("");
-        ImageIcon courtois = new ImageIcon("images/courtois.png");
+        ImageIcon courtois = new ImageIcon("TopTrumps/images/courtois.png");
         label.setIcon(courtois);
 
         JButton heightButton = new JButton();
