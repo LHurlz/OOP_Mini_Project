@@ -7,81 +7,120 @@ import java.awt.event.MouseEvent;
 
 public class LabelPositionTest {
 
+    static JFrame frame;
+
     public static void main(String[] args) {
-        JFrame frame = new JFrame("label positioning test");
-        frame.setLayout(null);
+        frame = new JFrame("label positioning test");
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel panel = (JPanel) frame.getContentPane();
-        panel.setLayout(null);
+        JPanel panel = new JPanel(null);
 
         JLabel label=new JLabel("");
-        ImageIcon courtois = new ImageIcon("TopTrumps/images/courtois.png");
+        label.setLayout(null);
+
+        ImageIcon courtois = new ImageIcon("images/courtois.png");
         label.setIcon(courtois);
 
         JButton heightButton = new JButton();
         heightButton.setBounds(110,240,83,10);
-        heightButton.setOpaque(false);
-        heightButton.setContentAreaFilled(false);
+
         heightButton.setBorderPainted(false);
 
         JButton capsButton = new JButton();
         capsButton.setBounds(110,256,83,10);
-        capsButton.setOpaque(false);
-        capsButton.setContentAreaFilled(false);
+
         capsButton.setBorderPainted(false);
 
-        panel.add(heightButton);
-        panel.add(capsButton);
+        Color selectedColor = new Color(150,150,250,62);
+
+        capsButton.setOpaque(false);
+
+        capsButton.setBackground(selectedColor); //interestingly if this isn't done then you will see the "grey" button on startup
+
+        heightButton.setOpaque(false);
+
+        heightButton.setBackground(selectedColor); //as above
+
+        // followed the advice at https://stackoverflow.com/questions/24275267/placing-button-on-top-of-image
+        // and added the buttons to the label rather than to the panel
+
+        label.add(heightButton);
+        label.add(capsButton);
+
         panel.add(label);
+
+        /*Fantastic to see you using anonymous inner classes and they are perfectly acceptable but in this
+        situation, given that the code will be very similar across the various buttons, it would be easier for
+        you to either create a private inner class or let the class itself implement the listener interface*/
+
 
         heightButton.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e){
-                Color selectedColor = new Color(12,246,214,62);
+
+                panel.repaint(); //necessary to prevent the painting problems encountered (stick one in each method)
+
+                Color selectedColor = new Color(150,150,250,62);
+
                 heightButton.setOpaque(true);
+
                 heightButton.setBackground(selectedColor);
+
             }
 
             public void mouseExited(MouseEvent evt) {
+
                 heightButton.setOpaque(false);
-                heightButton.setContentAreaFilled(false);
-                heightButton.setBorderPainted(false);
+
+                panel.repaint();
+
             }
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showConfirmDialog(null,"Do you wish to \"call\" the height stat?");
+
                 heightButton.setOpaque(false);
-                heightButton.setContentAreaFilled(false);
-                heightButton.setBorderPainted(false);
+
+                JOptionPane.showConfirmDialog(null,"Do you wish to \"call\" the height stat?");
+
             }
+
         });
 
         capsButton.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e){
-                Color selectedColor = new Color(12,246,214,62);
+
+                panel.repaint();
+
+                Color selectedColor = new Color(150,150,250,62);
                 capsButton.setOpaque(true);
+
                 capsButton.setBackground(selectedColor);
+
             }
 
             public void mouseExited(MouseEvent evt) {
+
                 capsButton.setOpaque(false);
-                capsButton.setContentAreaFilled(false);
-                capsButton.setBorderPainted(false);
+
+                panel.repaint();
+
             }
+
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showConfirmDialog(null,"Do you wish to \"call\" the caps stat?");
                 capsButton.setOpaque(false);
-                capsButton.setContentAreaFilled(false);
-                capsButton.setBorderPainted(false);
+
+                JOptionPane.showConfirmDialog(null,"Do you wish to \"call\" the caps stat?");
+
             }
         });
 
 
-        Dimension size = label.getPreferredSize();
-        label.setBounds(0,0,size.width,size.height);
+        label.setBounds(0,0, courtois.getIconWidth(), courtois.getIconHeight());
+        label.setPreferredSize(new Dimension(courtois.getIconWidth(),courtois.getIconHeight()));
+        frame.setContentPane(panel);
 
         frame.setSize(225,380);
         frame.setVisible(true);

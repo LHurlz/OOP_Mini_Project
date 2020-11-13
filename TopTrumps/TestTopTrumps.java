@@ -51,12 +51,14 @@ public class TestTopTrumps {
 
         if(choice==JOptionPane.YES_OPTION){
             int numPlayers = Integer.parseInt(JOptionPane.showInputDialog("Num of CPU players"));
+
             ArrayList<Card> inMiddle = new ArrayList<>();
 
             while(numPlayers<1 || numPlayers>5){
                 numPlayers = Integer.parseInt(JOptionPane.showInputDialog("You may have a minimum of 1 and a maximum of 5 CPU opponents, please enter again"));
             }
             String deckList="";
+            ArrayList<Player> totalPlayers = new ArrayList<>(numPlayers+1);
 
             for(int i=0; i<allDecks.size(); i++){
                 deckList+=allDecks.get(i).toString()+"\n";
@@ -70,7 +72,7 @@ public class TestTopTrumps {
             }
 
 
-            Game game = new Game(numPlayers,allDecks.get(deckChoice-1),inMiddle);
+            Game game = new Game(totalPlayers,allDecks.get(deckChoice-1),inMiddle);
 
             game.createGame(numPlayers,allDecks.get(deckChoice-1),inMiddle);
             }
