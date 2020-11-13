@@ -140,7 +140,7 @@ public class Game {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     buttons[finalI].setOpaque(false);
-                    JOptionPane.showConfirmDialog(null,"Do you wish to \"call\" the "+buttons[finalI].getName()+" stat?");
+                    int confirm = JOptionPane.showConfirmDialog(null,"Do you wish to \"call\" the "+buttons[finalI].getName()+" stat?");
                 }
 
                 @Override
