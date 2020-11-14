@@ -204,6 +204,8 @@ public class Deck{
             players.get(5).setHand(p6Cards);
         }
 
+        System.out.println(players.toString());
+
         return players;
     }
 

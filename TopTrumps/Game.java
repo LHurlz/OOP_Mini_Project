@@ -1,5 +1,7 @@
 package TopTrumps;
 
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -137,13 +139,37 @@ public class Game {
             imageLabel.add(buttons[i]);
             int finalI = i;
             buttons[i].addMouseListener(new MouseAdapter() {
-                @Override
                 public void mouseClicked(MouseEvent e) {
                     buttons[finalI].setOpaque(false);
-                    int confirm = JOptionPane.showConfirmDialog(null,"Do you wish to \"call\" the "+buttons[finalI].getName()+" stat?");
+
+                    int confirm = JOptionPane.showConfirmDialog(null,"sure");
+
+                    if(confirm==JOptionPane.YES_OPTION){
+                        JButton selectedStat = (JButton)e.getSource();
+
+                    String selectedStatName = selectedStat.getName();
+
+                    //System.out.println(selectedStatName);
+                    imageLabel.hide();
+
+                    if(selectedStatName.equals("\"Height\"")){
+                        int highest=players.get(0).getHand().get(0).getHeight();
+                        int winningPlayer=0;
+                        String card=players.get(0).getHand().get(0).getName();
+
+                        for(int i=1; i<players.size(); i++){
+                            if(players.get(i).getHand().get(0).getHeight()>highest){
+                                highest=players.get(i).getHand().get(0).getHeight();
+                                winningPlayer=(i+1);
+                                card=players.get(i).getHand().get(0).getName();
+                            }
+                        }
+
+                        System.out.println("\n\nWinning player was player "+winningPlayer+" with the card "+card+" and stat "+highest);
+                    }
+                    }
                 }
 
-                @Override
                 public void mouseEntered(MouseEvent e) {
                     panel.repaint(); //necessary to prevent the painting problems encountered (stick one in each method)
                     Color selectedColor = new Color(150,150,250,62);
@@ -151,12 +177,12 @@ public class Game {
                     buttons[finalI].setBackground(selectedColor);
                 }
 
-                @Override
                 public void mouseExited(MouseEvent e) {
                     buttons[finalI].setOpaque(false);
                     panel.repaint();
                 }
             });
+
         }
 
         imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -170,10 +196,8 @@ public class Game {
         panel.add(imageLabel);
         frame.setSize(600,600);
         frame.setVisible(true);
-
     }
 
-    @Override
     public String toString() {
         return "Game{" +
                 "gameNumber=" + gameNumber +
