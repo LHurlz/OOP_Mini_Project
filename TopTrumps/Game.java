@@ -1,5 +1,8 @@
 package TopTrumps;
 
+import TopTrumps.Card;
+import TopTrumps.Deck;
+import TopTrumps.Player;
 import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
@@ -85,7 +88,8 @@ public class Game {
             JOptionPane.showMessageDialog(null,"Now starting game "+gameNumber+" of Top Trumps! Good luck!");
             //System.out.println(players.get(0).toString());
             JOptionPane.showMessageDialog(null,"You are first! Get ready to select a stat...");
-            this.viewTopCard(gameNumber,playersReady,shuffledDeck,inMiddle);
+
+            //Round round = new Round(inMiddle,playersReady);
         }
 
         /*for(int i=0; i<inMiddle.size(); i++)
