@@ -80,47 +80,12 @@ public class Deck{
 
         if(cpuPlayers==1){
             for(int i=0; i<cpuPlayers+1; i++){
-            if(i==0)
-                players.add(new Player("Human"));
-            else
-                players.add(new Player("CPU"));
-        }
-
-        for(int i=0; i<30; i++){
-            if(i<15){
-                p1Cards.add(shuffledDeck.getCards().get(i));
-            }
-            else if(i>14 && i<30)
-                p2Cards.add(shuffledDeck.getCards().get(i));
-        }
-
-        players.get(0).setHand(p1Cards);
-        players.get(1).setHand(p2Cards);
-        }
-
-        else if(cpuPlayers==2){
-            for(int i=0; i<cpuPlayers+1; i++){
                 if(i==0)
-                    players.add(new Player("Human"));
-                else
-                    players.add(new Player("CPU"));
-            }
-
-            for(int i=0; i<30; i++){
-                if(i<10)
-                    p1Cards.add(shuffledDeck.getCards().get(i));
-                else if(i>9 && i<20)
-                    p2Cards.add(shuffledDeck.getCards().get(i));
-                else if(i>19 && i<30)
-                    p3Cards.add(shuffledDeck.getCards().get(i));
-            }
-
-            players.get(0).setHand(p1Cards);
-            players.get(1).setHand(p2Cards);
-            players.get(2).setHand(p3Cards);
+                players.get(1).setHand(p2Cards);
+                players.get(2).setHand(p3Cards);
         }
 
-        else if(cpuPlayers==3){
+        //else if(cpuPlayers==3){
             for(int i=0; i<cpuPlayers+1; i++){
                 if(i==0)
                     players.add(new Player("Human"));

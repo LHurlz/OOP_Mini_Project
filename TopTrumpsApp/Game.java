@@ -1,18 +1,22 @@
 package TopTrumpsApp;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class Game {
+public class Game extends JFrame{
     private static int gameID=0;
     private int gameNumber;
     private ArrayList<Player> players;
     private ArrayList<Card> middlePile;
     private Deck deck;
+    JLabel imageLabel;
+    JPanel panel;
+    JLabel promptLabel;
 
     Card courtois = new Card("Thibaut Courtois",4,99,199,31,0,6,84,new ImageIcon("TopTrumps/images/courtois.png"));
     Card neuer = new Card("Manuel Neuer",5,100,193,57,0,12,97,new ImageIcon("TopTrumps/images/neuer.png"));
@@ -86,7 +90,7 @@ public class Game {
 
         int chosenDeck = Integer.parseInt(chooseDeck);
 
-        Collections.shuffle(allDecks.get(chosenDeck-1).getCards());
+        Collections.shuffle(allDecks.get(chosenDeck-1).getCards()); //https://www.tutorialspoint.com/shuffle-elements-of-arraylist-with-java-collections#:~:text=In%20order%20to%20shuffle%20elements,shuffle()%20method.//
 
         String output="Shuffled deck as follows:\n\n";
 
@@ -94,9 +98,23 @@ public class Game {
             output+=allDecks.get(chosenDeck-1).getCards().get(i)+"\n";
         }
 
-        JOptionPane.showMessageDialog(null,output, "Shuffled Deck",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,"Now shuffling the deck before game commences...","Shuffling Deck",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,output,"Shuffled Deck",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,"Cards are now being dealt before game begins.. press OK to see your hand!","Dealing Cards",JOptionPane.INFORMATION_MESSAGE);
 
-        this.createGame(players,allDecks.get(chosenDeck-1));
+        ArrayList<Player> playersDealtTo = allDecks.get(chosenDeck-1).deal(allDecks.get(chosenDeck-1),players);
+
+        String str="Your hand is...\n\n\n";
+
+        for(int i=0; i<players.get(0).getHand().size(); i++){
+            str+=players.get(0).getHand().get(i).getName()+"\n";
+        }
+
+        str+="\n\nGet ready to play Top Trumps!!";
+
+        JOptionPane.showMessageDialog(null,str);
+
+        this.createGame(playersDealtTo,allDecks.get(chosenDeck-1));
     }
 
     public void createGame(ArrayList<Player> players,Deck deck){
@@ -105,10 +123,29 @@ public class Game {
         setDeck(deck);
         setMiddlePile(middlePile);
 
+        this.setTitle("Your Turn");
+        this.setSize(600,600);
+        this.setLocationRelativeTo(null);
+        Container pane = this.getContentPane();
+        pane.setLayout(new FlowLayout());
+
+        this.imageLabel = new JLabel();
+        this.imageLabel.setIcon(new ImageIcon(players.get(0).getHand().get(0).getIcon().toString()));
+
+        this.promptLabel = new JLabel("It's your turn.. call a stat and see if you can beat the CPU!");
+
+        this.panel=new JPanel();
+        this.panel.setLayout(new BoxLayout(this.panel,1));
+        this.panel.add(this.imageLabel);
+        this.panel.add(this.promptLabel);
+        pane.add(this.panel);
+
+
+
+        this.setVisible(true);
+
         System.out.println(this.toString());
     }
-
-
 
     public int getGameNumber() {
         return gameNumber;
@@ -150,9 +187,6 @@ public class Game {
         for(int i=0; i<players.size(); i++){
             str+=players.get(i).getType()+"\n";
         }
-
-
-
 
         return str;
     }

@@ -50,7 +50,7 @@ public class Deck {
             randomNum = (int)(Math.random()*30);
 
             while(alreadyPicked[randomNum])
-                randomNum = (int)(Math.random()*30);
+                randomNum = (int)(Math.random()*30);            // OWN SHUFFLING METHOD WRITTEN AND COMMENTED OUT BEFORE LEARNING ABOUT COLLECTIONS.SHUFFLE()//
 
             alreadyPicked[randomNum]=true;
 
@@ -66,6 +66,81 @@ public class Deck {
 
         return shuffledDeck;
     }*/
+
+    public ArrayList<Player> deal(Deck shuffledDeck, ArrayList<Player> players){
+        ArrayList<Card> p1Cards = new ArrayList<>(15);
+        ArrayList<Card> p2Cards = new ArrayList<>(15);
+        ArrayList<Card> p3Cards = new ArrayList<>(15);
+        ArrayList<Card> p4Cards = new ArrayList<>(15);
+        ArrayList<Card> p5Cards = new ArrayList<>(15);
+        ArrayList<Card> p6Cards = new ArrayList<>(15);
+        int cpuPlayers= players.size()-1;
+
+        if(cpuPlayers==1){
+            for(int i=0; i<30; i++){
+                if(i<15){
+                    p1Cards.add(shuffledDeck.getCards().get(i));
+                    players.get(0).setHand(p1Cards);
+                }
+                else if(i>14 && i<30)
+                    p2Cards.add(shuffledDeck.getCards().get(i));
+            }
+        }
+        else if(cpuPlayers==2){
+            for(int i=0; i<30; i++){
+                if(i<10)
+                    p1Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>9 && i<20)
+                    p2Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>19 && i<30)
+                    p3Cards.add(shuffledDeck.getCards().get(i));
+            }
+        }
+        else if(cpuPlayers==3){
+            for(int i=0; i<30; i++){
+                if(i<7)
+                    p1Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>6 && i<14)
+                    p2Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>13 && i<21)
+                    p3Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>20 && i<28)
+                    p4Cards.add(shuffledDeck.getCards().get(i));
+            }
+        }
+        else if(cpuPlayers==4){
+            for(int i=0; i<30; i++){
+                if(i<6)
+                    p1Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>5 && i<12)
+                    p2Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>11 && i<18)
+                    p3Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>17 && i<24)
+                    p4Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>23 && i<30)
+                    p5Cards.add(shuffledDeck.getCards().get(i));
+            }
+        }
+        else if(cpuPlayers==5){
+            for(int i=0; i<30; i++){
+                if(i<5)
+                    p1Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>4 && i<10)
+                    p2Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>9 && i<15)
+                    p3Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>14 && i<20)
+                    p4Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>19 && i<25)
+                    p5Cards.add(shuffledDeck.getCards().get(i));
+                else if(i>24 && i<30)
+                    p6Cards.add(shuffledDeck.getCards().get(i));
+            }
+        }
+
+        return players;
+    }
 
     @Override
     public String toString() {
