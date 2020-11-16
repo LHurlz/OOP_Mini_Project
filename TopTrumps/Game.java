@@ -165,7 +165,9 @@ public class Game {
                             }
                         }
 
-                        System.out.println("\n\nWinning player was player "+winningPlayer+" with the card "+card+" and stat "+highest);
+                        JLabel result = new JLabel("\n\nWinning player was player "+winningPlayer+" with the card "+card+" and stat "+highest);
+                        panel.add(result);
+
                     }
                     }
                 }
@@ -197,6 +199,7 @@ public class Game {
         frame.setSize(600,600);
         frame.setVisible(true);
     }
+
 
     public String toString() {
         return "Game{" +
