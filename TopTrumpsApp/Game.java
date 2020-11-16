@@ -18,36 +18,36 @@ public class Game extends JFrame{
     JPanel panel;
     JLabel promptLabel;
 
-    Card courtois = new Card("Thibaut Courtois",4,99,199,31,0,6,84,new ImageIcon("TopTrumps/images/courtois.png"));
-    Card neuer = new Card("Manuel Neuer",5,100,193,57,0,12,97,new ImageIcon("TopTrumps/images/neuer.png"));
-    Card kompany = new Card("Vincent Kompany",60,94,193,66,4,7,73,new ImageIcon("TopTrumps/images/kompany.png"));
-    Card hummels = new Card("Mats Hummels",61,85,192,39,4,8,84,new ImageIcon("TopTrumps/images/hummels.png"));
-    Card diMaria = new Card("Angel Di Maria",81,64,180,65,15,10,75,new ImageIcon("TopTrumps/images/dimaria.png"));
-    Card ronaldo = new Card("Cristiano Ronaldo",99,35,185,124,55,17,100,new ImageIcon("TopTrumps/images/ronaldo.png"));
-    Card sterling = new Card("Raheem Sterling",71,54,170,16,1,0,77,new ImageIcon("TopTrumps/images/sterling.png"));
-    Card sanchez = new Card("Alexis Sanchez",90,45,169,86,27,11,94,new ImageIcon("TopTrumps/images/sanchez.png"));
-    Card vidal = new Card("Arturo Vidal",79,83,180,69,12,8,74,new ImageIcon("TopTrumps/images/vidal.png"));
-    Card falcao = new Card("Radamel Falcao",83,40,177,56,24,11,87,new ImageIcon("TopTrumps/images/falcao.png"));
-    Card lewandowski = new Card("Robert Lewandowski",88,44,185,68,26,8,92,new ImageIcon("TopTrumps/images/lewandowski.png"));
-    Card suarez = new Card("Luis Suarez",91,49,182,79,44,9,93,new ImageIcon("TopTrumps/images/suarez.png"));
-    Card benzema = new Card("Karim Benzema",85,36,187,78,25,12,88,new ImageIcon("TopTrumps/images/benzema.png"));
-    Card gervinho = new Card("Gervinho",74,42,179,71,20,3,80,new ImageIcon("TopTrumps/images/gervinho.png"));
-    Card hazard = new Card("Eden Hazard",80,34,173,59,8,5,86,new ImageIcon("TopTrumps/images/hazard.png"));
-    Card ibrahimovic = new Card("Zlatan Ibrahimovic",95,44,195,105,56,27,99,new ImageIcon("TopTrumps/images/ibrahimovic.png"));
-    Card messi = new Card("Lionel Messi",100,32,170,102,46,26,100,new ImageIcon("TopTrumps/images/messi.png"));
-    Card neymar = new Card("Neymar Jr.",82,33,174,63,43,10,96,new ImageIcon("TopTrumps/images/neymar.png"));
-    Card rooney = new Card("Wayne Rooney",86,50,176,105,48,15,85,new ImageIcon("TopTrumps/images/rooney.png"));
-    Card aguero = new Card("Sergio Aguero",87,32,173,65,29,7,95,new ImageIcon("TopTrumps/images/aguero.png"));
-    Card bale = new Card("Gareth Bale",90,66,183,50,17,4,91,new ImageIcon("TopTrumps/images/bale.png"));
-    Card oscar = new Card("Oscar",76,41,179,50,11,6,76,new ImageIcon("TopTrumps/images/oscar.png"));
-    Card robben = new Card("Arjen Robben",94,38,180,85,28,20,98,new ImageIcon("TopTrumps/images/robben.png"));
-    Card muller = new Card("Thomas Muller",83,52,186,62,26,13,90,new ImageIcon("TopTrumps/images/muller.png"));
-    Card modric = new Card("Luka Modric",75,72,172,79,10,10,78,new ImageIcon("TopTrumps/images/modric.png"));
-    Card ramos = new Card("Sergio Ramos",60,88,181,128,10,13,81,new ImageIcon("TopTrumps/images/ramos.png"));
-    Card lahm = new Card("Philipp Lahm",68,90,170,111,5,21,83,new ImageIcon("TopTrumps/images/lahm.png"));
-    Card rojo = new Card("Marcos Rojo",64,75,186,37,2,1,79,new ImageIcon("TopTrumps/images/rojo.png"));
-    Card vanPersie = new Card("Robin Van Persie",88,37,186,98,49,5,80,new ImageIcon("TopTrumps/images/vanpersie.png"));
-    Card costa = new Card("Diego Costa",85,52,188,7,1,4,77,new ImageIcon("TopTrumps/images/diegocosta.png"));
+    Card courtois = new Card("Thibaut Courtois",4,99,199,31,0,6,84,new ImageIcon("TopTrumpsApp/images/courtois.png"));
+    Card neuer = new Card("Manuel Neuer",5,100,193,57,0,12,97,new ImageIcon("TopTrumpsApp/images/neuer.png"));
+    Card kompany = new Card("Vincent Kompany",60,94,193,66,4,7,73,new ImageIcon("TopTrumpsApp/images/kompany.png"));
+    Card hummels = new Card("Mats Hummels",61,85,192,39,4,8,84,new ImageIcon("TopTrumpsApp/images/hummels.png"));
+    Card diMaria = new Card("Angel Di Maria",81,64,180,65,15,10,75,new ImageIcon("TopTrumpsApp/images/dimaria.png"));
+    Card ronaldo = new Card("Cristiano Ronaldo",99,35,185,124,55,17,100,new ImageIcon("TopTrumpsApp/images/ronaldo.png"));
+    Card sterling = new Card("Raheem Sterling",71,54,170,16,1,0,77,new ImageIcon("TopTrumpsApp/images/sterling.png"));
+    Card sanchez = new Card("Alexis Sanchez",90,45,169,86,27,11,94,new ImageIcon("TopTrumpsApp/images/sanchez.png"));
+    Card vidal = new Card("Arturo Vidal",79,83,180,69,12,8,74,new ImageIcon("TopTrumpsApp/images/vidal.png"));
+    Card falcao = new Card("Radamel Falcao",83,40,177,56,24,11,87,new ImageIcon("TopTrumpsApp/images/falcao.png"));
+    Card lewandowski = new Card("Robert Lewandowski",88,44,185,68,26,8,92,new ImageIcon("TopTrumpsApp/images/lewandowski.png"));
+    Card suarez = new Card("Luis Suarez",91,49,182,79,44,9,93,new ImageIcon("TopTrumpsApp/images/suarez.png"));
+    Card benzema = new Card("Karim Benzema",85,36,187,78,25,12,88,new ImageIcon("TopTrumpsApp/images/benzema.png"));
+    Card gervinho = new Card("Gervinho",74,42,179,71,20,3,80,new ImageIcon("TopTrumpsApp/images/gervinho.png"));
+    Card hazard = new Card("Eden Hazard",80,34,173,59,8,5,86,new ImageIcon("TopTrumpsApp/images/hazard.png"));
+    Card ibrahimovic = new Card("Zlatan Ibrahimovic",95,44,195,105,56,27,99,new ImageIcon("TopTrumpsApp/images/ibrahimovic.png"));
+    Card messi = new Card("Lionel Messi",100,32,170,102,46,26,100,new ImageIcon("TopTrumpsApp/images/messi.png"));
+    Card neymar = new Card("Neymar Jr.",82,33,174,63,43,10,96,new ImageIcon("TopTrumpsApp/images/neymar.png"));
+    Card rooney = new Card("Wayne Rooney",86,50,176,105,48,15,85,new ImageIcon("TopTrumpsApp/images/rooney.png"));
+    Card aguero = new Card("Sergio Aguero",87,32,173,65,29,7,95,new ImageIcon("TopTrumpsApp/images/aguero.png"));
+    Card bale = new Card("Gareth Bale",90,66,183,50,17,4,91,new ImageIcon("TopTrumpsApp/images/bale.png"));
+    Card oscar = new Card("Oscar",76,41,179,50,11,6,76,new ImageIcon("TopTrumpsApp/images/oscar.png"));
+    Card robben = new Card("Arjen Robben",94,38,180,85,28,20,98,new ImageIcon("TopTrumpsApp/images/robben.png"));
+    Card muller = new Card("Thomas Muller",83,52,186,62,26,13,90,new ImageIcon("TopTrumpsApp/images/muller.png"));
+    Card modric = new Card("Luka Modric",75,72,172,79,10,10,78,new ImageIcon("TopTrumpsApp/images/modric.png"));
+    Card ramos = new Card("Sergio Ramos",60,88,181,128,10,13,81,new ImageIcon("TopTrumpsApp/images/ramos.png"));
+    Card lahm = new Card("Philipp Lahm",68,90,170,111,5,21,83,new ImageIcon("TopTrumpsApp/images/lahm.png"));
+    Card rojo = new Card("Marcos Rojo",64,75,186,37,2,1,79,new ImageIcon("TopTrumpsApp/images/rojo.png"));
+    Card vanPersie = new Card("Robin Van Persie",88,37,186,98,49,5,80,new ImageIcon("TopTrumpsApp/images/vanpersie.png"));
+    Card costa = new Card("Diego Costa",85,52,188,7,1,4,77,new ImageIcon("TopTrumpsApp/images/diegocosta.png"));
 
     ArrayList<Card> allCards = new ArrayList<>(Arrays.asList(courtois,neuer,kompany,hummels,diMaria,ronaldo,sterling,sanchez,vidal,falcao,lewandowski,suarez,benzema
             ,gervinho,hazard,ibrahimovic,messi,neymar,rooney,aguero,bale,oscar,robben,muller,modric,ramos,lahm,rojo,vanPersie,costa));
@@ -118,10 +118,13 @@ public class Game extends JFrame{
     }
 
     public void createGame(ArrayList<Player> players,Deck deck){
-        setGameNumber();
-        setPlayers(players);
-        setDeck(deck);
-        setMiddlePile(middlePile);
+        System.out.println(players.size()+"\n"+deck.getCards().get(28));
+        int totalPlayers = players.size();
+
+       /* if(totalPlayers==4){
+            middlePile.add(deck.getCards().get(28));   //  MIDDLE PILE ERRORS OCCURING //
+            middlePile.add(deck.getCards().get(29));
+        }*/
 
         this.setTitle("Your Turn");
         this.setSize(600,600);
@@ -133,6 +136,8 @@ public class Game extends JFrame{
         this.imageLabel.setIcon(new ImageIcon(players.get(0).getHand().get(0).getIcon().toString()));
 
         this.promptLabel = new JLabel("It's your turn.. call a stat and see if you can beat the CPU!");
+        Font font = new Font("Serif",Font.BOLD,18);
+        this.promptLabel.setFont(font);
 
         this.panel=new JPanel();
         this.panel.setLayout(new BoxLayout(this.panel,1));
@@ -144,7 +149,7 @@ public class Game extends JFrame{
 
         this.setVisible(true);
 
-        System.out.println(this.toString());
+        System.out.println(middlePile.toString());
     }
 
     public int getGameNumber() {
@@ -185,8 +190,13 @@ public class Game extends JFrame{
         String str="Game ID: "+getGameNumber()+"\n\nPlayers:\n\n";
 
         for(int i=0; i<players.size(); i++){
-            str+=players.get(i).getType()+"\n";
+            if(players.get(i)!=null)
+                str+=players.get(i).getType()+"\n\n";
         }
+
+        str+="Deck :"+getDeck().getName()+"\n\nMiddle Pile:\n\n";
+
+
 
         return str;
     }

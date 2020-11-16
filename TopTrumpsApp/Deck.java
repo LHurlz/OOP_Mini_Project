@@ -74,13 +74,20 @@ public class Deck {
         ArrayList<Card> p4Cards = new ArrayList<>(15);
         ArrayList<Card> p5Cards = new ArrayList<>(15);
         ArrayList<Card> p6Cards = new ArrayList<>(15);
-        int cpuPlayers= players.size()-1;
+        ArrayList<ArrayList<Card>> allCards = new ArrayList<>();
+        allCards.add(p1Cards);
+        allCards.add(p2Cards);
+        allCards.add(p3Cards);
+        allCards.add(p4Cards);
+        allCards.add(p5Cards);
+        allCards.add(p6Cards);
+
+        int cpuPlayers=players.size()-1;
 
         if(cpuPlayers==1){
             for(int i=0; i<30; i++){
                 if(i<15){
                     p1Cards.add(shuffledDeck.getCards().get(i));
-                    players.get(0).setHand(p1Cards);
                 }
                 else if(i>14 && i<30)
                     p2Cards.add(shuffledDeck.getCards().get(i));
@@ -136,6 +143,12 @@ public class Deck {
                     p5Cards.add(shuffledDeck.getCards().get(i));
                 else if(i>24 && i<30)
                     p6Cards.add(shuffledDeck.getCards().get(i));
+            }
+        }
+
+        for(int i=0; i<players.size(); i++){
+            if(players.get(i)!=null){
+                players.get(i).setHand(allCards.get(i));
             }
         }
 
