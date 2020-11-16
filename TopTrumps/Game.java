@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Game {
     private static int gameID=0;
@@ -81,6 +82,9 @@ public class Game {
 
             this.setDeck(shuffledDeck);
             this.setPlayers(playersReady);
+            JOptionPane.showMessageDialog(null,"Now starting game "+gameNumber+" of Top Trumps! Good luck!");
+            //System.out.println(players.get(0).toString());
+            JOptionPane.showMessageDialog(null,"You are first! Get ready to select a stat...");
             this.viewTopCard(gameNumber,playersReady,shuffledDeck,inMiddle);
         }
 
@@ -92,10 +96,6 @@ public class Game {
     }
 
     public void viewTopCard(int gameNumber, ArrayList<Player> players, Deck deck, ArrayList<Card> inMiddle){
-        JOptionPane.showMessageDialog(null,"Now starting game "+gameNumber+" of Top Trumps! Good luck!");
-        //System.out.println(players.get(0).toString());
-        JOptionPane.showMessageDialog(null,"You are first! Get ready to select a stat...");
-
         JFrame frame = new JFrame("Your Turn... Select a Stat!");
         frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -146,29 +146,37 @@ public class Game {
 
                     if(confirm==JOptionPane.YES_OPTION){
                         JButton selectedStat = (JButton)e.getSource();
+                        String selectedStatName = selectedStat.getName();
+                        imageLabel.hide();
+                        int winningPlayer=1;
 
-                    String selectedStatName = selectedStat.getName();
+                        if(selectedStatName.toLowerCase().contains("height")){
+                            int highest = players.get(0).getHand().get(0).getHeight();
 
-                    //System.out.println(selectedStatName);
-                    imageLabel.hide();
 
-                    if(selectedStatName.equals("\"Height\"")){
-                        int highest=players.get(0).getHand().get(0).getHeight();
-                        int winningPlayer=0;
-                        String card=players.get(0).getHand().get(0).getName();
-
-                        for(int i=1; i<players.size(); i++){
-                            if(players.get(i).getHand().get(0).getHeight()>highest){
-                                highest=players.get(i).getHand().get(0).getHeight();
-                                winningPlayer=(i+1);
-                                card=players.get(i).getHand().get(0).getName();
+                            for(int i=1; i<players.size(); i++){
+                                if(players.get(i).getHand().get(0).getHeight()>highest){
+                                    highest=players.get(i).getHand().get(0).getHeight();
+                                    winningPlayer=(i+1);
+                                }
                             }
+
+                            System.out.println("Winner was player "+winningPlayer+" with stat "+highest);
                         }
 
-                        JLabel result = new JLabel("\n\nWinning player was player "+winningPlayer+" with the card "+card+" and stat "+highest);
-                        panel.add(result);
+                        for(int j=0; j<players.size(); j++){
+                            inMiddle.add(players.get(j).getHand().get(0));
+                        }
 
-                    }
+
+                        for(int k=0; k<inMiddle.size();k++){
+                            //if(){
+                                players.get(winningPlayer-1).getHand().add(inMiddle.get(k));
+                            //}
+                        }
+
+                        System.out.println("Winners hand is now: \n\n"+players.get(winningPlayer-1).toString());
+
                     }
                 }
 
@@ -198,6 +206,10 @@ public class Game {
         panel.add(imageLabel);
         frame.setSize(600,600);
         frame.setVisible(true);
+    }
+
+    public boolean isWinner(){
+        return false;
     }
 
 
