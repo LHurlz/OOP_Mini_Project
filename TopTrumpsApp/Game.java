@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class Game extends JFrame{
+public class Game extends JFrame implements MouseListener{
     private static int gameID=0;
     private int gameNumber;
     private ArrayList<Player> players;
@@ -44,7 +44,7 @@ public class Game extends JFrame{
         this.imageLabel.setIcon(new ImageIcon(players.get(0).getHand().get(0).getIcon().toString()));
 
         this.promptLabel = new JLabel("It's your turn.. call a stat and see if you can beat the CPU!");
-        Font font = new Font("Serif",Font.BOLD,18);
+        Font font = new Font("Serif",Font.BOLD,16);
         this.promptLabel.setFont(font);
 
         this.panel=new JPanel();
@@ -52,8 +52,6 @@ public class Game extends JFrame{
         this.panel.add(this.imageLabel);
         this.panel.add(this.promptLabel);
         pane.add(this.panel);
-
-
 
         this.setVisible(true);
 
