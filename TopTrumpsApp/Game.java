@@ -56,15 +56,15 @@ public class Game extends JFrame implements MouseListener{
         this.promptLabel.setFont(font);*/
 
         this.heightButton=new JButton();
-        this.heightButton.setBounds(300,351,83,15);
+        this.heightButton.setBounds(300,357,83,15);
         this.capsButton=new JButton();
-        this.capsButton.setBounds(300,367,83,15);
+        this.capsButton.setBounds(300,372,83,15);
         this.goalsButton=new JButton();
-        this.goalsButton.setBounds(300,383,83,15);
+        this.goalsButton.setBounds(300,389,83,15);
         this.trophiesButton=new JButton();
-        this.trophiesButton.setBounds(300,399,83,15);
+        this.trophiesButton.setBounds(300,406,83,15);
         this.ratingButton=new JButton();
-        this.ratingButton.setBounds(300,415,83,15);
+        this.ratingButton.setBounds(300,423,83,15);
         this.attackButton=new JButton();
         this.attackButton.setBounds(200,150,31,30);
         this.defenceButton=new JButton();
@@ -87,6 +87,7 @@ public class Game extends JFrame implements MouseListener{
         //this.panel.add(this.promptLabel);
         //pane.add(this.panel);
 
+        this.setResizable(false);
         this.setContentPane(panel);
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

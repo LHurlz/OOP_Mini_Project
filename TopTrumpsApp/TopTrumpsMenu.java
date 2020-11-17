@@ -82,6 +82,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         playButton.addActionListener(this);
         this.add(playButton);
 
+        this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
