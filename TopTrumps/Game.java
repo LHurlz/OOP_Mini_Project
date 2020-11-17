@@ -212,11 +212,6 @@ public class Game {
         frame.setVisible(true);
     }
 
-    public boolean isWinner(){
-        return false;
-    }
-
-
     public String toString() {
         return "Game{" +
                 "gameNumber=" + gameNumber +

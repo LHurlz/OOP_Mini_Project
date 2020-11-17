@@ -50,7 +50,7 @@ public class Deck {
             randomNum = (int)(Math.random()*30);
 
             while(alreadyPicked[randomNum])
-                randomNum = (int)(Math.random()*30);            // OWN SHUFFLING METHOD WRITTEN AND COMMENTED OUT BEFORE LEARNING ABOUT COLLECTIONS.SHUFFLE()//
+                randomNum = (int)(Math.random()*30);            // MY OWN SHUFFLING METHOD, WRITTEN AND COMMENTED OUT BEFORE LEARNING ABOUT COLLECTIONS.SHUFFLE()//
 
             alreadyPicked[randomNum]=true;
 

@@ -31,7 +31,7 @@ public class Player {
     public String toString() {
         String str="Player Type: "+getType()+"\nHand:\n\n";
 
-        for(int i=0; i< hand.size(); i++){
+        for(int i=0; i<hand.size(); i++){
             str+=hand.get(i).getName()+"\n";
         }
 

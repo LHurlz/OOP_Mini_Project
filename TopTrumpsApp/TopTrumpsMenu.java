@@ -117,8 +117,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
             ArrayList<Card> middlePile = new ArrayList<>();
 
             if (confirm == JOptionPane.YES_OPTION) {
-                //games.add(new Game());
-
                 String confirmString = JOptionPane.showInputDialog("How many CPU opponents do you wish to face?");
 
                 while (!confirmString.equals("1") && !confirmString.equals("2") && !confirmString.equals("3") && !confirmString.equals("4") && !confirmString.equals("5")) {
@@ -127,7 +125,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
                 int cpuPlayers = Integer.parseInt(confirmString);
 
-                /*ArrayList<Player>*/ players = new ArrayList<>(cpuPlayers + 1);
+                players = new ArrayList<>(cpuPlayers + 1);
 
                 for (int i = 0; i < cpuPlayers + 1; i++) {
                     if (i == 0) {
@@ -182,15 +180,11 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
                 games.add(new Game(playersDealtTo,allDecks.get(chosenDeck-1),middlePile,0));
 
-                System.out.println(games.get(0));
-
                 for(int i=0; i<games.size(); i++){
                         if(games.get(i).getResult()==0){
-                            games.get(i).createGame();
+                            games.get(i).startGame();
                         }
                 }
-
-
                 this.dispose();
             }
         }
