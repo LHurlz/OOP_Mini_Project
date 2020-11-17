@@ -14,6 +14,7 @@ import java.util.Iterator;
 
 public class Game extends JFrame implements MouseListener{
     private static int gameID=0;
+    private static int roundCounter=0;
     private int gameNumber;
     private ArrayList<Player> players;
     private ArrayList<Card> middlePile;
@@ -31,6 +32,7 @@ public class Game extends JFrame implements MouseListener{
     private JButton ratingButton;
     private JButton[] buttons;
     private Color selectedColor = new Color(150,150,250,62);
+    private boolean isWinner;
 
     public Game(ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
         setGameNumber();
@@ -41,6 +43,10 @@ public class Game extends JFrame implements MouseListener{
     }
 
     public void startGame(){
+        /* increment round counter, if counter=1 or counter%(totalplayers)=1 it is human's turn.
+        * else add all stats to array, RNG index of array for computer to call random stat
+        */
+
         this.setTitle("Your Turn");
         this.setSize(600,600);
         this.setLocationRelativeTo(null);
@@ -135,21 +141,30 @@ public class Game extends JFrame implements MouseListener{
         this.result = result;
     }
 
-    /*public boolean isWinner(ArrayList<Player> players){
-        for(int i=0; i<players.size(); i++){
-            if(players.get(i).getHand().size()==4){             // Currently not in use, isOut method used for determining state of game //
-                return true;
-            }
-        }
-        return false;
-    }*/
-
     /*public void processRound(attribute){
         selectedStat = attribute;
     }*/
 
+    /*public void gameOver(){
+        int playAgain = JOptionPane.showConfirmDialog(null, "Would you like to play again");
+
+        if (playAgain == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(null, "Now returning to the main menu so you can set up a new game of Top Trumps!", "Returning to Main Menu", JOptionPane.PLAIN_MESSAGE);
+            new TopTrumpsMenu();
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Thanks for playing Top Trumps! See you again soon!", "Goodbye", JOptionPane.PLAIN_MESSAGE);
+            System.exit(0);
+        }
+    }*/
+
     public ArrayList<Player> isOut(ArrayList<Player> players){
         for(int i=0; i<players.size(); i++){
+            /*if(players.get(i).getType().equals("Human") && players.get(i).getHand().size()==0){
+                JOptionPane.showMessageDialog(null,"You have lost all of your cards! Game over!","Game Over!!",JOptionPane.ERROR_MESSAGE);
+                this.gameOver();
+
+            }*/
             if(players.get(i).getHand().size()==0){
                 players.remove(i);
             }
@@ -174,7 +189,8 @@ public class Game extends JFrame implements MouseListener{
                 boolean isDraw=false;
 
                 for(int i=0; i<players.size(); i++)
-                    middlePile.add(players.get(i).getHand().get(0));
+                    if(players.get(i)!=null)
+                        middlePile.add(players.get(i).getHand().get(0));
 
                 String str="The cards currently in play are:\n\n";
 
@@ -230,9 +246,13 @@ public class Game extends JFrame implements MouseListener{
                     JOptionPane.showMessageDialog(null,"Round was a draw!\n\n"+newHand,"Round Drawn!",JOptionPane.INFORMATION_MESSAGE);
                 }
 
-                //check if a player is "out" - has 0 cards in hand
-                //use current players, middlePile etc to play a new round
-                //use counter to determine if CPU or Human turn?
+                String stateOfPlayers="";
+
+                for(int i=0; i<players.size(); i++){
+                    stateOfPlayers+="Player "+(i+1)+" cards left: "+players.get(i).getHand().size()+"\n";
+                }
+
+                System.out.print(stateOfPlayers+"\n\n");
 
                 ArrayList<Player> checkOut = isOut(players);
 
@@ -246,8 +266,12 @@ public class Game extends JFrame implements MouseListener{
                     this.startGame();
                 }
                 else{
+                    isWinner=true;
+
                     JOptionPane.showMessageDialog(null,"The game is over!\n\n"+checkOut.get(0).getType()+" won the game!");
+
                     int playAgain = JOptionPane.showConfirmDialog(null,"Would you like to play again");
+
                     if(playAgain==JOptionPane.YES_OPTION){
                         JOptionPane.showMessageDialog(null,"Now returning to the main menu so you can set up a new game of Top Trumps!","Returning to Main Menu",JOptionPane.PLAIN_MESSAGE);
                         new TopTrumpsMenu();

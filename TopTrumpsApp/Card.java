@@ -14,6 +14,7 @@ public class Card {
     private int trophies;
     private int rating;
     private ImageIcon icon;
+    private int[] stats = {attack,defence,height,caps,goals,trophies,rating};
 
     public Card(String name, int attack, int defence, int height, int caps, int goals, int trophies, int rating, ImageIcon icon){
         setCardNumber();
@@ -25,6 +26,7 @@ public class Card {
         setGoals(goals);
         setTrophies(trophies);
         setRating(rating);
+        setStats(stats);
         setIcon(icon);
     }
 
@@ -99,6 +101,14 @@ public class Card {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public int[] getStats() {
+        return stats;
+    }
+
+    public void setStats(int[] stats) {
+        this.stats = stats;
     }
 
     public ImageIcon getIcon() {
