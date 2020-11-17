@@ -31,10 +31,6 @@ public class Game extends JFrame implements MouseListener{
     private JButton[] buttons;
     Color selectedColor = new Color(150,150,250,62);
 
-    /*public Game(){
-        this(null,null,null,0);
-    }*/
-
     public Game(ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
         setGameNumber();
         setPlayers(players);
@@ -144,6 +140,10 @@ public class Game extends JFrame implements MouseListener{
             }
         }
         return false;
+    }
+
+    public void processRound(attribute){
+        selectedStat = attribute;
     }*/
 
     public void mouseClicked(MouseEvent e) {
@@ -156,6 +156,7 @@ public class Game extends JFrame implements MouseListener{
             int confirmCall = JOptionPane.showConfirmDialog(null,"Do you wish to \"call\" the height stat?");
 
             if(confirmCall==JOptionPane.YES_OPTION){
+                //how to get all the following into one method.. processRound();?
 
                 int highest=players.get(0).getHand().get(0).getHeight();
                 int winningPlayer=1;
@@ -180,7 +181,6 @@ public class Game extends JFrame implements MouseListener{
                         highest=players.get(i).getHand().get(0).getHeight();
                         winningPlayer=(i+1);
                     }
-
                 }
 
                 String winnersOriginalHand="Winners Original Hand:\n\n";
@@ -218,6 +218,12 @@ public class Game extends JFrame implements MouseListener{
 
                     JOptionPane.showMessageDialog(null,"Round was a draw!\n\n"+newHand,"Round Drawn!",JOptionPane.INFORMATION_MESSAGE);
                 }
+
+                //check if game is won
+                //check if a player is "out" - has 0 cards in hand
+                //use current players, middlePile etc to play a new round
+                //use counter to determine if CPU or Human turn?
+
             }
         }
         if(button==capsButton){
@@ -248,7 +254,7 @@ public class Game extends JFrame implements MouseListener{
         button.repaint();
     }
 
-    public void mouseReleased(MouseEvent e){ }
+    public void mouseReleased(MouseEvent e){}
 
     public String toString() {
         String str="Game ID: "+getGameNumber()+"\n\nPlayers:\n\n";

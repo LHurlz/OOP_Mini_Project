@@ -108,7 +108,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
     }
 
-
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == playButton) {
             int confirm = JOptionPane.showConfirmDialog(null, "Would you like to play Top Trumps?");
