@@ -134,7 +134,7 @@ public class Game extends JFrame implements MouseListener{
         this.result = result;
     }
 
-    public boolean isWinner(ArrayList<Player> players){
+    /*public boolean isWinner(ArrayList<Player> players){
         for(int i=0; i<players.size(); i++){
             if(players.get(i).getHand().size()==4){
                 return true;
@@ -143,7 +143,7 @@ public class Game extends JFrame implements MouseListener{
         return false;
     }
 
-    /*public void processRound(attribute){
+    public void processRound(attribute){
         selectedStat = attribute;
     }*/
 
@@ -235,29 +235,23 @@ public class Game extends JFrame implements MouseListener{
 
                 ArrayList<Player> checkOut = isOut(players);
 
-                if(!isWinner(checkOut)){
+                if(checkOut.size()!=1){
                     middlePile.clear();
                     this.setPlayers(checkOut);
                     this.startGame();
                 }
                 else{
-                    int winnerIndex=0;
-
-                    for(int i=0; i<players.size(); i++){
-                        if(players.get(i).getHand().size()==4)
-                            winnerIndex=i;
-                    }
-
-                    JOptionPane.showMessageDialog(null,"The game is over!\n\n"+players.get(winnerIndex).getType()+" won the game!");
+                    JOptionPane.showMessageDialog(null,"The game is over!\n\n"+checkOut.get(0).getType()+" won the game!");
                     int playAgain = JOptionPane.showConfirmDialog(null,"Would you like to play again");
-                    if(playAgain==JOptionPane.YES_OPTION)
+                    if(playAgain==JOptionPane.YES_OPTION){
+                        JOptionPane.showMessageDialog(null,"Now returning to the main menu so you can set up a new game of Top Trumps!","Returning to Main Menu",JOptionPane.PLAIN_MESSAGE);
                         new TopTrumpsMenu();
-                    else if(playAgain==JOptionPane.NO_OPTION){
+                    }
+                    else{
                         JOptionPane.showMessageDialog(null,"Thanks for playing Top Trumps! See you again soon!","Goodbye",JOptionPane.PLAIN_MESSAGE);
                         System.exit(0);
                     }
                 }
-
             }
         }
         if(button==capsButton){
