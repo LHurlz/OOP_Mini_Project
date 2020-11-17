@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,7 +30,7 @@ public class Game extends JFrame implements MouseListener{
     private JButton trophiesButton;
     private JButton ratingButton;
     private JButton[] buttons;
-    Color selectedColor = new Color(150,150,250,62);
+    private Color selectedColor = new Color(150,150,250,62);
 
     public Game(ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
         setGameNumber();
@@ -136,14 +137,14 @@ public class Game extends JFrame implements MouseListener{
 
     /*public boolean isWinner(ArrayList<Player> players){
         for(int i=0; i<players.size(); i++){
-            if(players.get(i).getHand().size()==4){
+            if(players.get(i).getHand().size()==4){             // Currently not in use, isOut method used for determining state of game //
                 return true;
             }
         }
         return false;
-    }
+    }*/
 
-    public void processRound(attribute){
+    /*public void processRound(attribute){
         selectedStat = attribute;
     }*/
 
@@ -235,8 +236,12 @@ public class Game extends JFrame implements MouseListener{
 
                 ArrayList<Player> checkOut = isOut(players);
 
-                if(checkOut.size()!=1){
+                if(checkOut.size()!=1 && !isDraw){
                     middlePile.clear();
+                    this.setPlayers(checkOut);
+                    this.startGame();
+                }
+                else if(checkOut.size()!=1 && isDraw){
                     this.setPlayers(checkOut);
                     this.startGame();
                 }

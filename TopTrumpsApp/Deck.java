@@ -85,11 +85,11 @@ public class Deck {
         int cpuPlayers=players.size()-1;
 
         if(cpuPlayers==1){
-            for(int i=0; i<4; i++){
-                if(i<2){
+            for(int i=0; i<30; i++){
+                if(i<15){
                     p1Cards.add(shuffledDeck.getCards().get(i));
                 }
-                else if(i>1 && i<4)
+                else if(i>14 && i<30)
                     p2Cards.add(shuffledDeck.getCards().get(i));
             }
         }
