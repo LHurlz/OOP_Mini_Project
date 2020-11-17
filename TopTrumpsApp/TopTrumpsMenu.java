@@ -11,6 +11,7 @@ import java.util.Collections;
 public class TopTrumpsMenu extends JFrame implements ActionListener {
     private JButton playButton;
     private JMenu decksMenu;
+    private JMenu exitMenu;
     private JLabel imageLabel;
     private JPanel panel;
     private ArrayList<Game> games;
@@ -59,10 +60,10 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         this.setSize(750, 750);
         this.setLocationRelativeTo(null);
 
-
         Container pane = this.getContentPane();
         pane.setLayout(new FlowLayout());
         this.createDecksMenu();
+        this.createExitMenu();
 
         this.imageLabel = new JLabel();
         this.imageLabel.setIcon(new ImageIcon(this.getClass().getResource("images/logo.png")));
@@ -70,45 +71,62 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
         menuBar.add(this.decksMenu);
-
+        menuBar.add(this.exitMenu);
 
         this.panel = new JPanel();
         this.panel.setLayout(new BoxLayout(this.panel, 1));
         this.panel.add(this.imageLabel);
         pane.add(this.panel);
 
-
         playButton = new JButton("Play Top Trumps");
         playButton.addActionListener(this);
         this.add(playButton);
-
 
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     public void createDecksMenu() {
+        JMenuItem item;
         this.decksMenu = new JMenu("Decks");
 
-        JMenuItem view = new JMenuItem("View Decks");
-        view.addActionListener(this);
-        this.decksMenu.add(view);
+        item = new JMenuItem("View Decks");
+        item.addActionListener(this);
+        this.decksMenu.add(item);
 
-        JMenuItem edit = new JMenuItem("Edit Decks");
-        edit.addActionListener(this);
-        this.decksMenu.add(edit);
+        item = new JMenuItem("Edit Decks");
+        item.addActionListener(this);
+        this.decksMenu.add(item);
 
-        JMenuItem add = new JMenuItem("Add Decks");
-        add.addActionListener(this);
-        this.decksMenu.add(add);
+        item = new JMenuItem("Add Decks");
+        item.addActionListener(this);
+        this.decksMenu.add(item);
 
-        JMenuItem remove = new JMenuItem("Remove Decks");
-        remove.addActionListener(this);
-        this.decksMenu.add(remove);
+        item = new JMenuItem("Remove Decks");
+        item.addActionListener(this);
+        this.decksMenu.add(item);
+    }
 
+    public void createExitMenu() {
+        JMenuItem item;
+        this.exitMenu = new JMenu("Quit");
+
+        item = new JMenuItem("Quit");
+        item.addActionListener(this);
+        this.exitMenu.add(item);
     }
 
     public void actionPerformed(ActionEvent e) {
+        String menuName = e.getActionCommand();
+
+        if(menuName.equals("Quit")){
+            int confirm = JOptionPane.showConfirmDialog(null,"Are you sure you want to exit the Top Trumps app?");
+              if(confirm==JOptionPane.YES_OPTION){
+                  JOptionPane.showMessageDialog(null,"Thanks for playing!","Goodbye",JOptionPane.INFORMATION_MESSAGE);
+                  System.exit(0);
+              }
+        }
+
         if (e.getSource() == playButton) {
             int confirm = JOptionPane.showConfirmDialog(null, "Would you like to play Top Trumps?");
             games = new ArrayList<>();
