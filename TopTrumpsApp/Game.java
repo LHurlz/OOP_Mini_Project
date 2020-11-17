@@ -223,7 +223,6 @@ public class Game extends JFrame implements MouseListener{
                 //check if a player is "out" - has 0 cards in hand
                 //use current players, middlePile etc to play a new round
                 //use counter to determine if CPU or Human turn?
-
             }
         }
         if(button==capsButton){
@@ -261,10 +260,15 @@ public class Game extends JFrame implements MouseListener{
 
         for(int i=0; i<players.size(); i++){
             if(players.get(i)!=null)
-                str+=players.get(i).getType()+"\n\n";
+                str+=players.get(i).getType()+"\n";
         }
 
-        str+="Deck :"+getDeck().getName()+"\n\nMiddle Pile:\n\n";
+        str+="\n\nDeck :"+getDeck().getName()+"\n\nMiddle Pile:\n\n";
+
+        for(int i=0; i< middlePile.size(); i++){
+            if(middlePile.get(i)!=null)
+                str+=middlePile.get(i).getName()+"\n";
+        }
 
         return str;
     }
