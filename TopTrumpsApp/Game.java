@@ -32,7 +32,6 @@ public class Game extends JFrame implements MouseListener{
     private JButton ratingButton;
     private JButton[] buttons;
     private Color selectedColor = new Color(150,150,250,62);
-    //private boolean isWinner;
 
     public Game(ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
         setGameNumber();
@@ -142,6 +141,63 @@ public class Game extends JFrame implements MouseListener{
 
     public void setResult(int result) {
         this.result = result;
+    }
+
+    public void mouseClicked(MouseEvent e) {
+        JButton button = (JButton) e.getSource();
+        button.setOpaque(false);
+        button.setBackground(selectedColor);
+        panel.repaint();
+
+        if (button == attackButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the attack stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(1);
+            }
+        }
+        if (button == defenceButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the defence stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(2);
+            }
+        }
+        if (button == heightButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the height stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(3);
+            }
+        }
+        if (button == capsButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the caps stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(4);
+            }
+        }
+        if (button == goalsButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the goals stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(5);
+            }
+        }
+        if (button == trophiesButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the trophies stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(6);
+            }
+        }
+        if (button == ratingButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the rating stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(7);
+            }
+        }
     }
 
     public void processRound(int selectedStat){
@@ -275,63 +331,6 @@ public class Game extends JFrame implements MouseListener{
             }
         }
         return players;
-    }
-
-    public void mouseClicked(MouseEvent e) {
-        JButton button = (JButton) e.getSource();
-        button.setOpaque(false);
-        button.setBackground(selectedColor);
-        panel.repaint();
-
-        if (button == attackButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the attack stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(1);
-            }
-        }
-        if (button == defenceButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the defence stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(2);
-            }
-        }
-        if (button == heightButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the height stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(3);
-            }
-        }
-        if (button == capsButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the caps stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(4);
-            }
-        }
-        if (button == goalsButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the goals stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(5);
-            }
-        }
-        if (button == trophiesButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the trophies stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(6);
-            }
-        }
-        if (button == ratingButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the rating stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(7);
-            }
-        }
     }
 
     public void mouseEntered(MouseEvent e) {

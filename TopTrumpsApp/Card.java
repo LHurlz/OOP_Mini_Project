@@ -109,7 +109,10 @@ public class Card {
         this.icon = icon;
     }
 
+    //Inspiration for following method from https://github.com/ambidextrous/TopTrumps/blob/master/TeamATopTrumps/src/Card.java
+
     public int getValueAtIndex(int index){
+
         switch (index){
             case 1:
                 return getAttack();
