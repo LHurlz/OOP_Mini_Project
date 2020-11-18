@@ -195,9 +195,10 @@ public class Game extends JFrame implements MouseListener{
 
     public void processRound(int selectedStat, String call){
         int highest = players.get(0).getHand().get(0).getValueAtIndex(selectedStat);
-
         int winningPlayer=1;
         boolean isDraw=false;
+
+        players = isOut(players);
 
         for(int i=0; i<players.size(); i++)
             if(players.get(i)!=null)
