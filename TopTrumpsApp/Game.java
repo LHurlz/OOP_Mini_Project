@@ -37,6 +37,7 @@ public class Game extends JFrame implements MouseListener{
     private Color selectedColor = new Color(150,150,250,62);
     private Clip clip;
     private Clip loopClip;
+    private int roundWinnerIndex;
 
     public Game(ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
         setGameNumber();
@@ -226,6 +227,7 @@ public class Game extends JFrame implements MouseListener{
     public void processRound(int selectedStat, String call){
         int highest = players.get(0).getHand().get(0).getValueAtIndex(selectedStat);
         int winningPlayer=1;
+        roundWinnerIndex=0;
         boolean isDraw=false;
 
         System.out.println(this.getGameNumber());
@@ -251,6 +253,7 @@ public class Game extends JFrame implements MouseListener{
             if(players.get(i).getHand().get(0).getValueAtIndex(selectedStat)>highest){
                 highest=players.get(i).getHand().get(0).getValueAtIndex(selectedStat);
                 winningPlayer=(i+1);
+                roundWinnerIndex=i;
             }
         }
 
@@ -302,13 +305,26 @@ public class Game extends JFrame implements MouseListener{
 
         if(checkOut.get(0).getType().toLowerCase().equals("human")){
             if(checkOut.size()!=1 && !isDraw){
-                middlePile.clear();
-                this.setPlayers(checkOut);
-                this.startGame();
+                if(roundWinnerIndex==0){
+                    middlePile.clear();
+                    this.setPlayers(checkOut);
+                    this.startGame();
+                }
+                else{
+                    middlePile.clear();
+                    this.setPlayers(checkOut);
+                    this.startCPURound(roundWinnerIndex);
+                }
             }
             else if(checkOut.size()!=1 && isDraw){
-                this.setPlayers(checkOut);
-                this.startGame();
+                if(roundWinnerIndex==0){
+                    this.setPlayers(checkOut);
+                    this.startGame();
+                }
+                else
+                    this.setPlayers(checkOut);{
+                    this.startCPURound(roundWinnerIndex);
+                    }
             }
             else{
                 Player winner = null;
@@ -335,6 +351,32 @@ public class Game extends JFrame implements MouseListener{
             JOptionPane.showMessageDialog(null,"You have lost all of your cards!","Game Over!",JOptionPane.ERROR_MESSAGE);
             this.gameOver();
         }
+    }
+
+    public void startCPURound(int roundWinnerIndex){
+        int randomNumber = (int)(Math.random()*((7-1)+1))+1;
+        String call = "";
+
+        if(randomNumber==1)
+            call+="Attack: ";
+        if(randomNumber==2)
+            call+="Defence: ";
+        if(randomNumber==3)
+            call+="Height: ";
+        if(randomNumber==4)
+            call+="Caps: ";
+        if(randomNumber==5)
+            call+="Goals: ";
+        if(randomNumber==6)
+            call+="Trophies: ";
+        if(randomNumber==7)
+            call+="TOP Rating: ";
+
+        JOptionPane.showMessageDialog(null,"CPU is now picking a stat\n\nCPU has called "+call);
+
+        System.out.println("Stat index generated "+randomNumber);
+
+        processRound(randomNumber,call);
     }
 
     public void gameOver(){

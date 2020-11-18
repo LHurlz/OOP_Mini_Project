@@ -75,6 +75,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         {
             exc.printStackTrace(System.out);
         }
+
         this.setTitle("Welcome to Top Trumps");
         this.setSize(750, 750);
         this.setLocationRelativeTo(null);
