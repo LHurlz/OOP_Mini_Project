@@ -73,9 +73,9 @@ public class Game extends JFrame implements MouseListener{
         this.ratingButton=new JButton();
         this.ratingButton.setBounds(300,423,83,15);
         this.attackButton=new JButton();
-        this.attackButton.setBounds(200,150,31,30);
+        this.attackButton.setBounds(200,155,36,30);
         this.defenceButton=new JButton();
-        this.defenceButton.setBounds(232,150,32,30);
+        this.defenceButton.setBounds(232,155,38,30);
 
         buttons = new JButton[]{heightButton,capsButton,goalsButton,trophiesButton,ratingButton,attackButton,defenceButton};
 
@@ -152,55 +152,48 @@ public class Game extends JFrame implements MouseListener{
         if (button == attackButton) {
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the attack stat?");
 
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(1);
-            }
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(1,"Attack: ");
         }
         if (button == defenceButton) {
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the defence stat?");
 
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(2);
-            }
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(2,"Defence: ");
         }
         if (button == heightButton) {
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the height stat?");
 
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(3);
-            }
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(3,"Height: ");
         }
         if (button == capsButton) {
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the caps stat?");
 
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(4);
-            }
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(4, "Caps: ");
         }
         if (button == goalsButton) {
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the goals stat?");
 
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(5);
-            }
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(5, "Goals: ");
         }
         if (button == trophiesButton) {
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the trophies stat?");
 
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(6);
-            }
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(6,"Trophies: ");
         }
         if (button == ratingButton) {
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the rating stat?");
 
-            if (confirmCall == JOptionPane.YES_OPTION) {
-                processRound(7);
-            }
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(7,"TOP rating: ");
         }
     }
 
-    public void processRound(int selectedStat){
+    public void processRound(int selectedStat, String call){
         int highest = players.get(0).getHand().get(0).getValueAtIndex(selectedStat);
 
         int winningPlayer=1;
@@ -213,7 +206,7 @@ public class Game extends JFrame implements MouseListener{
         String str="The cards currently in play are:\n\n";
 
         for(int i=0; i<middlePile.size(); i++)
-            str+="Name: "+middlePile.get(i).getName()+"   Called Stat: "+middlePile.get(i).getValueAtIndex(selectedStat)+"\n";
+            str+="Name: "+middlePile.get(i).getName()+" "+call+middlePile.get(i).getValueAtIndex(selectedStat)+"\n";
 
         JOptionPane.showMessageDialog(null,str,"Cards In Play",JOptionPane.INFORMATION_MESSAGE);
 
@@ -237,7 +230,7 @@ public class Game extends JFrame implements MouseListener{
             players.get(i).getHand().remove(0);
 
         if(!isDraw){
-            JOptionPane.showMessageDialog(null,"Winner was player "+winningPlayer+" with stat: "+highest,"Winner!",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Winner was player "+winningPlayer+" with "+call+highest,"Winner!",JOptionPane.INFORMATION_MESSAGE);
 
             for(int i=0; i<middlePile.size(); i++)
                 players.get(winningPlayer-1).getHand().add(middlePile.get(i));
@@ -302,7 +295,7 @@ public class Game extends JFrame implements MouseListener{
                     JOptionPane.showMessageDialog(null,output,"CPU Wins!",JOptionPane.ERROR_MESSAGE);
                 }
 
-                gameOver();
+                this.gameOver();
             }
         }
         else{
