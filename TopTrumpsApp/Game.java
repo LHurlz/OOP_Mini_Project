@@ -37,7 +37,7 @@ public class Game extends JFrame implements MouseListener{
     private Color selectedColor = new Color(150,150,250,62);
     private Clip clip;
     private Clip loopClip;
-    private int roundWinnerIndex;
+    //private int roundWinnerIndex;
 
     public Game(ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
         setGameNumber();
@@ -79,7 +79,7 @@ public class Game extends JFrame implements MouseListener{
     }
 
     public void startGame(){
-        this.setTitle("Your Turn");
+        this.setTitle("Your Card");
         this.setSize(600,600);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
@@ -174,6 +174,14 @@ public class Game extends JFrame implements MouseListener{
         this.result = result;
     }
 
+    /*public int getRoundWinnerIndex() {
+        return roundWinnerIndex;
+    }
+
+    public void setRoundWinnerIndex(int roundWinnerIndex) {
+        this.roundWinnerIndex = roundWinnerIndex;
+    }*/
+
     public void mouseClicked(MouseEvent e) {
         JButton button = (JButton) e.getSource();
         button.setOpaque(false);
@@ -227,7 +235,6 @@ public class Game extends JFrame implements MouseListener{
     public void processRound(int selectedStat, String call){
         int highest = players.get(0).getHand().get(0).getValueAtIndex(selectedStat);
         int winningPlayer=1;
-        roundWinnerIndex=0;
         boolean isDraw=false;
 
         System.out.println(this.getGameNumber());
@@ -253,7 +260,6 @@ public class Game extends JFrame implements MouseListener{
             if(players.get(i).getHand().get(0).getValueAtIndex(selectedStat)>highest){
                 highest=players.get(i).getHand().get(0).getValueAtIndex(selectedStat);
                 winningPlayer=(i+1);
-                roundWinnerIndex=i;
             }
         }
 
@@ -305,7 +311,7 @@ public class Game extends JFrame implements MouseListener{
 
         if(checkOut.get(0).getType().toLowerCase().equals("human")){
             if(checkOut.size()!=1 && !isDraw){
-                if(roundWinnerIndex==0){
+                if((winningPlayer-1)==0){
                     middlePile.clear();
                     this.setPlayers(checkOut);
                     this.startGame();
@@ -313,18 +319,18 @@ public class Game extends JFrame implements MouseListener{
                 else{
                     middlePile.clear();
                     this.setPlayers(checkOut);
-                    this.startCPURound(roundWinnerIndex);
+                    this.startCPURound();
                 }
             }
             else if(checkOut.size()!=1 && isDraw){
-                if(roundWinnerIndex==0){
+                if((winningPlayer-1)==0){
                     this.setPlayers(checkOut);
                     this.startGame();
                 }
-                else
-                    this.setPlayers(checkOut);{
-                    this.startCPURound(roundWinnerIndex);
-                    }
+                else{
+                    this.setPlayers(checkOut);
+                    this.startCPURound();
+                }
             }
             else{
                 Player winner = null;
@@ -353,7 +359,8 @@ public class Game extends JFrame implements MouseListener{
         }
     }
 
-    public void startCPURound(int roundWinnerIndex){
+    public void startCPURound(){
+        this.imageLabel.setIcon(new ImageIcon(players.get(0).getHand().get(0).getIcon().toString()));
         int randomNumber = (int)(Math.random()*((7-1)+1))+1;
         String call = "";
 
@@ -385,13 +392,15 @@ public class Game extends JFrame implements MouseListener{
         if (playAgain == JOptionPane.YES_OPTION) {
             JOptionPane.showMessageDialog(null, "Now returning to the main menu so you can set up a new game of Top Trumps!", "Returning to Main Menu", JOptionPane.PLAIN_MESSAGE);
             new TopTrumpsMenu();
-            loopClip.stop();
-            loopClip.setFramePosition(0);
+            this.loopClip.stop();
+            this.loopClip.setFramePosition(0);
+            this.loopClip.close();
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Thanks for playing Top Trumps! See you again soon!", "Goodbye", JOptionPane.PLAIN_MESSAGE);
-            loopClip.stop();
-            loopClip.setFramePosition(0);
+            this.loopClip.stop();
+            this.loopClip.setFramePosition(0);
+            this.loopClip.close();
             System.exit(0);
         }
     }
