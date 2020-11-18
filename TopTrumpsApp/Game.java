@@ -51,8 +51,8 @@ public class Game extends JFrame implements MouseListener{
             clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/whistle.wav")));   // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);  // learned from https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java //
-            gainControl.setValue(-10.0f);
-            clip.setFramePosition(50000); //setting frame position of clip due to silence in first 1-2sec of file//
+            gainControl.setValue(-20.0f);  //   setting volume -20dB than default   //
+            clip.setFramePosition(50000); //    setting frame position of clip due to silence in first 1-2 seconds of file  //
             clip.start();
         }
         catch (Exception exc)
@@ -62,7 +62,6 @@ public class Game extends JFrame implements MouseListener{
     }
 
     public void startGame(){
-        this.playClip();
         this.setTitle("Your Card");
         this.setSize(600,600);
         this.setLocationRelativeTo(null);
@@ -108,12 +107,14 @@ public class Game extends JFrame implements MouseListener{
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         this.panel.add(imageLabel,BorderLayout.CENTER);
 
+
         //this.panel.add(this.promptLabel);
         //pane.add(this.panel);
 
         this.setResizable(false);
         this.setContentPane(panel);
         this.setVisible(true);
+        JOptionPane.showMessageDialog(null,"It's your turn!\nPick a stat and try to beat the computer!","Your Turn",JOptionPane.QUESTION_MESSAGE);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
@@ -224,7 +225,7 @@ public class Game extends JFrame implements MouseListener{
         String str="The cards currently in play are:\n\n";
 
         for(int i=0; i<middlePile.size(); i++)
-            str+="Name: "+middlePile.get(i).getName()+" "+call+middlePile.get(i).getValueAtIndex(selectedStat)+"\n";
+            str+="Player "+(i+1)+"  Name: "+middlePile.get(i).getName()+" "+call+middlePile.get(i).getValueAtIndex(selectedStat)+"\n";
 
         JOptionPane.showMessageDialog(null,str,"Cards In Play",JOptionPane.INFORMATION_MESSAGE);
 
@@ -239,40 +240,46 @@ public class Game extends JFrame implements MouseListener{
             }
         }
 
-        String winnersOriginalHand="Winners Original Hand:\n\n";
+        String winnerString="";
 
-        for(int i=0; i<players.get(winningPlayer-1).getHand().size(); i++)
-            winnersOriginalHand+=players.get(winningPlayer-1).getHand().get(i).getName()+"\n";
+        if((winningPlayer-1)==0){
+            winnerString+="You Won!\n\nYou have gained the following cards from the other players:\n\n";
+
+            for(int i=0; i< middlePile.size(); i++){
+                if(!middlePile.get(i).getName().equals(players.get(0).getHand().get(i).getName()))
+                    winnerString+=middlePile.get(i).getName()+"\n";
+            }
+        }
+        else{
+            winnerString+="CPU Player "+winningPlayer+" won.\n\nThey gained the following cards from the other players:\n\n";
+
+            for(int i=0; i< middlePile.size(); i++){
+                winnerString+=middlePile.get(i).getName()+"\n";
+            }
+        }
 
         for(int i=0; i<players.size(); i++)
             players.get(i).getHand().remove(0);
 
         if(!isDraw){
-            JOptionPane.showMessageDialog(null,"Winner was player "+winningPlayer+" with "+call+highest,"Winner!",JOptionPane.INFORMATION_MESSAGE);
-
             for(int i=0; i<middlePile.size(); i++)
                 players.get(winningPlayer-1).getHand().add(middlePile.get(i));
 
-            String newHand="\n\nWinning players new hand:\n\n";
-
-            for(int i=0; i<players.get(winningPlayer-1).getHand().size(); i++)
-                newHand+=players.get(winningPlayer-1).getHand().get(i).getName()+"\n";
-
-            JOptionPane.showMessageDialog(null,winnersOriginalHand+newHand,"Winners New Hand",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,winnerString,"Winners New Hand",JOptionPane.INFORMATION_MESSAGE);
         }
         else{
-            String newHand="Your hand is now..\n";
+            String drawString="Round was drawn! All cards remain in the middle pile!\nThe cards remaining in your hand are:\n\n";
 
             for(int i=0; i<players.get(0).getHand().size(); i++){
-                newHand+=players.get(0).getHand().get(i).getName()+"\n";
+                drawString+=players.get(0).getHand().get(i).getName()+"\n";
             }
 
-            newHand+="\nCurrent state of middle pile...\n\n";
+            drawString+="\nCards in middle pile\n\n";
 
             for(int i=0; i<middlePile.size(); i++)
-                newHand+=middlePile.get(i).getName()+"\n";
+                drawString+=middlePile.get(i).getName()+"\n";
 
-            JOptionPane.showMessageDialog(null,"Round was a draw!\n\n"+newHand,"Round Drawn!",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,drawString,"Round Drawn!",JOptionPane.INFORMATION_MESSAGE);
         }
 
         String stateOfPlayers="";

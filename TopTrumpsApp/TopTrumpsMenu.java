@@ -230,6 +230,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
                 for(int i=0; i<games.size(); i++){
                         if(games.get(i).getResult()==0){
+                            games.get(i).playClip();
                             games.get(i).startGame();
                         }
                 }
