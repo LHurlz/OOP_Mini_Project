@@ -66,10 +66,11 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         try
         {
             clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/motd.wav")));   // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
+            clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/gametheme.wav")));   // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);  // learned from https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java //
-            gainControl.setValue(-20.0f);
+            gainControl.setValue(-30.0f);
             clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
         catch (Exception exc)
         {
@@ -229,11 +230,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
                 for(int i=0; i<games.size(); i++){
                         if(games.get(i).getResult()==0){
-                            clip.stop();
-                            clip.setFramePosition(0);
                             games.get(i).startGame();
-                            games.get(i).playClip();
-                            games.get(i).playGameMusic();
                         }
                 }
                 this.dispose();

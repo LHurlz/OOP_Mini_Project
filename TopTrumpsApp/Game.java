@@ -36,8 +36,6 @@ public class Game extends JFrame implements MouseListener{
     private JButton[] buttons;
     private Color selectedColor = new Color(150,150,250,62);
     private Clip clip;
-    private Clip loopClip;
-    //private int roundWinnerIndex;
 
     public Game(ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
         setGameNumber();
@@ -54,6 +52,7 @@ public class Game extends JFrame implements MouseListener{
             clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/whistle.wav")));   // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);  // learned from https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java //
             gainControl.setValue(-10.0f);
+            clip.setFramePosition(50000); //setting frame position of clip due to silence in first 1-2sec of file//
             clip.start();
         }
         catch (Exception exc)
@@ -62,23 +61,8 @@ public class Game extends JFrame implements MouseListener{
         }
     }
 
-    public void playGameMusic(){
-        try
-        {
-            loopClip = AudioSystem.getClip();
-            loopClip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/gametheme.wav")));   // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
-            FloatControl gainControl = (FloatControl) loopClip.getControl(FloatControl.Type.MASTER_GAIN);  // learned from https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java //
-            gainControl.setValue(-25.0f);
-            loopClip.start();
-            loopClip.loop(Clip.LOOP_CONTINUOUSLY);
-        }
-        catch (Exception exc)
-        {
-            exc.printStackTrace(System.out);
-        }
-    }
-
     public void startGame(){
+        this.playClip();
         this.setTitle("Your Card");
         this.setSize(600,600);
         this.setLocationRelativeTo(null);
@@ -173,14 +157,6 @@ public class Game extends JFrame implements MouseListener{
     public void setResult(int result) {
         this.result = result;
     }
-
-    /*public int getRoundWinnerIndex() {
-        return roundWinnerIndex;
-    }
-
-    public void setRoundWinnerIndex(int roundWinnerIndex) {
-        this.roundWinnerIndex = roundWinnerIndex;
-    }*/
 
     public void mouseClicked(MouseEvent e) {
         JButton button = (JButton) e.getSource();
@@ -311,26 +287,22 @@ public class Game extends JFrame implements MouseListener{
 
         if(checkOut.get(0).getType().toLowerCase().equals("human")){
             if(checkOut.size()!=1 && !isDraw){
-                if((winningPlayer-1)==0){
-                    middlePile.clear();
-                    this.setPlayers(checkOut);
+                middlePile.clear();
+                this.setPlayers(checkOut);
+
+                if((winningPlayer-1)==0)
                     this.startGame();
-                }
-                else{
-                    middlePile.clear();
-                    this.setPlayers(checkOut);
+                else
                     this.startCPURound();
-                }
+
             }
             else if(checkOut.size()!=1 && isDraw){
-                if((winningPlayer-1)==0){
-                    this.setPlayers(checkOut);
+                this.setPlayers(checkOut);
+
+                if((winningPlayer-1)==0)
                     this.startGame();
-                }
-                else{
-                    this.setPlayers(checkOut);
+                else
                     this.startCPURound();
-                }
             }
             else{
                 Player winner = null;
@@ -381,8 +353,6 @@ public class Game extends JFrame implements MouseListener{
 
         JOptionPane.showMessageDialog(null,"CPU is now picking a stat\n\nCPU has called "+call);
 
-        System.out.println("Stat index generated "+randomNumber);
-
         processRound(randomNumber,call);
     }
 
@@ -392,15 +362,9 @@ public class Game extends JFrame implements MouseListener{
         if (playAgain == JOptionPane.YES_OPTION) {
             JOptionPane.showMessageDialog(null, "Now returning to the main menu so you can set up a new game of Top Trumps!", "Returning to Main Menu", JOptionPane.PLAIN_MESSAGE);
             new TopTrumpsMenu();
-            this.loopClip.stop();
-            this.loopClip.setFramePosition(0);
-            this.loopClip.close();
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Thanks for playing Top Trumps! See you again soon!", "Goodbye", JOptionPane.PLAIN_MESSAGE);
-            this.loopClip.stop();
-            this.loopClip.setFramePosition(0);
-            this.loopClip.close();
             System.exit(0);
         }
     }
@@ -416,7 +380,6 @@ public class Game extends JFrame implements MouseListener{
 
     public void mouseEntered(MouseEvent e) {
         JButton button = (JButton)e.getSource();
-        button.repaint();
         button.setOpaque(true);
         button.setBackground(selectedColor);
         panel.repaint();
@@ -424,17 +387,15 @@ public class Game extends JFrame implements MouseListener{
 
     public void mouseExited(MouseEvent e) {
         JButton button = (JButton)e.getSource();
-        button.repaint();
         button.setOpaque(false);
         panel.repaint();
     }
 
     public void mousePressed(MouseEvent e){
         JButton button = (JButton)e.getSource();
+        panel.repaint();
         button.setOpaque(true);
         button.setBackground(selectedColor);
-        panel.repaint();
-        button.repaint();
     }
 
     public void mouseReleased(MouseEvent e){}
