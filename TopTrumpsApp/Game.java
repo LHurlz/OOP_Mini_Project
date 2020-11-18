@@ -32,7 +32,7 @@ public class Game extends JFrame implements MouseListener{
     private JButton ratingButton;
     private JButton[] buttons;
     private Color selectedColor = new Color(150,150,250,62);
-    private Clip clip;
+    //private Clip clip;
 
     public Game(ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
         setGameNumber();
@@ -42,7 +42,7 @@ public class Game extends JFrame implements MouseListener{
         setResult(result);
     }
 
-    public void playClip(){
+    /*public void playClip(){
         try
         {
             clip = AudioSystem.getClip();
@@ -56,7 +56,7 @@ public class Game extends JFrame implements MouseListener{
         {
             exc.printStackTrace(System.out);
         }
-    }
+    }*/
 
     public void startGame(){
         this.setTitle("Your Card");
@@ -243,8 +243,7 @@ public class Game extends JFrame implements MouseListener{
             winnerString+="You Won!\n\nYou have gained the following cards from the other players:\n\n";
 
             for(int i=0; i< middlePile.size(); i++){
-                if(!middlePile.get(i).getName().equals(players.get(0).getHand().get(i).getName()))
-                    winnerString+=middlePile.get(i).getName()+"\n";
+                winnerString+=middlePile.get(i).getName()+"\n";
             }
         }
         else{
