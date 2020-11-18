@@ -10,6 +10,7 @@ import java.util.Collections;
 
 public class TopTrumpsMenu extends JFrame implements ActionListener {
     private JButton playButton;
+    private JButton historyButton;
     private JMenu decksMenu;
     private JMenu exitMenu;
     private JLabel imageLabel;
@@ -17,13 +18,13 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
     private ArrayList<Game> games;
     private ArrayList<Player> players;
     private ArrayList<Card> middlePile;
-    Card courtois = new Card("Thibaut Courtois", 4, 99, /*199*/180, 31, 0, 6, 84, new ImageIcon("TopTrumpsApp/images/courtois.png"));
-    Card neuer = new Card("Manuel Neuer", 5, 100, /*193*/180, 57, 0, 12, 97, new ImageIcon("TopTrumpsApp/images/neuer.png"));
+    Card courtois = new Card("Thibaut Courtois", 4, 99, 199, 31, 0, 6, 84, new ImageIcon("TopTrumpsApp/images/courtois.png"));
+    Card neuer = new Card("Manuel Neuer", 5, 100, 193, 57, 0, 12, 97, new ImageIcon("TopTrumpsApp/images/neuer.png"));
     Card kompany = new Card("Vincent Kompany", 60, 94, 193, 66, 4, 7, 73, new ImageIcon("TopTrumpsApp/images/kompany.png"));
     Card hummels = new Card("Mats Hummels", 61, 85, 192, 39, 4, 8, 84, new ImageIcon("TopTrumpsApp/images/hummels.png"));
     Card diMaria = new Card("Angel Di Maria", 81, 64, 180, 65, 15, 10, 75, new ImageIcon("TopTrumpsApp/images/dimaria.png"));
     Card ronaldo = new Card("Cristiano Ronaldo", 99, 35, 185, 124, 55, 17, 100, new ImageIcon("TopTrumpsApp/images/ronaldo.png"));
-    Card sterling = new Card("Raheem Sterling", 71, 54, /*170*/180, 16, 1, 0, 77, new ImageIcon("TopTrumpsApp/images/sterling.png"));
+    Card sterling = new Card("Raheem Sterling", 71, 54, 170, 16, 1, 0, 77, new ImageIcon("TopTrumpsApp/images/sterling.png"));
     Card sanchez = new Card("Alexis Sanchez", 90, 45, 169, 86, 27, 11, 94, new ImageIcon("TopTrumpsApp/images/sanchez.png"));
     Card vidal = new Card("Arturo Vidal", 79, 83, 180, 69, 12, 8, 74, new ImageIcon("TopTrumpsApp/images/vidal.png"));
     Card falcao = new Card("Radamel Falcao", 83, 40, 177, 56, 24, 11, 87, new ImageIcon("TopTrumpsApp/images/falcao.png"));
@@ -82,6 +83,10 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         playButton.addActionListener(this);
         this.add(playButton);
 
+        historyButton=new JButton("View Game History");
+        historyButton.addActionListener(this);
+        this.add(historyButton);
+
         this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -126,6 +131,11 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
                   JOptionPane.showMessageDialog(null,"Thanks for playing!","Goodbye",JOptionPane.INFORMATION_MESSAGE);
                   System.exit(0);
               }
+        }
+
+        if(e.getSource()==historyButton){
+            JOptionPane.showMessageDialog(null,"Game history here in textarea tabular format\n\nIncl stats.. human win %?"+"" +
+                                        "\navg turns per game?","Game History",JOptionPane.PLAIN_MESSAGE);
         }
 
         if (e.getSource() == playButton) {
