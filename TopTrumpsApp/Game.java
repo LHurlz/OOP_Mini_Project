@@ -65,26 +65,26 @@ public class Game extends JFrame implements MouseListener{
         this.heightButton=new JButton();
         this.heightButton.setBounds(300,357,83,15);
         this.capsButton=new JButton();
-        this.capsButton.setBounds(300,372,83,15);
+        this.capsButton.setBounds(300,373,83,15);
         this.goalsButton=new JButton();
         this.goalsButton.setBounds(300,389,83,15);
         this.trophiesButton=new JButton();
-        this.trophiesButton.setBounds(300,406,83,15);
+        this.trophiesButton.setBounds(300,407,83,15);
         this.ratingButton=new JButton();
         this.ratingButton.setBounds(300,423,83,15);
         this.attackButton=new JButton();
-        this.attackButton.setBounds(200,155,36,30);
+        this.attackButton.setBounds(205,155,32,29);
         this.defenceButton=new JButton();
-        this.defenceButton.setBounds(232,155,38,30);
+        this.defenceButton.setBounds(238,155,31,29);
 
         buttons = new JButton[]{heightButton,capsButton,goalsButton,trophiesButton,ratingButton,attackButton,defenceButton};
 
         for(int i=0; i<buttons.length; i++){
-            buttons[i].setBorderPainted(false);
-            buttons[i].setOpaque(false);
-            buttons[i].setBackground(selectedColor);
-            buttons[i].addMouseListener(this);
-            imageLabel.add(buttons[i]);
+            this.buttons[i].setBorderPainted(false);
+            this.buttons[i].setOpaque(false);
+            this.buttons[i].setBackground(selectedColor);
+            this.buttons[i].addMouseListener(this);
+            this.imageLabel.add(buttons[i]);
         }
 
         //System.out.print();
