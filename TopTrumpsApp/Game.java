@@ -88,6 +88,8 @@ public class Game extends JFrame implements MouseListener{
             imageLabel.add(buttons[i]);
         }
 
+        //System.out.print();
+
         imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         this.panel.add(imageLabel,BorderLayout.CENTER);
@@ -142,9 +144,116 @@ public class Game extends JFrame implements MouseListener{
         this.result = result;
     }
 
-    /*public void processRound(attribute){
-        selectedStat = attribute;
-    }*/
+    public void processRound(int selectedStat){
+        int highest = players.get(0).getHand().get(0).getValueAtIndex(selectedStat);
+
+        int winningPlayer=1;
+        boolean isDraw=false;
+
+        for(int i=0; i<players.size(); i++)
+            if(players.get(i)!=null)
+                middlePile.add(players.get(i).getHand().get(0));
+
+        String str="The cards currently in play are:\n\n";
+
+        for(int i=0; i<middlePile.size(); i++)
+            str+="Name: "+middlePile.get(i).getName()+"   Called Stat: "+middlePile.get(i).getValueAtIndex(selectedStat)+"\n";
+
+        JOptionPane.showMessageDialog(null,str,"Cards In Play",JOptionPane.INFORMATION_MESSAGE);
+
+        for(int i=1; i<players.size(); i++){
+            if(players.get(i).getHand().get(0).getValueAtIndex(selectedStat)==highest){
+                isDraw=true;
+                break;
+            }
+            if(players.get(i).getHand().get(0).getValueAtIndex(selectedStat)>highest){
+                highest=players.get(i).getHand().get(0).getValueAtIndex(selectedStat);
+                winningPlayer=(i+1);
+            }
+        }
+
+        String winnersOriginalHand="Winners Original Hand:\n\n";
+
+        for(int i=0; i<players.get(winningPlayer-1).getHand().size(); i++)
+            winnersOriginalHand+=players.get(winningPlayer-1).getHand().get(i).getName()+"\n";
+
+        for(int i=0; i<players.size(); i++)
+            players.get(i).getHand().remove(0);
+
+        if(!isDraw){
+            JOptionPane.showMessageDialog(null,"Winner was player "+winningPlayer+" with stat: "+highest,"Winner!",JOptionPane.INFORMATION_MESSAGE);
+
+            for(int i=0; i<middlePile.size(); i++)
+                players.get(winningPlayer-1).getHand().add(middlePile.get(i));
+
+            String newHand="\n\nWinning players new hand:\n\n";
+
+            for(int i=0; i<players.get(winningPlayer-1).getHand().size(); i++)
+                newHand+=players.get(winningPlayer-1).getHand().get(i).getName()+"\n";
+
+            JOptionPane.showMessageDialog(null,winnersOriginalHand+newHand,"Winners New Hand",JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            String newHand="Your hand is now..\n";
+
+            for(int i=0; i<players.get(0).getHand().size(); i++){
+                newHand+=players.get(0).getHand().get(i).getName()+"\n";
+            }
+
+            newHand+="\nCurrent state of middle pile...\n\n";
+
+            for(int i=0; i<middlePile.size(); i++)
+                newHand+=middlePile.get(i).getName()+"\n";
+
+            JOptionPane.showMessageDialog(null,"Round was a draw!\n\n"+newHand,"Round Drawn!",JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        String stateOfPlayers="";
+
+        for(int i=0; i<players.size(); i++){
+            stateOfPlayers+="Player "+(i+1)+" cards left: "+players.get(i).getHand().size()+"\n";
+        }
+
+        System.out.print(stateOfPlayers+"\n\n");
+
+        ArrayList<Player> checkOut = isOut(players);
+
+        if(checkOut.get(0).getType().toLowerCase().equals("human")){
+            if(checkOut.size()!=1 && !isDraw){
+                middlePile.clear();
+                this.setPlayers(checkOut);
+                this.startGame();
+            }
+            else if(checkOut.size()!=1 && isDraw){
+                this.setPlayers(checkOut);
+                this.startGame();
+            }
+            else{
+                Player winner = null;
+                String output = "The game is over!\n\n";
+
+                for(Player p : checkOut){
+                    if(p.getHand().size()==deck.getCards().size())
+                        winner=p;
+                }
+
+                if(winner.getType().toLowerCase().equals("human")){
+                    output+="You won! Congratulations!!";
+                    JOptionPane.showMessageDialog(null,output,"You Won!",JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    output+="The CPU wins this time. Unlucky.";
+                    JOptionPane.showMessageDialog(null,output,"CPU Wins!",JOptionPane.ERROR_MESSAGE);
+                }
+
+                gameOver();
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"You have lost all of your cards!","Game Over!",JOptionPane.ERROR_MESSAGE);
+            this.gameOver();
+        }
+    }
 
     public void gameOver(){
         int playAgain = JOptionPane.showConfirmDialog(null, "Would you like to play again");
@@ -169,132 +278,59 @@ public class Game extends JFrame implements MouseListener{
     }
 
     public void mouseClicked(MouseEvent e) {
-        JButton button = (JButton)e.getSource();
+        JButton button = (JButton) e.getSource();
         button.setOpaque(false);
         button.setBackground(selectedColor);
         panel.repaint();
 
-        if(button==heightButton){
-            int confirmCall = JOptionPane.showConfirmDialog(null,"Do you wish to \"call\" the height stat?");
+        if (button == attackButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the attack stat?");
 
-            if(confirmCall==JOptionPane.YES_OPTION){
-                //how to get all the following into one method.. processRound();?
-
-                players = isOut(players);
-
-                int highest=players.get(0).getHand().get(0).getHeight();
-                int winningPlayer=1;
-                boolean isDraw=false;
-
-                for(int i=0; i<players.size(); i++)
-                    if(players.get(i)!=null)
-                        middlePile.add(players.get(i).getHand().get(0));
-
-                String str="The cards currently in play are:\n\n";
-
-                for(int i=0; i<middlePile.size(); i++)
-                    str+="Name: "+middlePile.get(i).getName()+"   Height: "+middlePile.get(i).getHeight()+"\n";
-
-                JOptionPane.showMessageDialog(null,str,"Cards In Play",JOptionPane.INFORMATION_MESSAGE);
-
-                for(int i=1; i<players.size(); i++){
-                    if(players.get(i).getHand().get(0).getHeight()==highest){
-                        isDraw=true;
-                        break;
-                    }
-                    if(players.get(i).getHand().get(0).getHeight()>highest){
-                        highest=players.get(i).getHand().get(0).getHeight();
-                        winningPlayer=(i+1);
-                    }
-                }
-
-                String winnersOriginalHand="Winners Original Hand:\n\n";
-
-                for(int i=0; i<players.get(winningPlayer-1).getHand().size(); i++)
-                    winnersOriginalHand+=players.get(winningPlayer-1).getHand().get(i).getName()+"\n";
-
-                for(int i=0; i<players.size(); i++)
-                    players.get(i).getHand().remove(0);
-
-                if(!isDraw){
-                    JOptionPane.showMessageDialog(null,"Winner was player "+winningPlayer+" with stat: "+highest,"Winner!",JOptionPane.INFORMATION_MESSAGE);
-
-                    for(int i=0; i<middlePile.size(); i++)
-                    players.get(winningPlayer-1).getHand().add(middlePile.get(i));
-
-                    String newHand="\n\nWinning players new hand:\n\n";
-
-                    for(int i=0; i<players.get(winningPlayer-1).getHand().size(); i++)
-                        newHand+=players.get(winningPlayer-1).getHand().get(i).getName()+"\n";
-
-                    JOptionPane.showMessageDialog(null,winnersOriginalHand+newHand,"Winners New Hand",JOptionPane.INFORMATION_MESSAGE);
-                }
-                else{
-                    String newHand="Your hand is now..\n";
-
-                    for(int i=0; i<players.get(0).getHand().size(); i++){
-                        newHand+=players.get(0).getHand().get(i).getName()+"\n";
-                    }
-
-                    newHand+="\nCurrent state of middle pile...\n\n";
-
-                    for(int i=0; i<middlePile.size(); i++)
-                       newHand+=middlePile.get(i).getName()+"\n";
-
-                    JOptionPane.showMessageDialog(null,"Round was a draw!\n\n"+newHand,"Round Drawn!",JOptionPane.INFORMATION_MESSAGE);
-                }
-
-                String stateOfPlayers="";
-
-                for(int i=0; i<players.size(); i++){
-                    stateOfPlayers+="Player "+(i+1)+" cards left: "+players.get(i).getHand().size()+"\n";
-                }
-
-                System.out.print(stateOfPlayers+"\n\n");
-
-                ArrayList<Player> checkOut = isOut(players);
-
-                System.out.print(checkOut.get(0).getType()+"\n");
-
-                if(checkOut.get(0).getType().toLowerCase().equals("human")){
-                    if(checkOut.size()!=1 && !isDraw){
-                        middlePile.clear();
-                        this.setPlayers(checkOut);
-                        this.startGame();
-                    }
-                    else if(checkOut.size()!=1 && isDraw){
-                        this.setPlayers(checkOut);
-                        this.startGame();
-                    }
-                    else{
-                        Player winner = null;
-                        String output = "The game is over!\n\n";
-
-                        for(Player p : checkOut){
-                            if(p.getHand().size()==30)
-                                winner=p;
-                        }
-
-                        if(winner.getType().toLowerCase().equals("human")){
-                            output+="You won! Congratulations!!";
-                            JOptionPane.showMessageDialog(null,output,"You Won!",JOptionPane.INFORMATION_MESSAGE);
-                        }
-                        else{
-                            output+="The CPU wins this time. Unlucky.";
-                            JOptionPane.showMessageDialog(null,output,"CPU Wins!",JOptionPane.ERROR_MESSAGE);
-                        }
-
-                        gameOver();
-                    }
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"You have lost all of your cards!","Game Over!",JOptionPane.ERROR_MESSAGE);
-                    this.gameOver();
-                }
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(1);
             }
         }
-        if(button==capsButton){
-            System.out.println("caps selected");
+        if (button == defenceButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the defence stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(2);
+            }
+        }
+        if (button == heightButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the height stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(3);
+            }
+        }
+        if (button == capsButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the caps stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(4);
+            }
+        }
+        if (button == goalsButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the goals stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(5);
+            }
+        }
+        if (button == trophiesButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the trophies stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(6);
+            }
+        }
+        if (button == ratingButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the rating stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION) {
+                processRound(7);
+            }
         }
     }
 

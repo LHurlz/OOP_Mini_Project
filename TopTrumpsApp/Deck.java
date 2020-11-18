@@ -85,7 +85,7 @@ public class Deck {
         int cpuPlayers=players.size()-1;
 
         if(cpuPlayers==1){
-            for(int i=0; i<30; i++){
+            for(int i=0; i<shuffledDeck.getCards().size(); i++){
                 if(i<15){
                     p1Cards.add(shuffledDeck.getCards().get(i));
                 }
@@ -94,7 +94,7 @@ public class Deck {
             }
         }
         else if(cpuPlayers==2){
-            for(int i=0; i<30; i++){
+            for(int i=0; i<shuffledDeck.getCards().size(); i++){
                 if(i<10)
                     p1Cards.add(shuffledDeck.getCards().get(i));
                 else if(i>9 && i<20)
@@ -104,7 +104,7 @@ public class Deck {
             }
         }
         else if(cpuPlayers==3){
-            for(int i=0; i<30; i++){
+            for(int i=0; i<shuffledDeck.getCards().size(); i++){
                 if(i<7)
                     p1Cards.add(shuffledDeck.getCards().get(i));
                 else if(i>6 && i<14)
@@ -116,7 +116,7 @@ public class Deck {
             }
         }
         else if(cpuPlayers==4){
-            for(int i=0; i<30; i++){
+            for(int i=0; i<shuffledDeck.getCards().size(); i++){
                 if(i<6)
                     p1Cards.add(shuffledDeck.getCards().get(i));
                 else if(i>5 && i<12)
@@ -130,7 +130,7 @@ public class Deck {
             }
         }
         else if(cpuPlayers==5){
-            for(int i=0; i<30; i++){
+            for(int i=0; i<shuffledDeck.getCards().size(); i++){
                 if(i<5)
                     p1Cards.add(shuffledDeck.getCards().get(i));
                 else if(i>4 && i<10)

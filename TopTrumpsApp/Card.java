@@ -14,7 +14,6 @@ public class Card {
     private int trophies;
     private int rating;
     private ImageIcon icon;
-    private int[] stats = {attack,defence,height,caps,goals,trophies,rating};
 
     public Card(String name, int attack, int defence, int height, int caps, int goals, int trophies, int rating, ImageIcon icon){
         setCardNumber();
@@ -26,7 +25,6 @@ public class Card {
         setGoals(goals);
         setTrophies(trophies);
         setRating(rating);
-        setStats(stats);
         setIcon(icon);
     }
 
@@ -103,14 +101,6 @@ public class Card {
         this.rating = rating;
     }
 
-    public int[] getStats() {
-        return stats;
-    }
-
-    public void setStats(int[] stats) {
-        this.stats = stats;
-    }
-
     public ImageIcon getIcon() {
         return icon;
     }
@@ -119,7 +109,27 @@ public class Card {
         this.icon = icon;
     }
 
-    @Override
+    public int getValueAtIndex(int index){
+        switch (index){
+            case 1:
+                return getAttack();
+            case 2:
+                return getDefence();
+            case 3:
+                return getHeight();
+            case 4:
+                return getCaps();
+            case 5:
+                return getGoals();
+            case 6:
+                return getTrophies();
+            case 7:
+                return getRating();
+        }
+
+        return -1;
+    }
+
     public String toString() {
         return "ID: "+getCardNumber()+" Name: "+getName()+"  Attack:  "+getAttack()+"  Defence: "+getDefence()+"  Height: "+getHeight()+"cm  Caps: "+getCaps()+
                 "  Goals: "+getGoals()+"  Trophies: "+getTrophies()+"  Rating: "+getRating();
