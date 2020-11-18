@@ -1,6 +1,5 @@
 package TopTrumpsApp;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class Deck {

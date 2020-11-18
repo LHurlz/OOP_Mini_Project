@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import javax.sound.sampled.*;
-//import javax.sound.*
 
 public class TopTrumpsMenu extends JFrame implements ActionListener {
     private JButton playButton;
@@ -24,6 +23,9 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
     private ArrayList<Player> players;
     private ArrayList<Card> middlePile;
     private Clip clip;
+
+    //  card images sourced from https://cartophilic-info-exch.blogspot.com/2016/10/top-trumps-world-football-stars-2015.html?m=1
+
     Card courtois = new Card("Thibaut Courtois", 4, 99, 199, 31, 0, 6, 84, new ImageIcon("TopTrumpsApp/images/courtois.png"));
     Card neuer = new Card("Manuel Neuer", 5, 100, 193, 57, 0, 12, 97, new ImageIcon("TopTrumpsApp/images/neuer.png"));
     Card kompany = new Card("Vincent Kompany", 60, 94, 193, 66, 4, 7, 73, new ImageIcon("TopTrumpsApp/images/kompany.png"));
@@ -63,12 +65,12 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
     ArrayList<Deck> allDecks = new ArrayList<>(Arrays.asList(worldStars2015));
 
     public TopTrumpsMenu() {
-        try
+        try                                             // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
         {
             clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/gametheme.wav")));   // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
-            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);  // learned from https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java //
-            gainControl.setValue(-30.0f);
+            clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/gametheme.wav")));  // music from https://www.youtube.com/watch?v=_8DN1vbnjMk
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-30.0f);       // learned from https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java //
             clip.start();
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
@@ -87,7 +89,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         this.createExitMenu();
 
         this.imageLabel = new JLabel();
-        this.imageLabel.setIcon(new ImageIcon(this.getClass().getResource("images/logo.png")));
+        this.imageLabel.setIcon(new ImageIcon(this.getClass().getResource("images/logo.png"))); // https://www.seekpng.com/ima/u2y3q8i1w7r5o0w7/
 
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);

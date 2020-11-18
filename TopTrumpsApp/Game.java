@@ -12,9 +12,6 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 
 public class Game extends JFrame implements MouseListener{
     private static int gameID=0;
@@ -49,10 +46,10 @@ public class Game extends JFrame implements MouseListener{
         try
         {
             clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/whistle.wav")));   // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
-            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);  // learned from https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java //
-            gainControl.setValue(-20.0f);  //   setting volume -20dB than default   //
-            clip.setFramePosition(50000); //    setting frame position of clip due to silence in first 1-2 seconds of file  //
+            clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/whistle.wav"))); // audio sourced from https://www.youtube.com/watch?v=CgTc_-A_Gzw
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-20.0f);       //   setting volume -20dB than default   //
+            clip.setFramePosition(50000);       //    setting frame position of clip due to silence in first 1-2 seconds of file  //
             clip.start();
         }
         catch (Exception exc)
