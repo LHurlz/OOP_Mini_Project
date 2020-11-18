@@ -2,10 +2,14 @@ package TopTrumpsApp;
 
 import jdk.nashorn.internal.scripts.JO;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +18,6 @@ import java.util.Iterator;
 
 public class Game extends JFrame implements MouseListener{
     private static int gameID=0;
-    //private static int roundCounter=0;
     private int gameNumber;
     private ArrayList<Player> players;
     private ArrayList<Card> middlePile;
@@ -32,6 +35,8 @@ public class Game extends JFrame implements MouseListener{
     private JButton ratingButton;
     private JButton[] buttons;
     private Color selectedColor = new Color(150,150,250,62);
+    private Clip clip;
+    private Clip loopClip;
 
     public Game(ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
         setGameNumber();
@@ -41,11 +46,38 @@ public class Game extends JFrame implements MouseListener{
         setResult(result);
     }
 
-    public void startGame(){
-        /* increment round counter, if counter=1 or counter%(totalplayers)=1 it is human's turn.
-        * else add all stats to array, RNG index of array for computer to call random stat
-        */
+    public void playClip(){
+        try
+        {
+            clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/whistle.wav")));   // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);  // learned from https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java //
+            gainControl.setValue(-10.0f);
+            clip.start();
+        }
+        catch (Exception exc)
+        {
+            exc.printStackTrace(System.out);
+        }
+    }
 
+    public void playGameMusic(){
+        try
+        {
+            loopClip = AudioSystem.getClip();
+            loopClip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/gametheme.wav")));   // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
+            FloatControl gainControl = (FloatControl) loopClip.getControl(FloatControl.Type.MASTER_GAIN);  // learned from https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java //
+            gainControl.setValue(-25.0f);
+            loopClip.start();
+            loopClip.loop(Clip.LOOP_CONTINUOUSLY);
+        }
+        catch (Exception exc)
+        {
+            exc.printStackTrace(System.out);
+        }
+    }
+
+    public void startGame(){
         this.setTitle("Your Turn");
         this.setSize(600,600);
         this.setLocationRelativeTo(null);
@@ -63,15 +95,15 @@ public class Game extends JFrame implements MouseListener{
         this.promptLabel.setFont(font);*/
 
         this.heightButton=new JButton();
-        this.heightButton.setBounds(300,357,83,15);
+        this.heightButton.setBounds(303,357,83,15);
         this.capsButton=new JButton();
-        this.capsButton.setBounds(300,373,83,15);
+        this.capsButton.setBounds(303,373,83,15);
         this.goalsButton=new JButton();
-        this.goalsButton.setBounds(300,389,83,15);
+        this.goalsButton.setBounds(303,389,83,15);
         this.trophiesButton=new JButton();
-        this.trophiesButton.setBounds(300,407,83,15);
+        this.trophiesButton.setBounds(303,407,83,15);
         this.ratingButton=new JButton();
-        this.ratingButton.setBounds(300,423,83,15);
+        this.ratingButton.setBounds(303,423,83,15);
         this.attackButton=new JButton();
         this.attackButton.setBounds(205,155,32,29);
         this.defenceButton=new JButton();
@@ -86,8 +118,6 @@ public class Game extends JFrame implements MouseListener{
             this.buttons[i].addMouseListener(this);
             this.imageLabel.add(buttons[i]);
         }
-
-        //System.out.print();
 
         imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -197,6 +227,8 @@ public class Game extends JFrame implements MouseListener{
         int highest = players.get(0).getHand().get(0).getValueAtIndex(selectedStat);
         int winningPlayer=1;
         boolean isDraw=false;
+
+        System.out.println(this.getGameNumber());
 
         players = isOut(players);
 
@@ -311,9 +343,13 @@ public class Game extends JFrame implements MouseListener{
         if (playAgain == JOptionPane.YES_OPTION) {
             JOptionPane.showMessageDialog(null, "Now returning to the main menu so you can set up a new game of Top Trumps!", "Returning to Main Menu", JOptionPane.PLAIN_MESSAGE);
             new TopTrumpsMenu();
+            loopClip.stop();
+            loopClip.setFramePosition(0);
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Thanks for playing Top Trumps! See you again soon!", "Goodbye", JOptionPane.PLAIN_MESSAGE);
+            loopClip.stop();
+            loopClip.setFramePosition(0);
             System.exit(0);
         }
     }

@@ -1,12 +1,17 @@
 package TopTrumpsApp;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import javax.sound.sampled.*;
+//import javax.sound.*
 
 public class TopTrumpsMenu extends JFrame implements ActionListener {
     private JButton playButton;
@@ -18,6 +23,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
     private ArrayList<Game> games;
     private ArrayList<Player> players;
     private ArrayList<Card> middlePile;
+    private Clip clip;
     Card courtois = new Card("Thibaut Courtois", 4, 99, 199, 31, 0, 6, 84, new ImageIcon("TopTrumpsApp/images/courtois.png"));
     Card neuer = new Card("Manuel Neuer", 5, 100, 193, 57, 0, 12, 97, new ImageIcon("TopTrumpsApp/images/neuer.png"));
     Card kompany = new Card("Vincent Kompany", 60, 94, 193, 66, 4, 7, 73, new ImageIcon("TopTrumpsApp/images/kompany.png"));
@@ -57,6 +63,18 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
     ArrayList<Deck> allDecks = new ArrayList<>(Arrays.asList(worldStars2015));
 
     public TopTrumpsMenu() {
+        try
+        {
+            clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/motd.wav")));   // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);  // learned from https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java //
+            gainControl.setValue(-20.0f);
+            clip.start();
+        }
+        catch (Exception exc)
+        {
+            exc.printStackTrace(System.out);
+        }
         this.setTitle("Welcome to Top Trumps");
         this.setSize(750, 750);
         this.setLocationRelativeTo(null);
@@ -210,7 +228,11 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
                 for(int i=0; i<games.size(); i++){
                         if(games.get(i).getResult()==0){
+                            clip.stop();
+                            clip.setFramePosition(0);
                             games.get(i).startGame();
+                            games.get(i).playClip();
+                            games.get(i).playGameMusic();
                         }
                 }
                 this.dispose();
