@@ -161,9 +161,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         this.exitMenu.add(item);
     }
 
-    /*string.charAt(i)=='!'||string.charAt(i)=='?'||string.charAt(i)=='.'||string.charAt(i)=='@'||string.charAt(i)=='&'||string.charAt(i)=='#'||string.charAt(i)=='='
-            ||string.charAt(i)=='('||string.charAt(i)==')'||string.charAt(i)=='_'||string.charAt(i)=='+'||string.charAt(i)=='"'||string.charAt(i)=='$'*/
-
     public boolean specialCharacterChecker(String string){
         for(int i=0; i<string.length(); i++){
             if(string.charAt(i)=='!'||string.charAt(i)=='?'||string.charAt(i)=='.'||string.charAt(i)=='@'||string.charAt(i)=='&'||string.charAt(i)=='#'||string.charAt(i)=='='
@@ -199,6 +196,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
         if(menuName.equals("Add a Card")){
             int spaceCounter=0;
+            boolean lastCharSpace=false;
 
             String name=JOptionPane.showInputDialog("Create your very own Top Trumps card and add it to the database!\n\nLet's start with the Player's name:");
 
@@ -206,21 +204,22 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
                 if(name.charAt(i)==' '){
                     spaceCounter++;
                 }
+                if(name.charAt(name.length()-1)==' '){
+                    lastCharSpace=true;
+                }
             }
 
-            while(!hasDigit(name) || !specialCharacterChecker(name) || spaceCounter>3 || name.equals("")){
-                if(!hasDigit(name)){
+            while(!hasDigit(name) || !specialCharacterChecker(name) || spaceCounter>2 || name.equals("") || lastCharSpace){
+                if(!hasDigit(name))
                     name=JOptionPane.showInputDialog("Player Name invalid! May not contain numbers!\n\nPlease try again:");
-                }
-                if(!specialCharacterChecker(name)){
+                if(!specialCharacterChecker(name))
                     name=JOptionPane.showInputDialog("Player Name invalid! May not contain special characters!\n\nPlease try again:");
-                }
-                if(spaceCounter>3){
-                    name=JOptionPane.showInputDialog("Player Name invalid! May not contain more than 3 spaces!\n\nPlease try again:");
-                }
-                if(name.equals("")){
+                if(spaceCounter>3)
+                    name=JOptionPane.showInputDialog("Player Name invalid! May not contain more than 2 spaces!\n\nPlease try again:");
+                if(name.equals(""))
                     name=JOptionPane.showInputDialog("Player Name invalid! May not be blank!\n\nPlease try again:");
-                }
+                if(lastCharSpace)
+                    name=JOptionPane.showInputDialog("Player Name invalid! Last character may not be a space!\n\nPlease try again:");
             }
 
             int attack = Integer.parseInt(JOptionPane.showInputDialog("Now their \"Attack\" rating:"));
@@ -232,10 +231,9 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
             int rating = Integer.parseInt(JOptionPane.showInputDialog("And finally, their overall \"TOP\" rating:"));
         }
 
-        if(e.getSource()==historyButton){
+        if(e.getSource()==historyButton)
             JOptionPane.showMessageDialog(null,"Game history here in textarea tabular format\n\nIncl stats.. human win %?"+"" +
                                         "\navg turns per game?","Game History",JOptionPane.PLAIN_MESSAGE);
-        }
 
         if (e.getSource() == playButton) {
             int confirm = JOptionPane.showConfirmDialog(null, "Would you like to play Top Trumps?");
@@ -269,9 +267,8 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
                 String chooseDeck = JOptionPane.showInputDialog(deckList + "\n\nEnter the ID number of the deck you wish to use");
 
-                while (!chooseDeck.equals("1")) {
+                while (!chooseDeck.equals("1"))
                     chooseDeck = JOptionPane.showInputDialog("A deck with this ID does not exist - please try again!");
-                }
 
                 int chosenDeck = Integer.parseInt(chooseDeck);
 
