@@ -28,6 +28,18 @@ public class Card {
         setIcon(icon);
     }
 
+    public Card(String name, int attack, int defence, int height, int caps, int goals, int trophies, int rating){
+        setCardNumber();
+        setName(name);
+        setAttack(attack);
+        setDefence(defence);
+        setHeight(height);
+        setCaps(caps);
+        setGoals(goals);
+        setTrophies(trophies);
+        setRating(rating);
+    }
+
     public int getCardNumber() {
         return cardNumber;
     }

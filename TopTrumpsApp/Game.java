@@ -247,7 +247,7 @@ public class Game extends JFrame implements MouseListener{
             }
         }
         else{
-            winnerString+="CPU Player "+winningPlayer+" won.\n\nThey gained the following cards from the other players:\n\n";
+            winnerString+="CPU Player "+winningPlayer+" won.\n\nThey acquired the following cards (including their own):\n\n";
 
             for(int i=0; i< middlePile.size(); i++){
                 winnerString+=middlePile.get(i).getName()+"\n";

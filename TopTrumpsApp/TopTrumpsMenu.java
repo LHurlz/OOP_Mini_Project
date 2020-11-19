@@ -17,6 +17,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
     private JButton historyButton;
     private JMenu decksMenu;
     private JMenu exitMenu;
+    private JMenu cardsMenu;
     private JLabel imageLabel;
     private JPanel panel;
     private ArrayList<Game> games;
@@ -60,6 +61,9 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
     ArrayList<Card> allCards = new ArrayList<>(Arrays.asList(courtois, neuer, kompany, hummels, diMaria, ronaldo, sterling, sanchez, vidal, falcao, lewandowski, suarez, benzema
             , gervinho, hazard, ibrahimovic, messi, neymar, rooney, aguero, bale, oscar, robben, muller, modric, ramos, lahm, rojo, vanPersie, costa));
 
+    ArrayList<Card> createdCards = new ArrayList<>(Arrays.asList(courtois, neuer, kompany, hummels, diMaria, ronaldo, sterling, sanchez, vidal, falcao, lewandowski, suarez, benzema
+            , gervinho, hazard, ibrahimovic, messi, neymar, rooney, aguero, bale, oscar, robben, muller, modric, ramos, lahm, rojo, vanPersie, costa));
+
     Deck worldStars2015 = new Deck("World Football Stars 2015", allCards);
 
     ArrayList<Deck> allDecks = new ArrayList<>(Arrays.asList(worldStars2015));
@@ -87,6 +91,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         Container pane = this.getContentPane();
         pane.setLayout(new FlowLayout());
         this.createDecksMenu();
+        this.createCardsMenu();
         this.createExitMenu();
 
         this.imageLabel = new JLabel();
@@ -95,6 +100,8 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
         menuBar.add(this.decksMenu);
+        menuBar.add(this.cardsMenu);
+        menuBar.add(Box.createHorizontalGlue());  // advice from https://stackoverflow.com/questions/8560810/aligning-jmenu-on-the-right-corner-of-jmenubar-in-java-swing to position JMenuItem
         menuBar.add(this.exitMenu);
 
         this.panel = new JPanel();
@@ -136,6 +143,15 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         this.decksMenu.add(item);
     }
 
+    public void createCardsMenu(){
+        JMenuItem item;
+        this.cardsMenu = new JMenu("Cards");
+
+        item = new JMenuItem("Add a Card");
+        item.addActionListener(this);
+        this.cardsMenu.add(item);
+    }
+
     public void createExitMenu() {
         JMenuItem item;
         this.exitMenu = new JMenu("Quit");
@@ -143,6 +159,31 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         item = new JMenuItem("Quit");
         item.addActionListener(this);
         this.exitMenu.add(item);
+    }
+
+    /*string.charAt(i)=='!'||string.charAt(i)=='?'||string.charAt(i)=='.'||string.charAt(i)=='@'||string.charAt(i)=='&'||string.charAt(i)=='#'||string.charAt(i)=='='
+            ||string.charAt(i)=='('||string.charAt(i)==')'||string.charAt(i)=='_'||string.charAt(i)=='+'||string.charAt(i)=='"'||string.charAt(i)=='$'*/
+
+    public boolean specialCharacterChecker(String string){
+        for(int i=0; i<string.length(); i++){
+            if(string.charAt(i)=='!'||string.charAt(i)=='?'||string.charAt(i)=='.'||string.charAt(i)=='@'||string.charAt(i)=='&'||string.charAt(i)=='#'||string.charAt(i)=='='
+                    ||string.charAt(i)=='('||string.charAt(i)==')'||string.charAt(i)=='_'||string.charAt(i)=='+'||string.charAt(i)=='"'||string.charAt(i)=='$'||string.charAt(i)=='/'
+                    ||string.charAt(i)=='|'||string.charAt(i)=='\\'||string.charAt(i)=='£'||string.charAt(i)==';'||string.charAt(i)==':'||string.charAt(i)=='~'||string.charAt(i)==','
+                    ||string.charAt(i)=='%'||string.charAt(i)=='`'||string.charAt(i)=='*'||string.charAt(i)=='>'||string.charAt(i)=='<'||string.charAt(i)=='^'
+                    ||string.charAt(i)=='['||string.charAt(i)==']')
+                return false;
+        }
+
+        return true;
+    }
+
+    public boolean hasDigit(String string){
+        for(int i=0; i<string.length(); i++){
+            if(Character.isDigit(string.charAt(i)))
+                return false;
+        }
+
+        return true;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -154,6 +195,41 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
                   JOptionPane.showMessageDialog(null,"Thanks for playing!","Goodbye",JOptionPane.INFORMATION_MESSAGE);
                   System.exit(0);
               }
+        }
+
+        if(menuName.equals("Add a Card")){
+            int spaceCounter=0;
+
+            String name=JOptionPane.showInputDialog("Create your very own Top Trumps card and add it to the database!\n\nLet's start with the Player's name:");
+
+            for(int i=0; i<name.length(); i++){
+                if(name.charAt(i)==' '){
+                    spaceCounter++;
+                }
+            }
+
+            while(!hasDigit(name) || !specialCharacterChecker(name) || spaceCounter>3 || name.equals("")){
+                if(!hasDigit(name)){
+                    name=JOptionPane.showInputDialog("Player Name invalid! May not contain numbers!\n\nPlease try again:");
+                }
+                if(!specialCharacterChecker(name)){
+                    name=JOptionPane.showInputDialog("Player Name invalid! May not contain special characters!\n\nPlease try again:");
+                }
+                if(spaceCounter>3){
+                    name=JOptionPane.showInputDialog("Player Name invalid! May not contain more than 3 spaces!\n\nPlease try again:");
+                }
+                if(name.equals("")){
+                    name=JOptionPane.showInputDialog("Player Name invalid! May not be blank!\n\nPlease try again:");
+                }
+            }
+
+            int attack = Integer.parseInt(JOptionPane.showInputDialog("Now their \"Attack\" rating:"));
+            int defence = Integer.parseInt(JOptionPane.showInputDialog("\"Defence\" rating:"));
+            int height = Integer.parseInt(JOptionPane.showInputDialog("\"Height\" rating:"));
+            int caps = Integer.parseInt(JOptionPane.showInputDialog("\"Caps\" rating:"));
+            int goals = Integer.parseInt(JOptionPane.showInputDialog("\"Goals\" rating:"));
+            int trophies = Integer.parseInt(JOptionPane.showInputDialog("\"Trophies\" rating:"));
+            int rating = Integer.parseInt(JOptionPane.showInputDialog("And finally, their overall \"TOP\" rating:"));
         }
 
         if(e.getSource()==historyButton){
