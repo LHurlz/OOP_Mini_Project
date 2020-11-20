@@ -15,7 +15,6 @@ import javax.sound.sampled.*;
 public class TopTrumpsMenu extends JFrame implements ActionListener {
     private JButton playButton;
     private JButton historyButton;
-    private JMenu decksMenu;
     private JMenu exitMenu;
     private JMenu cardsMenu;
     private JMenu helpMenu;
@@ -249,15 +248,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
         if(statInt<0 || statInt>40)
             return false;
-
-        return true;
-    }
-
-    public boolean isValidChoice(String string){
-        for(int i=0; i<string.length(); i++){
-            if(!Character.isDigit(string.charAt(i)))
-                return false;
-        }
 
         return true;
     }
