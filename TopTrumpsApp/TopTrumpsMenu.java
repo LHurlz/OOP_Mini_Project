@@ -18,11 +18,13 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
     private JMenu decksMenu;
     private JMenu exitMenu;
     private JMenu cardsMenu;
+    private JMenu helpMenu;
     private JLabel imageLabel;
     private JPanel panel;
     private ArrayList<Game> games;
     private ArrayList<Player> players;
     private ArrayList<Card> middlePile;
+    private JTextArea textarea;
     //private Clip clip;
 
     //  card images sourced from https://cartophilic-info-exch.blogspot.com/2016/10/top-trumps-world-football-stars-2015.html?m=1 //
@@ -91,6 +93,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         Container pane = this.getContentPane();
         pane.setLayout(new FlowLayout());
         this.createCardsMenu();
+        this.createHelpMenu();
         this.createExitMenu();
 
         this.imageLabel = new JLabel();
@@ -99,6 +102,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
         menuBar.add(this.cardsMenu);
+        menuBar.add(this.helpMenu);
         menuBar.add(Box.createHorizontalGlue());  // advice from https://stackoverflow.com/questions/8560810/aligning-jmenu-on-the-right-corner-of-jmenubar-in-java-swing to position JMenuItem
         menuBar.add(this.exitMenu);
 
@@ -139,6 +143,15 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         item = new JMenuItem("View Cards");
         item.addActionListener(this);
         this.cardsMenu.add(item);
+    }
+
+    public void createHelpMenu(){
+        JMenuItem item;
+        this.helpMenu = new JMenu("Help");
+
+        item = new JMenuItem("Rules");
+        item.addActionListener(this);
+        this.helpMenu.add(item);
     }
 
     public void createExitMenu() {
@@ -258,6 +271,27 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
                   JOptionPane.showMessageDialog(null,"Thanks for playing!","Goodbye",JOptionPane.INFORMATION_MESSAGE);
                   System.exit(0);
               }
+        }
+
+        if(menuName.equals("Rules")){
+            textarea=new JTextArea();
+            Font font = new Font("Monospaced",Font.PLAIN,12);
+            textarea.setFont(font);
+            textarea.setRows(30);
+            textarea.setColumns(200);
+            textarea.setLineWrap(true);
+
+
+            textarea.setText("Welcome to Top Trumps!\n\nRules of the Game:\n\nTraditional Mode:\n\nGood old fashioned Top Trumps.  Each player is dealt an equal amount of " +
+                    "cards, with any leftover being put automatically into the middle pile. As the dealer, you will play first. Select the stat from your card which " +
+                    "you think has the highest chance of winning.  If you win, you will gain all of the other CPU players' top card. However if you lose, you will " +
+                    "lose your card and it'll the CPU's turn to select a stat until you win a round.\n\nIn the event of a tie, all cards that were \"in play\" " +
+                    "will remain in the middle pile until a round is won.\n\nShould you lose all of your cards, you will be knocked out of the " +
+                    "game and returned to the main menu.  The first player to hold all 30 cards wins the game.\n\n\nYou're The Boss:\n\nTop Trumps with a twist!\n" +
+                    "In this mode, you get to make the call every single turn.  This mode is better suited to players looking for a more engaging experience " +
+                    "and has you involved in every single turn!");
+
+            JOptionPane.showMessageDialog(null,textarea,"Rules",JOptionPane.PLAIN_MESSAGE);
         }
 
         if(menuName.equals("Edit Cards")){
