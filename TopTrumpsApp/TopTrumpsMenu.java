@@ -102,7 +102,8 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         this.setJMenuBar(menuBar);
         menuBar.add(this.cardsMenu);
         menuBar.add(this.helpMenu);
-        menuBar.add(Box.createHorizontalGlue());  // advice from https://stackoverflow.com/questions/8560810/aligning-jmenu-on-the-right-corner-of-jmenubar-in-java-swing to position JMenuItem
+        menuBar.add(Box.createHorizontalGlue());        // advice from https://stackoverflow.com/questions/8560810/aligning-jmenu-on-the-right-corner-of-jmenubar-in-java-swing
+                                                        // to position JMenuItem
         menuBar.add(this.exitMenu);
 
         this.panel = new JPanel();
@@ -285,8 +286,19 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
         if(menuName.equals("Edit Cards")){
             ArrayList<Card> matchingCards = new ArrayList<>();
-            String name = JOptionPane.showInputDialog("Please enter the name of the card you wish to edit");
+            String name = JOptionPane.showInputDialog("Please enter the name or part of the name of the card you wish to edit");
             String related="";
+
+
+            while(!hasDigit(name) || !hasSpecialCharacter(name) || name.equals("")){
+                name = JOptionPane.showInputDialog("Invalid entry!!\n\nPlease enter the name or part of the name of the card you wish to edit");
+            }
+
+            /*for(Card c : createdCards){
+                while(!c.getName().toLowerCase().contains(name)){
+                    name = JOptionPane.showInputDialog("Invalid entry!!\n\nPlease enter the name or part of the name of the card you wish to edit");
+                }
+            }*/
 
             for(Card c : createdCards){
                 if(c.getName().toLowerCase().contains(name))
@@ -299,15 +311,23 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
                 }
             }
 
-            int choice = Integer.parseInt(JOptionPane.showInputDialog("Cards that matched your query:\n\n"+related+"\n\nEnter the ID of the card you wish" +
-                    " to edit"));
+            String choiceStr = JOptionPane.showInputDialog("Cards that matched your query:\n\n"+related+"\n\nEnter the ID of the card you wish" +
+                    " to edit");
+
+            while(hasDigit(choiceStr) || !hasSpecialCharacter(choiceStr) || choiceStr.equals(""))
+            {
+                choiceStr = JOptionPane.showInputDialog("Invalid Entry!!!\n\nCards that matched your query:\n\n"+related+"\n\nEnter the ID of the card you wish" +
+                        " to edit");
+            }
+
+            int choice = Integer.parseInt(choiceStr);
 
             for(Card c : matchingCards){
                 if(c!=null && c.getCardNumber()==choice){
                     int statSelect = Integer.parseInt(JOptionPane.showInputDialog("The details of the card you wish to edit are:\n\n"+c.toString()+
                             "\n\n1 - Edit Attack\n2 - Edit Defence\n3 - Edit Height\n4 - Edit Caps\n5 - Edit Goals\n6 - Edit Trophies\n7 - Edit Rating"));
 
-                    while(statSelect<1 || statSelect>7){
+                    while(statSelect!=1 && statSelect!=2&&statSelect!=3 &&statSelect!=4 &&statSelect!=5 &&statSelect!=6 &&statSelect!=7){
                         statSelect = Integer.parseInt(JOptionPane.showInputDialog("The details of the card you wish to edit are:\n\n"+c.toString()+
                                 "\n1 - Edit Attack\n2 - Edit Defence\n3 - Edit Height\n4 - Edit Caps\n5 - Edit Goals\n6 - Edit Trophies\n7 - Edit Rating" +
                                 "\n\nInvalid entry, select a number between 1 and 7 inclusive"));
@@ -341,7 +361,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
                         String stat = JOptionPane.showInputDialog("Enter new height rating for "+c.getName());
                         int oldStat = c.getHeight();
 
-                        while(!isValidStat(stat)){
+                        while(!isValidStatHeight(stat)){
                             stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new height rating for "+c.getName());
                         }
                         int newStat = Integer.parseInt(stat);
@@ -353,7 +373,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
                         String stat = JOptionPane.showInputDialog("Enter new caps rating for "+c.getName());
                         int oldStat = c.getCaps();
 
-                        while(!isValidStat(stat)){
+                        while(!isValidStatCaps(stat)){
                             stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new caps rating for "+c.getName());
                         }
                         int newStat = Integer.parseInt(stat);
@@ -387,7 +407,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
                         String stat = JOptionPane.showInputDialog("Enter new overall TOP rating for "+c.getName());
                         int oldStat = c.getRating();
 
-                        while(!isValidStat(stat)){
+                        while(!isValidStatTrophies(stat)){
                             stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new overall TOP rating for "+c.getName());
                         }
                         int newStat = Integer.parseInt(stat);
