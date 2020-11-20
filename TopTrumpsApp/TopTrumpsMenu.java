@@ -90,7 +90,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
         Container pane = this.getContentPane();
         pane.setLayout(new FlowLayout());
-        this.createDecksMenu();
         this.createCardsMenu();
         this.createExitMenu();
 
@@ -99,7 +98,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
-        menuBar.add(this.decksMenu);
         menuBar.add(this.cardsMenu);
         menuBar.add(Box.createHorizontalGlue());  // advice from https://stackoverflow.com/questions/8560810/aligning-jmenu-on-the-right-corner-of-jmenubar-in-java-swing to position JMenuItem
         menuBar.add(this.exitMenu);
@@ -122,32 +120,23 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public void createDecksMenu() {
-        JMenuItem item;
-        this.decksMenu = new JMenu("Decks");
-
-        item = new JMenuItem("View Decks");
-        item.addActionListener(this);
-        this.decksMenu.add(item);
-
-        item = new JMenuItem("Edit Decks");
-        item.addActionListener(this);
-        this.decksMenu.add(item);
-
-        item = new JMenuItem("Add Decks");
-        item.addActionListener(this);
-        this.decksMenu.add(item);
-
-        item = new JMenuItem("Remove Decks");
-        item.addActionListener(this);
-        this.decksMenu.add(item);
-    }
-
     public void createCardsMenu(){
         JMenuItem item;
         this.cardsMenu = new JMenu("Cards");
 
-        item = new JMenuItem("Add a Card");
+        item = new JMenuItem("Add Card");
+        item.addActionListener(this);
+        this.cardsMenu.add(item);
+
+        item = new JMenuItem("Edit Cards");
+        item.addActionListener(this);
+        this.cardsMenu.add(item);
+
+        item = new JMenuItem("Remove Cards");
+        item.addActionListener(this);
+        this.cardsMenu.add(item);
+
+        item = new JMenuItem("View Cards");
         item.addActionListener(this);
         this.cardsMenu.add(item);
     }
@@ -161,7 +150,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         this.exitMenu.add(item);
     }
 
-    public boolean specialCharacterChecker(String string){
+    public boolean hasSpecialCharacter(String string){
         for(int i=0; i<string.length(); i++){
             if(string.charAt(i)=='!'||string.charAt(i)=='?'||string.charAt(i)=='.'||string.charAt(i)=='@'||string.charAt(i)=='&'||string.charAt(i)=='#'||string.charAt(i)=='='
                     ||string.charAt(i)=='('||string.charAt(i)==')'||string.charAt(i)=='_'||string.charAt(i)=='+'||string.charAt(i)=='"'||string.charAt(i)=='$'||string.charAt(i)=='/'
@@ -183,6 +172,83 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         return true;
     }
 
+    public boolean isValidStat(String stat){
+        if(stat.equals(""))
+            return false;
+
+        for(int i=0; i<stat.length(); i++){
+            if(!Character.isDigit(stat.charAt(i)))
+                return false;
+        }
+
+        int statInt = Integer.parseInt(stat);
+
+        if(statInt<1 || statInt>100)
+            return false;
+
+        return true;
+    }
+
+    public boolean isValidStatHeight(String stat){
+        if(stat.equals(""))
+            return false;
+
+        for(int i=0; i<stat.length(); i++){
+            if(!Character.isDigit(stat.charAt(i)))
+                return false;
+        }
+
+        int statInt = Integer.parseInt(stat);
+
+        if(statInt<150 || statInt>210)
+            return false;
+
+        return true;
+    }
+
+    public boolean isValidStatCaps(String stat){
+        if(stat.equals(""))
+            return false;
+
+        for(int i=0; i<stat.length(); i++){
+            if(!Character.isDigit(stat.charAt(i)))
+                return false;
+        }
+
+        int statInt = Integer.parseInt(stat);
+
+        if(statInt<0 || statInt>200)
+            return false;
+
+        return true;
+    }
+
+    public boolean isValidStatTrophies(String stat){
+        if(stat.equals(""))
+            return false;
+
+        for(int i=0; i<stat.length(); i++){
+            if(!Character.isDigit(stat.charAt(i)))
+                return false;
+        }
+
+        int statInt = Integer.parseInt(stat);
+
+        if(statInt<0 || statInt>40)
+            return false;
+
+        return true;
+    }
+
+    public boolean isValidChoice(String string){
+        for(int i=0; i<string.length(); i++){
+            if(!Character.isDigit(string.charAt(i)))
+                return false;
+        }
+
+        return true;
+    }
+
     public void actionPerformed(ActionEvent e) {
         String menuName = e.getActionCommand();
 
@@ -194,7 +260,88 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
               }
         }
 
-        if(menuName.equals("Add a Card")){
+        if(menuName.equals("Edit Cards")){
+            ArrayList<Card> matchingCards = new ArrayList<>();
+            String name = JOptionPane.showInputDialog("Please enter the name of the card you wish to edit");
+            String related="";
+
+            for(Card c : createdCards){
+                if(c.getName().toLowerCase().contains(name))
+                    matchingCards.add(c);
+            }
+
+            for(Card c : matchingCards){
+                if(c!=null){
+                    related+=c.toString()+"\n";
+                }
+            }
+
+            String choice = JOptionPane.showInputDialog("The following cards matched your search\n\n"+related+"" +
+                    "\n\nPlease enter the ID of the card you wish to edit");
+
+
+            while(!isValidChoice(choice)){
+                choice = JOptionPane.showInputDialog("The following cards matched your search\n\n"+related+"" +
+                        "\n\nInvalid entry, please try again");
+            }
+
+            int choiceAsInt = Integer.parseInt(choice);
+
+            for(Card c : matchingCards){
+                if(c.getCardNumber()==choiceAsInt){
+                    JOptionPane.showMessageDialog(null,"Player Found");
+                }
+                else
+                    choice = JOptionPane.showInputDialog(null,"Player Not Found");
+            }
+
+
+
+            /*for(Card c : matchingCards){
+                while(c.getCardNumber()!=choiceAsInt){
+                    choiceAsInt = Integer.parseInt(JOptionPane.showInputDialog("The following cards matched your search\n\n"+related+"" +
+                            "\n\nThis card did not match your original search, please try again"));
+                }
+
+                String statChoice = JOptionPane.showInputDialog("You have chosen to edit "+c.getName()+"\n\nWhich stat would you like to edit?" +
+                        "\n\n1 - Attack\n2 - Defence\n3 - Height\n4 - Caps\n5 - Goals\n6 - Trophies\n7 - Top Rating");
+
+                while(!isValidChoice(statChoice)){
+                    statChoice = JOptionPane.showInputDialog("You have chosen to edit "+c.getName()+"\n\nWhich stat would you like to edit?" +
+                            "\n\n1 - Attack\n2 - Defence\n3 - Height\n4 - Caps\n5 - Goals\n6 - Trophies\n7 - Top Rating\n\nEntry must be between" +
+                            "1-7 inclusive. Please try again");
+                }
+                int statChoiceAsInt = Integer.parseInt(statChoice);
+
+                if(statChoiceAsInt==1){
+                    String newAttack = JOptionPane.showInputDialog("Please enter a new attack rating for "+c.getName());
+
+                    while(!isValidStat(newAttack)){
+                        newAttack = JOptionPane.showInputDialog("Please enter a new attack rating for "+c.getName());
+                    }
+                    c.setAttack(Integer.parseInt(newAttack));
+
+                    JOptionPane.showMessageDialog(null,"You have successfully updated "+c.getName()+"'s Attack rating to "+newAttack);
+                }
+            }*/
+        }
+
+        if(menuName.equals("Remove Cards")){
+
+        }
+
+        if(menuName.equals("View Cards")){
+            String output="";
+
+            for(Card c : createdCards){
+                if(c!=null)
+                    output+=c.toString()+"\n";
+            }
+
+            JOptionPane.showMessageDialog(null,"Created Cards:\n\n"+output,"View Cards",JOptionPane.PLAIN_MESSAGE);
+        }
+
+        if(menuName.equals("Add Card")){
             int spaceCounter=0;
             boolean lastCharSpace=false;
 
@@ -209,26 +356,67 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
                 }
             }
 
-            while(!hasDigit(name) || !specialCharacterChecker(name) || spaceCounter>2 || name.equals("") || lastCharSpace){
+            while(!hasDigit(name) || !hasSpecialCharacter(name) || spaceCounter>2 || name.equals("") || lastCharSpace){
                 if(!hasDigit(name))
                     name=JOptionPane.showInputDialog("Player Name invalid! May not contain numbers!\n\nPlease try again:");
-                if(!specialCharacterChecker(name))
+                if(!hasSpecialCharacter(name))
                     name=JOptionPane.showInputDialog("Player Name invalid! May not contain special characters!\n\nPlease try again:");
                 if(spaceCounter>3)
-                    name=JOptionPane.showInputDialog("Player Name invalid! May not contain more than 2 spaces!\n\nPlease try again:");
+                    name=JOptionPane.showInputDialog("Player Name invalid! May not contain more than 3 spaces!\n\nPlease try again:");
                 if(name.equals(""))
                     name=JOptionPane.showInputDialog("Player Name invalid! May not be blank!\n\nPlease try again:");
                 if(lastCharSpace)
                     name=JOptionPane.showInputDialog("Player Name invalid! Last character may not be a space!\n\nPlease try again:");
             }
 
-            int attack = Integer.parseInt(JOptionPane.showInputDialog("Now their \"Attack\" rating:"));
-            int defence = Integer.parseInt(JOptionPane.showInputDialog("\"Defence\" rating:"));
-            int height = Integer.parseInt(JOptionPane.showInputDialog("\"Height\" rating:"));
-            int caps = Integer.parseInt(JOptionPane.showInputDialog("\"Caps\" rating:"));
-            int goals = Integer.parseInt(JOptionPane.showInputDialog("\"Goals\" rating:"));
-            int trophies = Integer.parseInt(JOptionPane.showInputDialog("\"Trophies\" rating:"));
-            int rating = Integer.parseInt(JOptionPane.showInputDialog("And finally, their overall \"TOP\" rating:"));
+            String attackStr = JOptionPane.showInputDialog("Now their \"Attack\" rating:");
+            while(!isValidStat(attackStr)){
+                attackStr = JOptionPane.showInputDialog("Attack rating invalid!\n May not be left blank or contain characters and must be between 1-100 inclusive." +
+                        "\n\nPlease try again:");
+            }int attack=Integer.parseInt(attackStr);
+
+            String defenceStr = JOptionPane.showInputDialog("\"Defence\" rating:");
+            while(!isValidStat(defenceStr)){
+                defenceStr = JOptionPane.showInputDialog("Defence rating invalid! \nMay not be left blank or contain characters and must be between 1-100 inclusive." +
+                        "\n\nPlease try again:");
+            }int defence=Integer.parseInt(defenceStr);
+
+            String heightStr = JOptionPane.showInputDialog("\"Height\" rating:");
+            while(!isValidStatHeight(heightStr)){
+                heightStr = JOptionPane.showInputDialog("Height rating invalid! \nMay not be left blank or contain characters and must be between 150-210 inclusive." +
+                        "\n\nPlease try again:");
+            }int height=Integer.parseInt(heightStr);
+
+            String capsStr = JOptionPane.showInputDialog("\"Caps\" rating:");
+            while(!isValidStatCaps(capsStr)){
+                capsStr = JOptionPane.showInputDialog("Caps rating invalid! \nMay not be left blank or contain characters and must be between 0-200 inclusive." +
+                        "\n\nPlease try again:");
+            }int caps=Integer.parseInt(capsStr);
+
+            String goalsStr = JOptionPane.showInputDialog("\"Goals\" rating:");
+            while(!isValidStatCaps(goalsStr)){
+                goalsStr = JOptionPane.showInputDialog("Goals rating invalid! \nMay not be left blank or contain characters and must be between 0-200 inclusive." +
+                        "\n\nPlease try again:");
+            }
+            int goals=Integer.parseInt(goalsStr);
+
+            String trophiesStr = JOptionPane.showInputDialog("\"Trophies\" rating:");
+            while(!isValidStatTrophies(trophiesStr)){
+                trophiesStr = JOptionPane.showInputDialog("Trophies rating invalid! \nMay not be left blank or contain characters and must be between 0-40 inclusive." +
+                        "\n\nPlease try again:");
+            }
+            int trophies=Integer.parseInt(trophiesStr);
+
+            String ratingStr = JOptionPane.showInputDialog("\"Overall TOP\" rating:");
+            while(!isValidStat(ratingStr)){
+                ratingStr = JOptionPane.showInputDialog("Overall TOP rating invalid! \nMay not be left blank or contain characters and must be between 1-100 inclusive." +
+                        "\n\nPlease try again:");
+            }
+            int rating=Integer.parseInt(ratingStr);
+
+            createdCards.add(new Card(name,attack,defence,height,caps,goals,trophies,rating));
+
+            JOptionPane.showMessageDialog(null,name+" successfully created! Check the \"View Cards\" tab for confirmation!","Success!",JOptionPane.INFORMATION_MESSAGE);
         }
 
         if(e.getSource()==historyButton)
@@ -241,6 +429,22 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
             middlePile = new ArrayList<>();
 
             if (confirm == JOptionPane.YES_OPTION) {
+                String modeChoice = JOptionPane.showInputDialog("Which game mode do you wish to play? (see rules on main menu for info)" +
+                        "\n\n1 - Traditional\n2 - You're The Boss");
+
+                while(!modeChoice.equals("1") &&  !modeChoice.equals("2")){
+                    modeChoice = JOptionPane.showInputDialog("Which game mode do you wish to play? (see rules on main menu for info)" +
+                            "\n\n1 - Traditional\n2 - You're The Boss");
+                }
+
+                int mode = Integer.parseInt(modeChoice);
+                String modeString ="";
+
+                if(mode==1)
+                    modeString+="Traditional";
+                else
+                    modeString+="Boss";
+
                 String confirmString = JOptionPane.showInputDialog("How many CPU opponents do you wish to face?");
 
                 while (!confirmString.equals("1") && !confirmString.equals("2") && !confirmString.equals("3") && !confirmString.equals("4") && !confirmString.equals("5")) {
@@ -302,7 +506,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
                 JOptionPane.showMessageDialog(null,str);
 
-                games.add(new Game(playersDealtTo,allDecks.get(chosenDeck-1),middlePile,0));
+                games.add(new Game(modeString,playersDealtTo,allDecks.get(chosenDeck-1),middlePile,0));
 
                 for(int i=0; i<games.size(); i++){
                         if(games.get(i).getResult()==0){

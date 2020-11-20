@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class Game extends JFrame implements MouseListener{
     private static int gameID=0;
     private int gameNumber;
+    private String mode;
     private ArrayList<Player> players;
     private ArrayList<Card> middlePile;
     private Deck deck;
@@ -34,8 +35,9 @@ public class Game extends JFrame implements MouseListener{
     private Color selectedColor = new Color(150,150,250,62);
     //private Clip clip;
 
-    public Game(ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
+    public Game(String mode, ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
         setGameNumber();
+        setMode(mode);
         setPlayers(players);
         setMiddlePile(middlePile);
         setDeck(deck);
@@ -113,6 +115,14 @@ public class Game extends JFrame implements MouseListener{
         this.setVisible(true);
         JOptionPane.showMessageDialog(null,"It's your turn!\nPick a stat and try to beat the computer!","Your Turn",JOptionPane.QUESTION_MESSAGE);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 
     public int getGameNumber() {
@@ -211,7 +221,7 @@ public class Game extends JFrame implements MouseListener{
         int winningPlayer=1;
         boolean isDraw=false;
 
-        System.out.println(this.getGameNumber());
+        System.out.println(this.getGameNumber()+"\n"+this.getMode().toLowerCase()+"\n");
 
         players = isOut(players);
 
@@ -293,19 +303,29 @@ public class Game extends JFrame implements MouseListener{
                 middlePile.clear();
                 this.setPlayers(checkOut);
 
-                if((winningPlayer-1)==0)
-                    this.startGame();
-                else
+                if(this.getMode().toLowerCase().equals("traditional") && (winningPlayer-1)!=0)
                     this.startCPURound();
+                else
+                    this.startGame();
+
+                /*if((winningPlayer-1)==0)
+                    this.startGame();
+                else if(this.getMode().equals("Traditonal"))
+                    this.startCPURound();*/
 
             }
             else if(checkOut.size()!=1 && isDraw){
                 this.setPlayers(checkOut);
 
-                if((winningPlayer-1)==0)
-                    this.startGame();
-                else
+                if(this.getMode().toLowerCase().equals("traditional") && (winningPlayer-1)!=0)
                     this.startCPURound();
+                else
+                    this.startGame();
+
+                /*if((winningPlayer-1)==0)
+                    this.startGame();
+                else if(this.getMode().equals("Traditonal"))
+                    this.startCPURound();*/
             }
             else{
                 Player winner = null;
@@ -404,7 +424,7 @@ public class Game extends JFrame implements MouseListener{
     public void mouseReleased(MouseEvent e){}
 
     public String toString() {
-        String str="Game ID: "+getGameNumber()+"\n\nPlayers:\n\n";
+        String str="Game ID: "+getGameNumber()+"\nMode"+getMode()+"\n\nPlayers:\n\n";
 
         for(int i=0; i<players.size(); i++){
             if(players.get(i)!=null)
