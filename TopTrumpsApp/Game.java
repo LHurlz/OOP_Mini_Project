@@ -307,12 +307,6 @@ public class Game extends JFrame implements MouseListener{
                     this.startCPURound();
                 else
                     this.startGame();
-
-                /*if((winningPlayer-1)==0)
-                    this.startGame();
-                else if(this.getMode().equals("Traditonal"))
-                    this.startCPURound();*/
-
             }
             else if(checkOut.size()!=1 && isDraw){
                 this.setPlayers(checkOut);
@@ -321,11 +315,6 @@ public class Game extends JFrame implements MouseListener{
                     this.startCPURound();
                 else
                     this.startGame();
-
-                /*if((winningPlayer-1)==0)
-                    this.startGame();
-                else if(this.getMode().equals("Traditonal"))
-                    this.startCPURound();*/
             }
             else{
                 Player winner = null;

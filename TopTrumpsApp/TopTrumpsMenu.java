@@ -281,11 +281,10 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
             textarea.setColumns(200);
             textarea.setLineWrap(true);
 
-
             textarea.setText("Welcome to Top Trumps!\n\nRules of the Game:\n\nTraditional Mode:\n\nGood old fashioned Top Trumps.  Each player is dealt an equal amount of " +
                     "cards, with any leftover being put automatically into the middle pile. As the dealer, you will play first. Select the stat from your card which " +
                     "you think has the highest chance of winning.  If you win, you will gain all of the other CPU players' top card. However if you lose, you will " +
-                    "lose your card and it'll the CPU's turn to select a stat until you win a round.\n\nIn the event of a tie, all cards that were \"in play\" " +
+                    "lose your card and it'll be the CPU's turn to select a stat until you win a round.\n\nIn the event of a tie, all cards that were \"in play\" " +
                     "will remain in the middle pile until a round is won.\n\nShould you lose all of your cards, you will be knocked out of the " +
                     "game and returned to the main menu.  The first player to hold all 30 cards wins the game.\n\n\nYou're The Boss:\n\nTop Trumps with a twist!\n" +
                     "In this mode, you get to make the call every single turn.  This mode is better suited to players looking for a more engaging experience " +
@@ -309,55 +308,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
                     related+=c.toString()+"\n";
                 }
             }
-
-            String choice = JOptionPane.showInputDialog("The following cards matched your search\n\n"+related+"" +
-                    "\n\nPlease enter the ID of the card you wish to edit");
-
-
-            while(!isValidChoice(choice)){
-                choice = JOptionPane.showInputDialog("The following cards matched your search\n\n"+related+"" +
-                        "\n\nInvalid entry, please try again");
-            }
-
-            int choiceAsInt = Integer.parseInt(choice);
-
-            for(Card c : matchingCards){
-                if(c.getCardNumber()==choiceAsInt){
-                    JOptionPane.showMessageDialog(null,"Player Found");
-                }
-                else
-                    choice = JOptionPane.showInputDialog(null,"Player Not Found");
-            }
-
-
-
-            /*for(Card c : matchingCards){
-                while(c.getCardNumber()!=choiceAsInt){
-                    choiceAsInt = Integer.parseInt(JOptionPane.showInputDialog("The following cards matched your search\n\n"+related+"" +
-                            "\n\nThis card did not match your original search, please try again"));
-                }
-
-                String statChoice = JOptionPane.showInputDialog("You have chosen to edit "+c.getName()+"\n\nWhich stat would you like to edit?" +
-                        "\n\n1 - Attack\n2 - Defence\n3 - Height\n4 - Caps\n5 - Goals\n6 - Trophies\n7 - Top Rating");
-
-                while(!isValidChoice(statChoice)){
-                    statChoice = JOptionPane.showInputDialog("You have chosen to edit "+c.getName()+"\n\nWhich stat would you like to edit?" +
-                            "\n\n1 - Attack\n2 - Defence\n3 - Height\n4 - Caps\n5 - Goals\n6 - Trophies\n7 - Top Rating\n\nEntry must be between" +
-                            "1-7 inclusive. Please try again");
-                }
-                int statChoiceAsInt = Integer.parseInt(statChoice);
-
-                if(statChoiceAsInt==1){
-                    String newAttack = JOptionPane.showInputDialog("Please enter a new attack rating for "+c.getName());
-
-                    while(!isValidStat(newAttack)){
-                        newAttack = JOptionPane.showInputDialog("Please enter a new attack rating for "+c.getName());
-                    }
-                    c.setAttack(Integer.parseInt(newAttack));
-
-                    JOptionPane.showMessageDialog(null,"You have successfully updated "+c.getName()+"'s Attack rating to "+newAttack);
-                }
-            }*/
         }
 
         if(menuName.equals("Remove Cards")){
