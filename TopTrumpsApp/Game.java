@@ -9,11 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 
-public class Game extends JFrame implements MouseListener{
+public class Game extends JFrame implements MouseListener, Serializable{
     private static int gameID=0;
     private int gameNumber;
     private String mode;
@@ -328,17 +327,14 @@ public class Game extends JFrame implements MouseListener{
                 if(winner.getType().toLowerCase().equals("human")){
                     output+="You won! Congratulations!!";
                     JOptionPane.showMessageDialog(null,output,"You Won!",JOptionPane.INFORMATION_MESSAGE);
+                    this.setResult(1);
                 }
-                else{
-                    output+="The CPU wins this time. Unlucky.";
-                    JOptionPane.showMessageDialog(null,output,"CPU Wins!",JOptionPane.ERROR_MESSAGE);
-                }
-
                 this.gameOver();
             }
         }
         else{
             JOptionPane.showMessageDialog(null,"You have lost all of your cards!","Game Over!",JOptionPane.ERROR_MESSAGE);
+            this.setResult(2);
             this.gameOver();
         }
     }
@@ -368,8 +364,34 @@ public class Game extends JFrame implements MouseListener{
         processRound(randomNumber,call);
     }
 
-    public void gameOver(){
+    public void gameOver() {
         int playAgain = JOptionPane.showConfirmDialog(null, "Would you like to play again");
+
+        try {
+            File outFile = new File("TopTrumpsApp/game_history.data");
+
+            FileOutputStream outStream = new FileOutputStream(outFile);
+
+            ObjectOutputStream objectOutStream = new ObjectOutputStream(outStream);
+
+            objectOutStream.writeObject(this);
+
+            ArrayList<Object> listOfObjects = new ArrayList<>();
+            listOfObjects.add(this);
+
+            objectOutStream.writeObject(listOfObjects);
+            outStream.close();
+        }
+        catch(FileNotFoundException fnfe){
+            System.out.println(fnfe.getStackTrace());
+            JOptionPane.showMessageDialog(null,"File could not be found!",
+                    "Problem Finding File!",JOptionPane.ERROR_MESSAGE);
+        }
+        catch(IOException ioe){
+            System.out.println(ioe.getStackTrace());
+            JOptionPane.showMessageDialog(null,"File could not be written!",
+                    "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
+        }
 
         if (playAgain == JOptionPane.YES_OPTION) {
             JOptionPane.showMessageDialog(null, "Now returning to the main menu so you can set up a new game of Top Trumps!", "Returning to Main Menu", JOptionPane.PLAIN_MESSAGE);
@@ -413,18 +435,13 @@ public class Game extends JFrame implements MouseListener{
     public void mouseReleased(MouseEvent e){}
 
     public String toString() {
-        String str="Game ID: "+getGameNumber()+"\nMode"+getMode()+"\n\nPlayers:\n\n";
+        String str="Game ID: "+getGameNumber()+"  Mode: "+getMode()+"  Players: "+players.size()+"  Winner: ";
 
-        for(int i=0; i<players.size(); i++){
-            if(players.get(i)!=null)
-                str+=players.get(i).getType()+"\n";
+        if(result==1){
+            str+="Human";
         }
-
-        str+="\n\nDeck :"+getDeck().getName()+"\n\nMiddle Pile:\n\n";
-
-        for(int i=0; i< middlePile.size(); i++){
-            if(middlePile.get(i)!=null)
-                str+=middlePile.get(i).getName()+"\n";
+        else if(result==2){
+            str+="CPU";
         }
 
         return str;

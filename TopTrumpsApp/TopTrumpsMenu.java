@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -294,12 +294,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
                 name = JOptionPane.showInputDialog("Invalid entry!!\n\nPlease enter the name or part of the name of the card you wish to edit");
             }
 
-            /*for(Card c : createdCards){
-                while(!c.getName().toLowerCase().contains(name)){
-                    name = JOptionPane.showInputDialog("Invalid entry!!\n\nPlease enter the name or part of the name of the card you wish to edit");
-                }
-            }*/
-
             for(Card c : createdCards){
                 if(c.getName().toLowerCase().contains(name))
                     matchingCards.add(c);
@@ -538,9 +532,47 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null,name+" successfully created! Check the \"View Cards\" tab for confirmation!","Success!",JOptionPane.INFORMATION_MESSAGE);
         }
 
-        if(e.getSource()==historyButton)
-            JOptionPane.showMessageDialog(null,"Game history here in textarea tabular format\n\nIncl stats.. human win %?"+"" +
-                                        "\navg turns per game?","Game History",JOptionPane.PLAIN_MESSAGE);
+        if(e.getSource()==historyButton){
+            try{
+                File inFile	= new File("TopTrumpsApp/game_history.data");
+                FileInputStream inStream = new FileInputStream(inFile);
+
+                ObjectInputStream objectInStream = new ObjectInputStream(inStream);
+
+                Game game1 = (Game) objectInStream.readObject();
+
+                ArrayList<Object> mixtureOfObjects = (ArrayList<Object>) objectInStream.readObject();
+
+                String output="";
+
+                for(Object o: mixtureOfObjects)
+                    output += o + "\n";
+
+                JOptionPane.showMessageDialog(null,output,"Game History",JOptionPane.PLAIN_MESSAGE);
+
+                inStream.close();
+            }
+            catch(FileNotFoundException fnfe){
+                fnfe.printStackTrace();
+                JOptionPane.showMessageDialog(null,"File could not be found!",
+                        "Problem Finding File!",JOptionPane.ERROR_MESSAGE);
+            }
+            catch(IOException ioe){
+                ioe.printStackTrace();
+                JOptionPane.showMessageDialog(null,"File could not be read!",
+                        "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
+            } catch (ClassNotFoundException cnfe) {
+                cnfe.printStackTrace();
+                JOptionPane.showMessageDialog(null,"Could not convert object to the appropriate class!","Problem Converting Object Read " +
+                        "From File!",JOptionPane.ERROR_MESSAGE);
+
+            }
+            catch (ClassCastException cce) {
+                cce.printStackTrace();
+                JOptionPane.showMessageDialog(null,"Could not convert the object to the appropriate class!","Problem Converting " +
+                        "Object!",JOptionPane.ERROR_MESSAGE);
+            }
+        }
 
         if (e.getSource() == playButton) {
             int confirm = JOptionPane.showConfirmDialog(null, "Would you like to play Top Trumps?");
@@ -562,7 +594,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
                 if(mode==1)
                     modeString+="Traditional";
                 else
-                    modeString+="Boss";
+                    modeString+="You're The Boss";
 
                 String confirmString = JOptionPane.showInputDialog("How many CPU opponents do you wish to face?");
 

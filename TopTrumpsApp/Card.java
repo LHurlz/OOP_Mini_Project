@@ -1,8 +1,9 @@
 package TopTrumpsApp;
 
 import javax.swing.*;
+import java.io.Serializable;
 
-public class Card {
+public class Card implements Serializable {
     private static int cardID=0;
     private int cardNumber;
     private String name;

@@ -1,8 +1,9 @@
 package TopTrumpsApp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Deck {
+public class Deck implements Serializable {
     private int deckID=0;
     private int deckNumber;
     private String name;
