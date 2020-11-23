@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,6 +25,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
     private ArrayList<Player> players;
     private ArrayList<Card> middlePile;
     private JTextArea textarea;
+    private ArrayList<Game> finishedGames;
     //private Clip clip;
 
     //  card images sourced from https://cartophilic-info-exch.blogspot.com/2016/10/top-trumps-world-football-stars-2015.html?m=1 //
@@ -251,6 +253,49 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
             return false;
 
         return true;
+    }
+
+    public void open(){
+        try{
+            File inFile	= new File("TopTrumpsApp/game_history.data");
+            FileInputStream inStream = new FileInputStream(inFile);
+
+            ObjectInputStream objectInStream = new ObjectInputStream(inStream);
+
+            this.finishedGames=new ArrayList<>();
+
+            this.finishedGames = (ArrayList<Game>)objectInStream.readObject();
+
+            String str = "";
+
+            for(Object g : finishedGames){
+                str+=g + "\n";
+            }
+
+            JOptionPane.showMessageDialog(null,str,"Game History",JOptionPane.PLAIN_MESSAGE);
+
+            inStream.close();
+        }
+        catch(FileNotFoundException fnfe){
+            fnfe.printStackTrace();
+            JOptionPane.showMessageDialog(null,"File could not be found!",
+                    "Problem Finding File!",JOptionPane.ERROR_MESSAGE);
+        }
+        catch(IOException ioe){
+            ioe.printStackTrace();
+            JOptionPane.showMessageDialog(null,"File could not be read!",
+                    "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException cnfe) {
+            cnfe.printStackTrace();
+            JOptionPane.showMessageDialog(null,"Could not convert object to the appropriate class!","Problem Converting Object Read " +
+                    "From File!",JOptionPane.ERROR_MESSAGE);
+
+        }
+        catch (ClassCastException cce) {
+            cce.printStackTrace();
+            JOptionPane.showMessageDialog(null,"Could not convert the object to the appropriate class!","Problem Converting " +
+                    "Object!",JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -533,45 +578,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         }
 
         if(e.getSource()==historyButton){
-            try{
-                File inFile	= new File("TopTrumpsApp/game_history.data");
-                FileInputStream inStream = new FileInputStream(inFile);
-
-                ObjectInputStream objectInStream = new ObjectInputStream(inStream);
-
-                Game game1 = (Game) objectInStream.readObject();
-
-                ArrayList<Object> mixtureOfObjects = (ArrayList<Object>) objectInStream.readObject();
-
-                String output="";
-
-                for(Object o: mixtureOfObjects)
-                    output += o + "\n";
-
-                JOptionPane.showMessageDialog(null,output,"Game History",JOptionPane.PLAIN_MESSAGE);
-
-                inStream.close();
-            }
-            catch(FileNotFoundException fnfe){
-                fnfe.printStackTrace();
-                JOptionPane.showMessageDialog(null,"File could not be found!",
-                        "Problem Finding File!",JOptionPane.ERROR_MESSAGE);
-            }
-            catch(IOException ioe){
-                ioe.printStackTrace();
-                JOptionPane.showMessageDialog(null,"File could not be read!",
-                        "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
-            } catch (ClassNotFoundException cnfe) {
-                cnfe.printStackTrace();
-                JOptionPane.showMessageDialog(null,"Could not convert object to the appropriate class!","Problem Converting Object Read " +
-                        "From File!",JOptionPane.ERROR_MESSAGE);
-
-            }
-            catch (ClassCastException cce) {
-                cce.printStackTrace();
-                JOptionPane.showMessageDialog(null,"Could not convert the object to the appropriate class!","Problem Converting " +
-                        "Object!",JOptionPane.ERROR_MESSAGE);
-            }
+            this.open();
         }
 
         if (e.getSource() == playButton) {

@@ -32,6 +32,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
     private JButton ratingButton;
     private JButton[] buttons;
     private Color selectedColor = new Color(150,150,250,62);
+    private int startingPlayers;
     //private Clip clip;
 
     public Game(String mode, ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
@@ -64,6 +65,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
         this.setSize(600,600);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
+        this.setStartingPlayers(players.size());
 
         this.panel=new JPanel();
         this.panel.setLayout(new BorderLayout());
@@ -163,6 +165,14 @@ public class Game extends JFrame implements MouseListener, Serializable{
 
     public void setResult(int result) {
         this.result = result;
+    }
+
+    public int getStartingPlayers() {
+        return startingPlayers;
+    }
+
+    public void setStartingPlayers(int startingPlayers) {
+        this.startingPlayers = startingPlayers;
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -328,6 +338,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
                     output+="You won! Congratulations!!";
                     JOptionPane.showMessageDialog(null,output,"You Won!",JOptionPane.INFORMATION_MESSAGE);
                     this.setResult(1);
+                    this.gameOver();
                 }
                 this.gameOver();
             }
@@ -365,8 +376,26 @@ public class Game extends JFrame implements MouseListener, Serializable{
     }
 
     public void gameOver() {
+        System.out.println(this.toString());
+        this.saveGame();
+        System.out.println("\n\nGame data saved successfully");
+
         int playAgain = JOptionPane.showConfirmDialog(null, "Would you like to play again");
 
+        if (playAgain == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(null, "Now returning to the main menu so you can set up a new game of " +
+                    "Top Trumps!", "Returning to Main Menu", JOptionPane.PLAIN_MESSAGE);
+            new TopTrumpsMenu();
+            this.dispose();
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Thanks for playing Top Trumps! See you again soon!", "Goodbye", JOptionPane.PLAIN_MESSAGE);
+            this.dispose();
+            System.exit(0);
+        }
+    }
+
+    public void saveGame(){
         try {
             File outFile = new File("TopTrumpsApp/game_history.data");
 
@@ -376,10 +405,6 @@ public class Game extends JFrame implements MouseListener, Serializable{
 
             objectOutStream.writeObject(this);
 
-            ArrayList<Object> listOfObjects = new ArrayList<>();
-            listOfObjects.add(this);
-
-            objectOutStream.writeObject(listOfObjects);
             outStream.close();
         }
         catch(FileNotFoundException fnfe){
@@ -391,15 +416,6 @@ public class Game extends JFrame implements MouseListener, Serializable{
             System.out.println(ioe.getStackTrace());
             JOptionPane.showMessageDialog(null,"File could not be written!",
                     "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
-        }
-
-        if (playAgain == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(null, "Now returning to the main menu so you can set up a new game of Top Trumps!", "Returning to Main Menu", JOptionPane.PLAIN_MESSAGE);
-            new TopTrumpsMenu();
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "Thanks for playing Top Trumps! See you again soon!", "Goodbye", JOptionPane.PLAIN_MESSAGE);
-            System.exit(0);
         }
     }
 
@@ -435,7 +451,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
     public void mouseReleased(MouseEvent e){}
 
     public String toString() {
-        String str="Game ID: "+getGameNumber()+"  Mode: "+getMode()+"  Players: "+players.size()+"  Winner: ";
+        String str="Game ID: "+getGameNumber()+"  Mode: "+getMode()+"  Players: "+getStartingPlayers()+"  Winner: ";
 
         if(result==1){
             str+="Human";
