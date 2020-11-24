@@ -75,6 +75,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
         for(Player p : players){
             if(p.getHand().size()==30 && p.getType().equals("Human")){
                 this.setResult(1);
+                JOptionPane.showMessageDialog(null,"You won! Congratulations!!","You Won!",JOptionPane.INFORMATION_MESSAGE);
                 this.gameOver();
             }
             else if(p.getHand().size()==30 && p.getType().equals("CPU")){
