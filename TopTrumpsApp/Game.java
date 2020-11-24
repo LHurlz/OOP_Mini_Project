@@ -34,15 +34,17 @@ public class Game extends JFrame implements MouseListener, Serializable{
     private int startingPlayers;
     private ArrayList<Game> finishedGames = new ArrayList<>();
     private static final long serialVersionUID = 1;
+    private TopTrumpsMenu t = new TopTrumpsMenu();
     //private Clip clip;
 
-    public Game(String mode, ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
+    public Game(String mode, ArrayList<Player> players, int startingPlayers, Deck deck, ArrayList<Card> middlePile, int result){
         setGameNumber();
         setMode(mode);
         setPlayers(players);
         setMiddlePile(middlePile);
         setDeck(deck);
         setResult(result);
+        setStartingPlayers(startingPlayers);
     }
 
     public ArrayList<Game> getFinishedGames() {
@@ -70,11 +72,21 @@ public class Game extends JFrame implements MouseListener, Serializable{
     }*/
 
     public void startGame(){
+        for(Player p : players){
+            if(p.getHand().size()==30 && p.getType().equals("Human")){
+                this.setResult(1);
+                this.gameOver();
+            }
+            else if(p.getHand().size()==30 && p.getType().equals("CPU")){
+                this.setResult(2);
+                this.gameOver();
+            }
+        }
+
         this.setTitle("Your Card");
         this.setSize(600,600);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
-        this.setStartingPlayers(players.size());
 
         this.panel=new JPanel();
         this.panel.setLayout(new BorderLayout());
@@ -378,6 +390,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
 
     public void gameOver() {
         System.out.println(this.toString());
+        finishedGames.add(this);
         this.saveGame();
         System.out.println("\n\nGame data saved successfully");
 
@@ -386,6 +399,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
         if (playAgain == JOptionPane.YES_OPTION) {
             JOptionPane.showMessageDialog(null, "Now returning to the main menu so you can set up a new game of " +
                     "Top Trumps!", "Returning to Main Menu", JOptionPane.PLAIN_MESSAGE);
+            System.out.println("\n\n"+getFinishedGames()+"\n\n");
             new TopTrumpsMenu();
             this.dispose();
         }
@@ -403,8 +417,6 @@ public class Game extends JFrame implements MouseListener, Serializable{
             FileOutputStream outStream = new FileOutputStream(outFile);
 
             ObjectOutputStream objectOutStream = new ObjectOutputStream(outStream);
-
-            finishedGames.add(this);
 
             objectOutStream.writeObject(finishedGames);
 

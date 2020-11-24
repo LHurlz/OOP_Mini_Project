@@ -22,9 +22,9 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
     private JMenu helpMenu;
     private JLabel imageLabel;
     private JPanel panel;
-    private ArrayList<Game> games;
-    private ArrayList<Player> players;
-    private ArrayList<Card> middlePile;
+    private ArrayList<Game> games = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Card> middlePile = new ArrayList<>();
     private JTextArea textarea;
     private Game g;
     private static final long serialVersionUID = 1;
@@ -265,7 +265,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
             ObjectInputStream objectInStream = new ObjectInputStream(inStream);
 
-            games = (ArrayList<Game>) objectInStream.readObject();
+            this.games  = (ArrayList)objectInStream.readObject();
 
             String str = "";
 
@@ -298,30 +298,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                     "Object!",JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    /*public void saveCard(){
-        try {
-            File outFile = new File("TopTrumpsApp/created_cards.data");
-
-            FileOutputStream outStream = new FileOutputStream(outFile);
-
-            ObjectOutputStream objectOutStream = new ObjectOutputStream(outStream);
-
-            objectOutStream.writeObject(this.createdCards);
-
-            outStream.close();
-        }
-        catch(FileNotFoundException fnfe){
-            System.out.println(fnfe.getStackTrace());
-            JOptionPane.showMessageDialog(null,"File could not be found!",
-                    "Problem Finding File!",JOptionPane.ERROR_MESSAGE);
-        }
-        catch(IOException ioe){
-            System.out.println(ioe.getStackTrace());
-            JOptionPane.showMessageDialog(null,"File could not be written!",
-                    "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
-        }
-    }*/
 
     public void actionPerformed(ActionEvent e) {
         String menuName = e.getActionCommand();
@@ -608,8 +584,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
         if (e.getSource() == playButton) {
             int confirm = JOptionPane.showConfirmDialog(null, "Would you like to play Top Trumps?");
-            //games = new ArrayList<>();
-            //middlePile = new ArrayList<>();
 
             if (confirm == JOptionPane.YES_OPTION) {
                 String modeChoice = JOptionPane.showInputDialog("Which game mode do you wish to play? (see rules on main menu for info)" +
@@ -689,12 +663,12 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
                 JOptionPane.showMessageDialog(null,str);
 
-                g = (new Game(modeString,playersDealtTo,allDecks.get(chosenDeck-1),middlePile,0));
+                g = (new Game(modeString,playersDealtTo,cpuPlayers + 1,allDecks.get(chosenDeck-1),middlePile,0));
 
-                games = g.getFinishedGames();
+                //gamesToLoad = g.getFinishedGames();
 
                 games.add(g);
-                g.saveGame();
+                //g.saveGame();
 
                 g.startGame();
 
@@ -702,30 +676,4 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             }
         }
     }
-
-    /*public void saveGame(){
-        try {
-            File outFile = new File("TopTrumpsApp/game_history.data");
-
-            FileOutputStream outStream = new FileOutputStream(outFile);
-
-            ObjectOutputStream objectOutStream = new ObjectOutputStream(outStream);
-
-            games.add(g);
-
-            objectOutStream.writeObject(games);
-
-            outStream.close();
-        }
-        catch(FileNotFoundException fnfe){
-            System.out.println(fnfe.getStackTrace());
-            JOptionPane.showMessageDialog(null,"File could not be found!",
-                    "Problem Finding File!",JOptionPane.ERROR_MESSAGE);
-        }
-        catch(IOException ioe){
-            System.out.println(ioe.getStackTrace());
-            JOptionPane.showMessageDialog(null,"File could not be written!",
-                    "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
-        }
-    }*/
 }
