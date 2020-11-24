@@ -391,8 +391,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
 
     public void gameOver() {
         System.out.println(this.toString());
-        finishedGames.add(this);
-        this.saveGame();
+        saveGame();
         System.out.println("\n\nGame data saved successfully");
 
         int playAgain = JOptionPane.showConfirmDialog(null, "Would you like to play again");
@@ -418,6 +417,8 @@ public class Game extends JFrame implements MouseListener, Serializable{
             FileOutputStream outStream = new FileOutputStream(outFile);
 
             ObjectOutputStream objectOutStream = new ObjectOutputStream(outStream);
+
+            finishedGames.add(this);
 
             objectOutStream.writeObject(finishedGames);
 
