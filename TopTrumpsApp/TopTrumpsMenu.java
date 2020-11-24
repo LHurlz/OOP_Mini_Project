@@ -11,9 +11,10 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import javax.sound.sampled.*;
 
-public class TopTrumpsMenu extends JFrame implements ActionListener {
+public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable {
     private JButton playButton;
     private JButton historyButton;
     private JMenu exitMenu;
@@ -25,7 +26,8 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
     private ArrayList<Player> players;
     private ArrayList<Card> middlePile;
     private JTextArea textarea;
-    private ArrayList<Game> finishedGames;
+    private Game g;
+    private static final long serialVersionUID = 1;
     //private Clip clip;
 
     //  card images sourced from https://cartophilic-info-exch.blogspot.com/2016/10/top-trumps-world-football-stars-2015.html?m=1 //
@@ -90,6 +92,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         this.setTitle("Welcome to Top Trumps");
         this.setSize(750, 750);
         this.setLocationRelativeTo(null);
+        //this.loadHistory();
 
         Container pane = this.getContentPane();
         pane.setLayout(new FlowLayout());
@@ -255,20 +258,18 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
         return true;
     }
 
-    public void open(){
+    public void loadHistory(){
         try{
             File inFile	= new File("TopTrumpsApp/game_history.data");
             FileInputStream inStream = new FileInputStream(inFile);
 
             ObjectInputStream objectInStream = new ObjectInputStream(inStream);
 
-            this.finishedGames=new ArrayList<>();
-
-            this.finishedGames = (ArrayList<Game>)objectInStream.readObject();
+            games = (ArrayList<Game>) objectInStream.readObject();
 
             String str = "";
 
-            for(Object g : finishedGames){
+            for(Game g : games){
                 str+=g + "\n";
             }
 
@@ -297,6 +298,30 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
                     "Object!",JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    /*public void saveCard(){
+        try {
+            File outFile = new File("TopTrumpsApp/created_cards.data");
+
+            FileOutputStream outStream = new FileOutputStream(outFile);
+
+            ObjectOutputStream objectOutStream = new ObjectOutputStream(outStream);
+
+            objectOutStream.writeObject(this.createdCards);
+
+            outStream.close();
+        }
+        catch(FileNotFoundException fnfe){
+            System.out.println(fnfe.getStackTrace());
+            JOptionPane.showMessageDialog(null,"File could not be found!",
+                    "Problem Finding File!",JOptionPane.ERROR_MESSAGE);
+        }
+        catch(IOException ioe){
+            System.out.println(ioe.getStackTrace());
+            JOptionPane.showMessageDialog(null,"File could not be written!",
+                    "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
+        }
+    }*/
 
     public void actionPerformed(ActionEvent e) {
         String menuName = e.getActionCommand();
@@ -572,19 +597,19 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
             }
             int rating=Integer.parseInt(ratingStr);
 
-            createdCards.add(new Card(name,attack,defence,height,caps,goals,trophies,rating));
+            this.createdCards.add(new Card(name,attack,defence,height,caps,goals,trophies,rating));
 
             JOptionPane.showMessageDialog(null,name+" successfully created! Check the \"View Cards\" tab for confirmation!","Success!",JOptionPane.INFORMATION_MESSAGE);
         }
 
         if(e.getSource()==historyButton){
-            this.open();
+            this.loadHistory();
         }
 
         if (e.getSource() == playButton) {
             int confirm = JOptionPane.showConfirmDialog(null, "Would you like to play Top Trumps?");
-            games = new ArrayList<>();
-            middlePile = new ArrayList<>();
+            //games = new ArrayList<>();
+            //middlePile = new ArrayList<>();
 
             if (confirm == JOptionPane.YES_OPTION) {
                 String modeChoice = JOptionPane.showInputDialog("Which game mode do you wish to play? (see rules on main menu for info)" +
@@ -664,16 +689,43 @@ public class TopTrumpsMenu extends JFrame implements ActionListener {
 
                 JOptionPane.showMessageDialog(null,str);
 
-                games.add(new Game(modeString,playersDealtTo,allDecks.get(chosenDeck-1),middlePile,0));
+                g = (new Game(modeString,playersDealtTo,allDecks.get(chosenDeck-1),middlePile,0));
 
-                for(int i=0; i<games.size(); i++){
-                        if(games.get(i).getResult()==0){
-                            //games.get(i).playClip();
-                            games.get(i).startGame();
-                        }
-                }
+                games = g.getFinishedGames();
+
+                games.add(g);
+                g.saveGame();
+
+                g.startGame();
+
                 this.dispose();
             }
         }
     }
+
+    /*public void saveGame(){
+        try {
+            File outFile = new File("TopTrumpsApp/game_history.data");
+
+            FileOutputStream outStream = new FileOutputStream(outFile);
+
+            ObjectOutputStream objectOutStream = new ObjectOutputStream(outStream);
+
+            games.add(g);
+
+            objectOutStream.writeObject(games);
+
+            outStream.close();
+        }
+        catch(FileNotFoundException fnfe){
+            System.out.println(fnfe.getStackTrace());
+            JOptionPane.showMessageDialog(null,"File could not be found!",
+                    "Problem Finding File!",JOptionPane.ERROR_MESSAGE);
+        }
+        catch(IOException ioe){
+            System.out.println(ioe.getStackTrace());
+            JOptionPane.showMessageDialog(null,"File could not be written!",
+                    "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
+        }
+    }*/
 }

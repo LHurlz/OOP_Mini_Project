@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Player implements Serializable {
     private String type;
     private ArrayList<Card> hand;
+    private static final long serialVersionUID = 1;
 
     public Player(String type,ArrayList<Card> hand){
         setType(type);

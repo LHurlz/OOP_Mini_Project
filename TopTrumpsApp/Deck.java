@@ -8,6 +8,7 @@ public class Deck implements Serializable {
     private int deckNumber;
     private String name;
     private ArrayList<TopTrumpsApp.Card> cards;
+    private static final long serialVersionUID = 1;
 
     public Deck(String name, ArrayList<TopTrumpsApp.Card> cards){
         setDeckNumber();

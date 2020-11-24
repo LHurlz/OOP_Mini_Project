@@ -15,6 +15,7 @@ public class Card implements Serializable {
     private int trophies;
     private int rating;
     private ImageIcon icon;
+    private static final long serialVersionUID = 1;
 
     public Card(String name, int attack, int defence, int height, int caps, int goals, int trophies, int rating, ImageIcon icon){
         setCardNumber();

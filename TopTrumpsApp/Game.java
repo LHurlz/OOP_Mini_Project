@@ -22,7 +22,6 @@ public class Game extends JFrame implements MouseListener, Serializable{
     private int result;
     private JLabel imageLabel;
     private JPanel panel;
-    private JLabel promptLabel;
     private JButton attackButton;
     private JButton defenceButton;
     private JButton heightButton;
@@ -33,6 +32,8 @@ public class Game extends JFrame implements MouseListener, Serializable{
     private JButton[] buttons;
     private Color selectedColor = new Color(150,150,250,62);
     private int startingPlayers;
+    private ArrayList<Game> finishedGames = new ArrayList<>();
+    private static final long serialVersionUID = 1;
     //private Clip clip;
 
     public Game(String mode, ArrayList<Player> players, Deck deck, ArrayList<Card> middlePile, int result){
@@ -42,6 +43,14 @@ public class Game extends JFrame implements MouseListener, Serializable{
         setMiddlePile(middlePile);
         setDeck(deck);
         setResult(result);
+    }
+
+    public ArrayList<Game> getFinishedGames() {
+        return finishedGames;
+    }
+
+    public void setFinishedGames(ArrayList<Game> finishedGames) {
+        this.finishedGames = finishedGames;
     }
 
     /*public void playClip(){
@@ -74,10 +83,6 @@ public class Game extends JFrame implements MouseListener, Serializable{
         if(players.get(0)!=null)
             imageLabel.setIcon(new ImageIcon(players.get(0).getHand().get(0).getIcon().toString()));
 
-        /*this.promptLabel = new JLabel("It's your turn.. call a stat and see if you can beat the CPU!");
-        Font font = new Font("Serif",Font.BOLD,16);                                                    ---PROMPT/INSTRUCTIONS LABEL TO BE ADDED LATER---
-        this.promptLabel.setFont(font);*/
-
         this.heightButton=new JButton();
         this.heightButton.setBounds(303,357,83,15);
         this.capsButton=new JButton();
@@ -106,10 +111,6 @@ public class Game extends JFrame implements MouseListener, Serializable{
         imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         this.panel.add(imageLabel,BorderLayout.CENTER);
-
-
-        //this.panel.add(this.promptLabel);
-        //pane.add(this.panel);
 
         this.setResizable(false);
         this.setContentPane(panel);
@@ -356,19 +357,19 @@ public class Game extends JFrame implements MouseListener, Serializable{
         String call = "";
 
         if(randomNumber==1)
-            call+="Attack: ";
+            call+="Attack";
         if(randomNumber==2)
-            call+="Defence: ";
+            call+="Defence";
         if(randomNumber==3)
-            call+="Height: ";
+            call+="Height";
         if(randomNumber==4)
-            call+="Caps: ";
+            call+="Caps";
         if(randomNumber==5)
-            call+="Goals: ";
+            call+="Goals";
         if(randomNumber==6)
-            call+="Trophies: ";
+            call+="Trophies";
         if(randomNumber==7)
-            call+="TOP Rating: ";
+            call+="TOP Rating";
 
         JOptionPane.showMessageDialog(null,"CPU is now picking a stat\n\nCPU has called "+call);
 
@@ -403,7 +404,9 @@ public class Game extends JFrame implements MouseListener, Serializable{
 
             ObjectOutputStream objectOutStream = new ObjectOutputStream(outStream);
 
-            objectOutStream.writeObject(this);
+            finishedGames.add(this);
+
+            objectOutStream.writeObject(finishedGames);
 
             outStream.close();
         }
