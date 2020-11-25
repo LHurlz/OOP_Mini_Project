@@ -401,11 +401,11 @@ public class Game extends JFrame implements MouseListener, Serializable{
                     "Top Trumps!", "Returning to Main Menu", JOptionPane.PLAIN_MESSAGE);
             System.out.println("\n\n"+getFinishedGames()+"\n\n");
             new TopTrumpsMenu();
-            //this.dispose();
+            this.dispose();
         }
         else {
             JOptionPane.showMessageDialog(null, "Thanks for playing Top Trumps! See you again soon!", "Goodbye", JOptionPane.PLAIN_MESSAGE);
-            //this.dispose();
+            this.dispose();
             System.exit(0);
         }
     }

@@ -27,8 +27,10 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
     private ArrayList<Card> middlePile = new ArrayList<>();
     private JTextArea textarea;
     private Game g;
+    private Card c;
     private ArrayList<String> finishedGames;
     private static final long serialVersionUID = 1;
+    private ArrayList<Card> createdCards=new ArrayList<>();
     //private Clip clip;
 
     //  card images sourced from https://cartophilic-info-exch.blogspot.com/2016/10/top-trumps-world-football-stars-2015.html?m=1 //
@@ -66,12 +68,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
     ArrayList<Card> allCards = new ArrayList<>(Arrays.asList(courtois, neuer, kompany, hummels, diMaria, ronaldo, sterling, sanchez, vidal, falcao, lewandowski, suarez, benzema
             , gervinho, hazard, ibrahimovic, messi, neymar, rooney, aguero, bale, oscar, robben, muller, modric, ramos, lahm, rojo, vanPersie, costa));
-
-    ArrayList<Card> createdCards = new ArrayList<>(Arrays.asList(courtois, neuer, kompany, hummels, diMaria, ronaldo, sterling, sanchez, vidal, falcao, lewandowski, suarez, benzema
-            , gervinho, hazard, ibrahimovic, messi, neymar, rooney, aguero, bale, oscar, robben, muller, modric, ramos, lahm, rojo, vanPersie, costa));
-
     Deck worldStars2015 = new Deck("World Football Stars 2015", allCards);
-
     ArrayList<Deck> allDecks = new ArrayList<>(Arrays.asList(worldStars2015));
 
     public TopTrumpsMenu() {
@@ -89,11 +86,10 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                 exc.printStackTrace(System.out);
             }*/
 
-
         this.setTitle("Welcome to Top Trumps");
         this.setSize(750, 750);
         this.setLocationRelativeTo(null);
-        //this.loadHistory();
+        this.openCards();
 
         Container pane = this.getContentPane();
         pane.setLayout(new FlowLayout());
@@ -297,6 +293,52 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         }
     }
 
+    public void saveCards(){
+        try {
+            ObjectOutputStream objectOutStream = new ObjectOutputStream(new FileOutputStream("TopTrumpsApp/cards.data"));
+            objectOutStream.writeObject(createdCards);
+            objectOutStream.close();
+        }
+        catch(FileNotFoundException fnfe){
+            System.out.println(fnfe.getStackTrace());
+            JOptionPane.showMessageDialog(null,"File could not be found!",
+                    "Problem Finding File!",JOptionPane.ERROR_MESSAGE);
+        }
+        catch(IOException ioe){
+            System.out.println(ioe.getStackTrace());
+            JOptionPane.showMessageDialog(null,"File could not be written!",
+                    "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void openCards(){
+        try{
+            ObjectInputStream objectInStream = new ObjectInputStream(new FileInputStream("TopTrumpsApp/cards.data"));
+            createdCards  = (ArrayList)objectInStream.readObject();
+            objectInStream.close();
+        }
+        catch(FileNotFoundException fnfe){
+            fnfe.printStackTrace();
+            JOptionPane.showMessageDialog(null,"You have not created any cards yet!",
+                    "No Created Cards!",JOptionPane.ERROR_MESSAGE);
+        }
+        catch(IOException ioe){
+            ioe.printStackTrace();
+            JOptionPane.showMessageDialog(null,"File could not be read!",
+                    "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException cnfe) {
+            cnfe.printStackTrace();
+            JOptionPane.showMessageDialog(null,"Could not convert object to the appropriate class!","Problem Converting Object Read " +
+                    "From File!",JOptionPane.ERROR_MESSAGE);
+
+        }
+        catch (ClassCastException cce) {
+            cce.printStackTrace();
+            JOptionPane.showMessageDialog(null,"Could not convert the object to the appropriate class!","Problem Converting " +
+                    "Object!",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void actionPerformed(ActionEvent e) {
         String menuName = e.getActionCommand();
 
@@ -459,43 +501,86 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         if(menuName.equals("Remove Cards")){
             ArrayList<Card> matchingCards = new ArrayList<>();
             String name = JOptionPane.showInputDialog("Please enter the name of the card you wish to remove");
-            String related="";
+            //String related="";
 
             for(Card c : createdCards){
                 if(c.getName().toLowerCase().contains(name))
                     matchingCards.add(c);
             }
 
+            JTextArea textArea=new JTextArea();
+            Font font = new Font("Monospaced",Font.PLAIN,12);
+            textArea.setFont(font);
+            textArea.append(String.format("%-30s%-10s%-10s%-10s%-10s%-10s%-10s%-10s","Name","Attack","Defence","Height","Caps","Goals","Trophies","TOP Rating"));
+            textArea.append(String.format("\n"+"%-30s%-10s%-10s%-10s%-10s%-10s%-10s%-10s","------------","--------","--------","--------",
+                    "--------","--------","--------","--------"+"\n"));
+
             for(Card c : matchingCards){
-                if(c!=null){
-                    related+=c.toString()+"\n";
-                }
+                textArea.append(String.format("\n"+"%-30s%-10s%-10s%-10s%-10s%-10s%-10s%-10s",c.getName(),c.getAttack(),c.getDefence(),c.getHeight(),
+                        c.getCaps(),c.getGoals(),c.getTrophies(),c.getRating()));
             }
 
-            int choice = Integer.parseInt(JOptionPane.showInputDialog("Cards that matched your query:\n\n"+related+"\n\nEnter the ID of the card you wish" +
+            JOptionPane.showMessageDialog(null,textArea,"Cards Found",JOptionPane.PLAIN_MESSAGE);
+
+            /*int choice = Integer.parseInt(JOptionPane.showInputDialog("Cards that matched your query:\n\n"+related+"\n\nEnter the ID of the card you wish" +
                     " to remove"));
 
             for(Card c : matchingCards){
                 if(c.getCardNumber()==choice){
                    int confirm = JOptionPane.showConfirmDialog(null,"Are you sure you want to remove "+c.getName()+ " from Top Trumps?");
 
-                   if(confirm==JOptionPane.YES_OPTION)
+                   if(confirm==JOptionPane.YES_OPTION){
                        createdCards.remove(c);
+                       saveCards();
+                   }
 
                    JOptionPane.showMessageDialog(null,c.getName() + " successfully removed!","Player Removed",JOptionPane.INFORMATION_MESSAGE);
                 }
-            }
+            }*/
         }
 
         if(menuName.equals("View Cards")){
-            String output="";
+            try{
+                ObjectInputStream objectInStream = new ObjectInputStream(new FileInputStream("TopTrumpsApp/cards.data"));
 
-            for(Card c : createdCards){
-                if(c!=null)
-                    output+=c.toString()+"\n";
+                createdCards  = (ArrayList)objectInStream.readObject();
+
+                JTextArea textArea=new JTextArea();
+                Font font = new Font("Monospaced",Font.PLAIN,12);
+                textArea.setFont(font);
+                textArea.append(String.format("%-30s%-10s%-10s%-10s%-10s%-10s%-10s%-10s","Name","Attack","Defence","Height","Caps","Goals","Trophies","TOP Rating"));
+                textArea.append(String.format("\n"+"%-30s%-10s%-10s%-10s%-10s%-10s%-10s%-10s","------------","--------","--------","--------",
+                                                "--------","--------","--------","--------"+"\n"));
+
+                for(Card c : createdCards){
+                    textArea.append(String.format("\n"+"%-30s%-10s%-10s%-10s%-10s%-10s%-10s%-10s",c.getName(),c.getAttack(),c.getDefence(),c.getHeight(),
+                                            c.getCaps(),c.getGoals(),c.getTrophies(),c.getRating()));
+                }
+
+                JOptionPane.showMessageDialog(null,textArea,"Cards",JOptionPane.PLAIN_MESSAGE);
+
+                objectInStream.close();
             }
+            catch(FileNotFoundException fnfe){
+                fnfe.printStackTrace();
+                JOptionPane.showMessageDialog(null,"You have not created any cards yet!",
+                        "No Created Cards!",JOptionPane.ERROR_MESSAGE);
+            }
+            catch(IOException ioe){
+                ioe.printStackTrace();
+                JOptionPane.showMessageDialog(null,"File could not be read!",
+                        "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
+            } catch (ClassNotFoundException cnfe) {
+                cnfe.printStackTrace();
+                JOptionPane.showMessageDialog(null,"Could not convert object to the appropriate class!","Problem Converting Object Read " +
+                        "From File!",JOptionPane.ERROR_MESSAGE);
 
-            JOptionPane.showMessageDialog(null,"Created Cards:\n\n"+output,"View Cards",JOptionPane.PLAIN_MESSAGE);
+            }
+            catch (ClassCastException cce) {
+                cce.printStackTrace();
+                JOptionPane.showMessageDialog(null,"Could not convert the object to the appropriate class!","Problem Converting " +
+                        "Object!",JOptionPane.ERROR_MESSAGE);
+            }
         }
 
         if(menuName.equals("Add Card")){
@@ -571,7 +656,9 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             }
             int rating=Integer.parseInt(ratingStr);
 
-            this.createdCards.add(new Card(name,attack,defence,height,caps,goals,trophies,rating));
+            c=new Card(name,attack,defence,height,caps,goals,trophies,rating);
+            createdCards.add(c);
+            saveCards();
 
             JOptionPane.showMessageDialog(null,name+" successfully created! Check the \"View Cards\" tab for confirmation!","Success!",JOptionPane.INFORMATION_MESSAGE);
         }
