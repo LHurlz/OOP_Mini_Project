@@ -27,6 +27,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
     private ArrayList<Card> middlePile = new ArrayList<>();
     private JTextArea textarea;
     private Game g;
+    private ArrayList<String> finishedGames;
     private static final long serialVersionUID = 1;
     //private Clip clip;
 
@@ -260,22 +261,19 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
     public void loadHistory(){
         try{
-            File inFile	= new File("TopTrumpsApp/game_history.data");
-            FileInputStream inStream = new FileInputStream(inFile);
+            ObjectInputStream objectInStream = new ObjectInputStream(new FileInputStream("TopTrumpsApp/game_history.data"));
 
-            ObjectInputStream objectInStream = new ObjectInputStream(inStream);
-
-            this.games  = (ArrayList)objectInStream.readObject();
+            finishedGames  = (ArrayList<String>)objectInStream.readObject();
 
             String str = "";
 
-            for(Game g : games){
-                str+=g + "\n";
+            for(String s : finishedGames){
+                str+=s;
             }
 
             JOptionPane.showMessageDialog(null,str,"Game History",JOptionPane.PLAIN_MESSAGE);
 
-            inStream.close();
+            objectInStream.close();
         }
         catch(FileNotFoundException fnfe){
             fnfe.printStackTrace();
@@ -663,13 +661,8 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
                 JOptionPane.showMessageDialog(null,str);
 
-                g = (new Game(modeString,playersDealtTo,cpuPlayers + 1,allDecks.get(chosenDeck-1),middlePile,0));
-
-                //gamesToLoad = g.getFinishedGames();
-
+                g = (new Game(modeString,playersDealtTo,cpuPlayers + 1,allDecks.get(chosenDeck-1),middlePile));
                 games.add(g);
-                //g.saveGame();
-
                 g.startGame();
 
                 this.dispose();

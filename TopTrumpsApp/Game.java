@@ -19,7 +19,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
     private ArrayList<Player> players;
     private ArrayList<Card> middlePile;
     private Deck deck;
-    private int result;
+    private String result;
     private JLabel imageLabel;
     private JPanel panel;
     private JButton attackButton;
@@ -32,26 +32,26 @@ public class Game extends JFrame implements MouseListener, Serializable{
     private JButton[] buttons;
     private Color selectedColor = new Color(150,150,250,62);
     private int startingPlayers;
-    private ArrayList<Game> finishedGames = new ArrayList<>();
+    private ArrayList<String> finishedGames=new ArrayList<>();
     private static final long serialVersionUID = 1;
     private TopTrumpsMenu t = new TopTrumpsMenu();
     //private Clip clip;
 
-    public Game(String mode, ArrayList<Player> players, int startingPlayers, Deck deck, ArrayList<Card> middlePile, int result){
+    public Game(String mode, ArrayList<Player> players, int startingPlayers, Deck deck, ArrayList<Card> middlePile){
         setGameNumber();
         setMode(mode);
         setPlayers(players);
         setMiddlePile(middlePile);
         setDeck(deck);
-        setResult(result);
+        //setResult(result);
         setStartingPlayers(startingPlayers);
     }
 
-    public ArrayList<Game> getFinishedGames() {
+    public ArrayList<String> getFinishedGames() {
         return finishedGames;
     }
 
-    public void setFinishedGames(ArrayList<Game> finishedGames) {
+    public void setFinishedGames(ArrayList<String> finishedGames) {
         this.finishedGames = finishedGames;
     }
 
@@ -74,12 +74,12 @@ public class Game extends JFrame implements MouseListener, Serializable{
     public void startGame(){
         for(Player p : players){
             if(p.getHand().size()==30 && p.getType().equals("Human")){
-                this.setResult(1);
+                this.setResult("Human");
                 JOptionPane.showMessageDialog(null,"You won! Congratulations!!","You Won!",JOptionPane.INFORMATION_MESSAGE);
                 this.gameOver();
             }
             else if(p.getHand().size()==30 && p.getType().equals("CPU")){
-                this.setResult(2);
+                this.setResult("CPU");
                 this.gameOver();
             }
         }
@@ -173,11 +173,11 @@ public class Game extends JFrame implements MouseListener, Serializable{
         this.deck = deck;
     }
 
-    public int getResult() {
+    public String getResult() {
         return result;
     }
 
-    public void setResult(int result) {
+    public void setResult(String result) {
         this.result = result;
     }
 
@@ -351,7 +351,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
                 if(winner.getType().toLowerCase().equals("human")){
                     output+="You won! Congratulations!!";
                     JOptionPane.showMessageDialog(null,output,"You Won!",JOptionPane.INFORMATION_MESSAGE);
-                    this.setResult(1);
+                    this.setResult("Human");
                     this.gameOver();
                 }
                 this.gameOver();
@@ -359,7 +359,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
         }
         else{
             JOptionPane.showMessageDialog(null,"You have lost all of your cards!","Game Over!",JOptionPane.ERROR_MESSAGE);
-            this.setResult(2);
+            this.setResult("CPU");
             this.gameOver();
         }
     }
@@ -391,7 +391,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
 
     public void gameOver() {
         System.out.println(this.toString());
-        saveGame();
+        this.saveGame();
         System.out.println("\n\nGame data saved successfully");
 
         int playAgain = JOptionPane.showConfirmDialog(null, "Would you like to play again");
@@ -401,28 +401,29 @@ public class Game extends JFrame implements MouseListener, Serializable{
                     "Top Trumps!", "Returning to Main Menu", JOptionPane.PLAIN_MESSAGE);
             System.out.println("\n\n"+getFinishedGames()+"\n\n");
             new TopTrumpsMenu();
-            this.dispose();
+            //this.dispose();
         }
         else {
             JOptionPane.showMessageDialog(null, "Thanks for playing Top Trumps! See you again soon!", "Goodbye", JOptionPane.PLAIN_MESSAGE);
-            this.dispose();
+            //this.dispose();
             System.exit(0);
         }
     }
 
     public void saveGame(){
         try {
-            File outFile = new File("TopTrumpsApp/game_history.data");
+            ObjectOutputStream objectOutStream = new ObjectOutputStream(new FileOutputStream("TopTrumpsApp/game_history.data"));
 
-            FileOutputStream outStream = new FileOutputStream(outFile);
-
-            ObjectOutputStream objectOutStream = new ObjectOutputStream(outStream);
-
-            finishedGames.add(this);
+            finishedGames.add("Game Number: "+ this.getGameNumber()+"  ");
+            finishedGames.add("Mode: "+ this.getMode()+"  ");
+            finishedGames.add("Players: " + this.getStartingPlayers()+"  ");
+            finishedGames.add("Winner: "+ this.getResult());
+            finishedGames.add("\n");
+            this.setFinishedGames(finishedGames);
 
             objectOutStream.writeObject(finishedGames);
 
-            outStream.close();
+            objectOutStream.close();
         }
         catch(FileNotFoundException fnfe){
             System.out.println(fnfe.getStackTrace());
@@ -468,14 +469,14 @@ public class Game extends JFrame implements MouseListener, Serializable{
     public void mouseReleased(MouseEvent e){}
 
     public String toString() {
-        String str="Game ID: "+getGameNumber()+"  Mode: "+getMode()+"  Players: "+getStartingPlayers()+"  Winner: ";
+        String str="Game ID: "+getGameNumber()+"  Mode: "+getMode()+"  Players: "+getStartingPlayers()+"  Winner: "+getResult();
 
-        if(result==1){
+        /*if(result==1){
             str+="Human";
         }
         else if(result==2){
             str+="CPU";
-        }
+        }*/
 
         return str;
     }
