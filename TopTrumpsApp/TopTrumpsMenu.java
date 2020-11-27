@@ -335,29 +335,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
     }
 
     /**
-     * Method for serializing user created or edited Card objects.
-     * This method contains exception-handling code in case of a File error.
-     */
-
-    public void saveCards(){
-        try {
-            ObjectOutputStream objectOutStream = new ObjectOutputStream(new FileOutputStream("TopTrumpsApp/cards.data"));
-            objectOutStream.writeObject(createdCards);
-            objectOutStream.close();
-        }
-        catch(FileNotFoundException fnfe){
-            System.out.println(fnfe.getStackTrace());
-            JOptionPane.showMessageDialog(null,"File could not be found!",
-                    "Problem Finding File!",JOptionPane.ERROR_MESSAGE);
-        }
-        catch(IOException ioe){
-            System.out.println(ioe.getStackTrace());
-            JOptionPane.showMessageDialog(null,"File could not be written!",
-                    "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
      * Method for opening input streams to allow Cards and Game History data to be loaded into the application.
      * This method contains exception-handling code in case of a File error.
      */
@@ -390,6 +367,29 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             cce.printStackTrace();
             JOptionPane.showMessageDialog(null,"Could not convert the object to the appropriate class!","Problem Converting " +
                     "Object!",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Method for serializing user created or edited Card objects.
+     * This method contains exception-handling code in case of a File error.
+     */
+
+    public void saveCards(){
+        try {
+            ObjectOutputStream objectOutStream = new ObjectOutputStream(new FileOutputStream("TopTrumpsApp/cards.data"));
+            objectOutStream.writeObject(createdCards);
+            objectOutStream.close();
+        }
+        catch(FileNotFoundException fnfe){
+            System.out.println(fnfe.getStackTrace());
+            JOptionPane.showMessageDialog(null,"File could not be found!",
+                    "Problem Finding File!",JOptionPane.ERROR_MESSAGE);
+        }
+        catch(IOException ioe){
+            System.out.println(ioe.getStackTrace());
+            JOptionPane.showMessageDialog(null,"File could not be written!",
+                    "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
         }
     }
 
