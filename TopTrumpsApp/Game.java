@@ -320,7 +320,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
         String str="The cards currently in play are:\n\n";
 
         for(int i=0; i<middlePile.size(); i++)
-            str+="Player "+(i+1)+"  Name: "+middlePile.get(i).getName()+" "+call+middlePile.get(i).getValueAtIndex(selectedStat)+"\n";
+            str+="Player "+(i+1)+"  Name: "+middlePile.get(i).getName()+" "+call+": "+middlePile.get(i).getValueAtIndex(selectedStat)+"\n";
 
         JOptionPane.showMessageDialog(null,str,"Cards In Play",JOptionPane.INFORMATION_MESSAGE);
 
@@ -461,8 +461,8 @@ public class Game extends JFrame implements MouseListener, Serializable{
     }
 
     /**
-     * Method called when Game object is deemed to be over. Makes call to saveGame() to save the details of
-     * the Game object before asking the user if they wish to play again or exit.
+     * Method called when Game object is deemed to be over. Makes call to saveGame() to save desired details of
+     * the Game object before asking the user if they wish to play again or exit the application.
      */
 
     public void gameOver() {
@@ -486,6 +486,10 @@ public class Game extends JFrame implements MouseListener, Serializable{
         }
     }
 
+    /**
+     * Method for opening input stream to allow serialization of Game objects
+     */
+
     public void openGame(){
         try{
             ObjectInputStream objectInStream2 = new ObjectInputStream(new FileInputStream("TopTrumpsApp/game_history.data"));
@@ -494,8 +498,8 @@ public class Game extends JFrame implements MouseListener, Serializable{
         }
         catch(FileNotFoundException fnfe){
             fnfe.printStackTrace();
-            JOptionPane.showMessageDialog(null,"You have not created any cards yet!",
-                    "No Created Cards!",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"You have not played any games yet!",
+                    "No Games Played!",JOptionPane.ERROR_MESSAGE);
         }
         catch(IOException ioe){
             ioe.printStackTrace();
@@ -515,7 +519,8 @@ public class Game extends JFrame implements MouseListener, Serializable{
     }
 
     /**
-     * Method for saving the details of a Game object.
+     * Method for serializing a Game object.  Desired information is obtained through use of this reference and accessor methods before being added
+     * to an ArrayList of String values which is then written to a data file.
      */
 
     public void saveGame(){
@@ -578,43 +583,43 @@ public class Game extends JFrame implements MouseListener, Serializable{
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the attack stat?");
 
             if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(1,"Attack: ");
+                processRound(1,"Attack");
         }
         if (button == defenceButton) {
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the defence stat?");
 
             if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(2,"Defence: ");
+                processRound(2,"Defence");
         }
         if (button == heightButton) {
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the height stat?");
 
             if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(3,"Height: ");
+                processRound(3,"Height");
         }
         if (button == capsButton) {
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the caps stat?");
 
             if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(4, "Caps: ");
+                processRound(4, "Caps");
         }
         if (button == goalsButton) {
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the goals stat?");
 
             if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(5, "Goals: ");
+                processRound(5, "Goals");
         }
         if (button == trophiesButton) {
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the trophies stat?");
 
             if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(6,"Trophies: ");
+                processRound(6,"Trophies");
         }
         if (button == ratingButton) {
             int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the rating stat?");
 
             if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(7,"TOP rating: ");
+                processRound(7,"TOP rating");
         }
     }
 
