@@ -1,5 +1,4 @@
 package TopTrumpsApp;
-
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
@@ -98,7 +97,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         this.createExitMenu();
 
         this.imageLabel = new JLabel();
-        this.imageLabel.setIcon(new ImageIcon(this.getClass().getResource("images/logo.png"))); // https://www.seekpng.com/ima/u2y3q8i1w7r5o0w7/
+        this.imageLabel.setIcon(new ImageIcon(this.getClass().getResource("images/logo.png"))); // image sourced from https://www.seekpng.com/ima/u2y3q8i1w7r5o0w7/
 
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
@@ -168,11 +167,13 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
     public boolean hasSpecialCharacter(String string){
         for(int i=0; i<string.length(); i++){
             if(string.charAt(i)=='!'||string.charAt(i)=='?'||string.charAt(i)=='.'||string.charAt(i)=='@'||string.charAt(i)=='&'||string.charAt(i)=='#'||string.charAt(i)=='='
-                    ||string.charAt(i)=='('||string.charAt(i)==')'||string.charAt(i)=='_'||string.charAt(i)=='+'||string.charAt(i)=='"'||string.charAt(i)=='$'||string.charAt(i)=='/'
-                    ||string.charAt(i)=='|'||string.charAt(i)=='\\'||string.charAt(i)=='£'||string.charAt(i)==';'||string.charAt(i)==':'||string.charAt(i)=='~'||string.charAt(i)==','
-                    ||string.charAt(i)=='%'||string.charAt(i)=='`'||string.charAt(i)=='*'||string.charAt(i)=='>'||string.charAt(i)=='<'||string.charAt(i)=='^'
-                    ||string.charAt(i)=='['||string.charAt(i)==']')
+                    ||string.charAt(i)=='('||string.charAt(i)==')'||string.charAt(i)=='_'||string.charAt(i)=='+'||string.charAt(i)=='"'
+                    ||string.charAt(i)=='$'||string.charAt(i)=='/'||string.charAt(i)=='|'||string.charAt(i)=='\\'||string.charAt(i)=='\u00A3'
+                    ||string.charAt(i)==';'||string.charAt(i)==':'||string.charAt(i)=='~'||string.charAt(i)==','||string.charAt(i)=='%'
+                    ||string.charAt(i)=='`'||string.charAt(i)=='*'||string.charAt(i)=='>'||string.charAt(i)=='<'||string.charAt(i)=='^'
+                    ||string.charAt(i)=='['||string.charAt(i)==']'){
                 return false;
+            }
         }
 
         return true;
@@ -256,12 +257,8 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
     }
 
     public void loadHistory(){
-        try{
-            ObjectInputStream objectInStream = new ObjectInputStream(new FileInputStream("TopTrumpsApp/game_history.data"));
-
-            finishedGames  = (ArrayList<String>)objectInStream.readObject();
-
-            String str = "";
+        //try{
+            String str="";
 
             for(String s : finishedGames){
                 str+=s;
@@ -269,8 +266,8 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
             JOptionPane.showMessageDialog(null,str,"Game History",JOptionPane.PLAIN_MESSAGE);
 
-            objectInStream.close();
-        }
+
+        /*}
         catch(FileNotFoundException fnfe){
             fnfe.printStackTrace();
             JOptionPane.showMessageDialog(null,"File could not be found!",
@@ -290,7 +287,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             cce.printStackTrace();
             JOptionPane.showMessageDialog(null,"Could not convert the object to the appropriate class!","Problem Converting " +
                     "Object!",JOptionPane.ERROR_MESSAGE);
-        }
+        }*/
     }
 
     public void saveCards(){
@@ -316,6 +313,9 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             ObjectInputStream objectInStream = new ObjectInputStream(new FileInputStream("TopTrumpsApp/cards.data"));
             createdCards  = (ArrayList)objectInStream.readObject();
             objectInStream.close();
+            ObjectInputStream objectInStream2 = new ObjectInputStream(new FileInputStream("TopTrumpsApp/game_history.data"));
+            finishedGames  = (ArrayList)objectInStream2.readObject();
+            objectInStream2.close();
         }
         catch(FileNotFoundException fnfe){
             fnfe.printStackTrace();

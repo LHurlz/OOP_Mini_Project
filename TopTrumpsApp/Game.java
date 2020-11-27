@@ -60,10 +60,11 @@ public class Game extends JFrame implements MouseListener, Serializable{
         setMiddlePile(middlePile);
         setDeck(deck);
         setStartingPlayers(startingPlayers);
+        this.openGame();
     }
 
     /**
-     * Method to retrieve list of games that have been completed and stored in a date file.
+     * Method to get list of games that have been completed and stored in a date file.
      * @return ArrayList of String values containing information about completed games.
      */
 
@@ -97,7 +98,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
     }*/
 
     /**
-     * Method to start a game of Top Trumps and every subsequent round in which it is the human player's turn in the game.  Method begins with a check to
+     * Method to start a game of Top Trumps and every subsequent round in which it is the human player's turn.  Method begins with a check to
      * determine if the game has been "won" or not before creating a GUI containing the player's top card and adding
      * buttons for stat selection.
      */
@@ -164,7 +165,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
     }
 
     /**
-     * Method to retrieve the mode of a game object
+     * Method to get the mode of a game object
      * @return a String value specifying the selected game mode
      */
 
@@ -182,7 +183,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
     }
 
     /**
-     * Method to retrieve the unique game number of a Game object
+     * Method to get the unique game number of a Game object
      * @return an Integer value specifying the game number
      */
 
@@ -201,7 +202,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
     }
 
     /**
-     * Method to retrieve the players in a Game object
+     * Method to get the players in a Game object
      * @return an ArrayList of Player containing the players involved
      */
 
@@ -219,7 +220,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
     }
 
     /**
-     * Method to retrieve the cards in the middle pile of a Game object
+     * Method to get the cards in the middle pile of a Game object
      * @return an ArrayList of Card inside the middle pile
      */
 
@@ -294,7 +295,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
      * Method for processing a round of Top Trumps.
      * The method begins by evaluating which stat has been selected via a call to getValueAtIndex(int).
      * Once the selected stat has been determined, the human player's selected stat is set as the "highest".
-     * A check is then made to see if any players have 0 cards via a call to isOut(ArrayList<Player>), if a player
+     * A check is then made to see if any players have 0 cards via a call to isOut(), if a player
      * has 0 cards this method will remove them from the game before the round begins.
      * processRound() will then determine the result of the round and distribute the cards "in-play" to the winning
      * player, or leave all cards in the middle pile if the round was drawn.
@@ -485,6 +486,34 @@ public class Game extends JFrame implements MouseListener, Serializable{
         }
     }
 
+    public void openGame(){
+        try{
+            ObjectInputStream objectInStream2 = new ObjectInputStream(new FileInputStream("TopTrumpsApp/game_history.data"));
+            finishedGames  = (ArrayList)objectInStream2.readObject();
+            objectInStream2.close();
+        }
+        catch(FileNotFoundException fnfe){
+            fnfe.printStackTrace();
+            JOptionPane.showMessageDialog(null,"You have not created any cards yet!",
+                    "No Created Cards!",JOptionPane.ERROR_MESSAGE);
+        }
+        catch(IOException ioe){
+            ioe.printStackTrace();
+            JOptionPane.showMessageDialog(null,"File could not be read!",
+                    "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException cnfe) {
+            cnfe.printStackTrace();
+            JOptionPane.showMessageDialog(null,"Could not convert object to the appropriate class!","Problem Converting Object Read " +
+                    "From File!",JOptionPane.ERROR_MESSAGE);
+
+        }
+        catch (ClassCastException cce) {
+            cce.printStackTrace();
+            JOptionPane.showMessageDialog(null,"Could not convert the object to the appropriate class!","Problem Converting " +
+                    "Object!",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     /**
      * Method for saving the details of a Game object.
      */
@@ -498,7 +527,6 @@ public class Game extends JFrame implements MouseListener, Serializable{
             finishedGames.add("Players: " + this.getStartingPlayers()+"  ");
             finishedGames.add("Winner: "+ this.getResult());
             finishedGames.add("\n");
-            this.setFinishedGames(finishedGames);
 
             objectOutStream.writeObject(finishedGames);
 
