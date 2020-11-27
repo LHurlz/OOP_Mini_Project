@@ -1,7 +1,5 @@
 package TopTrumpsApp;
-
 import jdk.nashorn.internal.scripts.JO;
-
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
@@ -11,6 +9,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
 import java.util.ArrayList;
+
+/**
+ * An instantiable class which defines a Game.  This class contains methods that allow games of top trumps to
+ * be played and serialized.
+ * @author Liam Hurley
+ */
 
 public class Game extends JFrame implements MouseListener, Serializable{
     private static int gameID=0;
@@ -37,19 +41,40 @@ public class Game extends JFrame implements MouseListener, Serializable{
     private TopTrumpsMenu t = new TopTrumpsMenu();
     //private Clip clip;
 
+    /**
+     * Game 5-argument constructor.  Calls 5 mutators to initialise the attributes of a Game object with some user supplied values.
+     * The state of the middle pile is determined by the number of players.  It is always set to 0 unless there are 4 total players in
+     * which case 2 cards begin in the middle pile.  The Game Number is set internally via a call to setGameNumber() which increments a
+     * counter.
+     * @param mode the game mode selected by the player
+     * @param players a list of players in the game
+     * @param startingPlayers total amount of players at the beginning of the game
+     * @param deck deck selected by the player
+     * @param middlePile list containing cards in the middle pile at the start of the game
+     */
+
     public Game(String mode, ArrayList<Player> players, int startingPlayers, Deck deck, ArrayList<Card> middlePile){
         setGameNumber();
         setMode(mode);
         setPlayers(players);
         setMiddlePile(middlePile);
         setDeck(deck);
-        //setResult(result);
         setStartingPlayers(startingPlayers);
     }
+
+    /**
+     * Method to retrieve list of games that have been completed and stored in a date file.
+     * @return ArrayList of String values containing information about completed games.
+     */
 
     public ArrayList<String> getFinishedGames() {
         return finishedGames;
     }
+
+    /**
+     * Method to set the list of finished games.
+     * @param finishedGames the list of the finished games.
+     */
 
     public void setFinishedGames(ArrayList<String> finishedGames) {
         this.finishedGames = finishedGames;
@@ -70,6 +95,12 @@ public class Game extends JFrame implements MouseListener, Serializable{
             exc.printStackTrace(System.out);
         }
     }*/
+
+    /**
+     * Method to start a game of Top Trumps and every subsequent round in which it is the human player's turn in the game.  Method begins with a check to
+     * determine if the game has been "won" or not before creating a GUI containing the player's top card and adding
+     * buttons for stat selection.
+     */
 
     public void startGame(){
         for(Player p : players){
@@ -132,112 +163,145 @@ public class Game extends JFrame implements MouseListener, Serializable{
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Method to retrieve the mode of a game object
+     * @return a String value specifying the selected game mode
+     */
+
     public String getMode() {
         return mode;
     }
+
+    /**
+     * Method to set the mode of a game object
+     * @param mode the selected game mode
+     */
 
     public void setMode(String mode) {
         this.mode = mode;
     }
 
+    /**
+     * Method to retrieve the unique game number of a Game object
+     * @return an Integer value specifying the game number
+     */
+
     public int getGameNumber() {
         return gameNumber;
     }
+
+    /**
+     * Method to set the game number of a game object by incrementing a gameID which acts as a count variable
+     * Ensures Game object will have a unique value
+     */
 
     public void setGameNumber() {
         gameID++;
         this.gameNumber = gameID;
     }
 
+    /**
+     * Method to retrieve the players in a Game object
+     * @return an ArrayList of Player containing the players involved
+     */
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
+
+    /**
+     * Method to set the players in a Game object
+     * @param players the players in a Game object
+     */
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
 
+    /**
+     * Method to retrieve the cards in the middle pile of a Game object
+     * @return an ArrayList of Card inside the middle pile
+     */
+
     public ArrayList<Card> getMiddlePile() {
         return middlePile;
     }
+
+    /**
+     * Method to set the middle pile of a Game object
+     * @param middlePile the middle pile of cards of a Game object
+     */
 
     public void setMiddlePile(ArrayList<Card> middlePile) {
         this.middlePile = middlePile;
     }
 
+    /**
+     * Method for retrieving the deck of a Game object
+     * @return a Deck object containing the details of the selected deck
+     */
+
     public Deck getDeck() {
         return deck;
     }
+
+    /**
+     * Method for setting the deck of a Game object
+     * @param deck the Deck object being used in the Game object
+     */
 
     public void setDeck(Deck deck) {
         this.deck = deck;
     }
 
+    /**
+     * Method for retrieving the result of a Game object
+     * @return a String value specifying the result of a Game object
+     */
+
     public String getResult() {
         return result;
     }
+
+    /**
+     * Method for setting the result of a Game object
+     * @param result the result of a Game object
+     */
 
     public void setResult(String result) {
         this.result = result;
     }
 
+    /**
+     * Method for retrieving the amount of players at the beginning of a new Game object
+     * @return an Integer value specifying the amount of starting players
+     */
+
     public int getStartingPlayers() {
         return startingPlayers;
     }
+
+    /**
+     * Method for setting the amount of starting players of a Game object
+     * @param startingPlayers the amount of starting players
+     */
 
     public void setStartingPlayers(int startingPlayers) {
         this.startingPlayers = startingPlayers;
     }
 
-    public void mouseClicked(MouseEvent e) {
-        JButton button = (JButton) e.getSource();
-        button.setOpaque(false);
-        button.setBackground(selectedColor);
-        panel.repaint();
-
-        if (button == attackButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the attack stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(1,"Attack: ");
-        }
-        if (button == defenceButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the defence stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(2,"Defence: ");
-        }
-        if (button == heightButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the height stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(3,"Height: ");
-        }
-        if (button == capsButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the caps stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(4, "Caps: ");
-        }
-        if (button == goalsButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the goals stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(5, "Goals: ");
-        }
-        if (button == trophiesButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the trophies stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(6,"Trophies: ");
-        }
-        if (button == ratingButton) {
-            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the rating stat?");
-
-            if (confirmCall == JOptionPane.YES_OPTION)
-                processRound(7,"TOP rating: ");
-        }
-    }
+    /**
+     * Method for processing a round of Top Trumps.
+     * The method begins by evaluating which stat has been selected via a call to getValueAtIndex(int).
+     * Once the selected stat has been determined, the human player's selected stat is set as the "highest".
+     * A check is then made to see if any players have 0 cards via a call to isOut(ArrayList<Player>), if a player
+     * has 0 cards this method will remove them from the game before the round begins.
+     * processRound() will then determine the result of the round and distribute the cards "in-play" to the winning
+     * player, or leave all cards in the middle pile if the round was drawn.
+     * Finally checks are made to see if any players are out or if the game is over.
+     * @param selectedStat the index value of the selected stat
+     * @param call the name of "called" stat
+     */
 
     public void processRound(int selectedStat, String call){
         int highest = players.get(0).getHand().get(0).getValueAtIndex(selectedStat);
@@ -364,6 +428,12 @@ public class Game extends JFrame implements MouseListener, Serializable{
         }
     }
 
+    /**
+     * Method for starting a round of Top Trumps where it is the CPU's turn to select a stat
+     * Random number between 1 and 7 inclusive generated to be used as an index value and passed through to processRound()
+     * along with corresponding name of index value
+     */
+
     public void startCPURound(){
         this.imageLabel.setIcon(new ImageIcon(players.get(0).getHand().get(0).getIcon().toString()));
         int randomNumber = (int)(Math.random()*((7-1)+1))+1;
@@ -389,6 +459,11 @@ public class Game extends JFrame implements MouseListener, Serializable{
         processRound(randomNumber,call);
     }
 
+    /**
+     * Method called when Game object is deemed to be over. Makes call to saveGame() to save the details of
+     * the Game object before asking the user if they wish to play again or exit.
+     */
+
     public void gameOver() {
         System.out.println(this.toString());
         this.saveGame();
@@ -409,6 +484,10 @@ public class Game extends JFrame implements MouseListener, Serializable{
             System.exit(0);
         }
     }
+
+    /**
+     * Method for saving the details of a Game object.
+     */
 
     public void saveGame(){
         try {
@@ -437,6 +516,14 @@ public class Game extends JFrame implements MouseListener, Serializable{
         }
     }
 
+    /**
+     * Method for determining whether or not a player is "out" of a Game object
+     * For loop used to check if any current players have 0 cards, if so they are then removed from the ArrayList of Players
+     * that was initially passed into the method.
+     * @param players the players currently partaking in the Game object
+     * @return an ArrayList of Player containing only players who still have 1 or more cards in their hand.
+     */
+
     public ArrayList<Player> isOut(ArrayList<Player> players){
         for(int i=0; i<players.size(); i++){
             if(players.get(i).getHand().size()==0){
@@ -446,6 +533,71 @@ public class Game extends JFrame implements MouseListener, Serializable{
         return players;
     }
 
+    /**
+     * Method for handling mouseClicked events.  The button clicked is determined through the use of .getSource() and the
+     * player is asked for confirmation before "calling" their chosen attribute.
+     * Once confirmed, a call to processRound(int,String) is made containing the index value and name of the selected stat.
+     * @param e a mouseClicked event
+     */
+
+    public void mouseClicked(MouseEvent e) {
+        JButton button = (JButton) e.getSource();
+        button.setOpaque(false);
+        button.setBackground(selectedColor);
+        panel.repaint();
+
+        if (button == attackButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the attack stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(1,"Attack: ");
+        }
+        if (button == defenceButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the defence stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(2,"Defence: ");
+        }
+        if (button == heightButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the height stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(3,"Height: ");
+        }
+        if (button == capsButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the caps stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(4, "Caps: ");
+        }
+        if (button == goalsButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the goals stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(5, "Goals: ");
+        }
+        if (button == trophiesButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the trophies stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(6,"Trophies: ");
+        }
+        if (button == ratingButton) {
+            int confirmCall = JOptionPane.showConfirmDialog(null, "Do you wish to \"call\" the rating stat?");
+
+            if (confirmCall == JOptionPane.YES_OPTION)
+                processRound(7,"TOP rating: ");
+        }
+    }
+
+    /**
+     * Method for handling mouseEntered events.
+     * setOpaque(true) used to make a button "see-through" when hovered over and allows the player to see
+     * which stat they may be about to select.
+     * panel.repaint() used to prevent painting issues.
+     * @param e a mouseEntered event
+     */
+
     public void mouseEntered(MouseEvent e) {
         JButton button = (JButton)e.getSource();
         button.setOpaque(true);
@@ -453,11 +605,23 @@ public class Game extends JFrame implements MouseListener, Serializable{
         panel.repaint();
     }
 
+    /**
+     * Method for handling mouseExited events.
+     * setOpaque(false) essentially makes button invisible so that stat values beneath may be seen.
+     * panel.repaint() used to prevent painting issues.
+     * @param e a mouseExited event
+     */
+
     public void mouseExited(MouseEvent e) {
         JButton button = (JButton)e.getSource();
         button.setOpaque(false);
         panel.repaint();
     }
+
+    /**
+     * Method for handling mousePressed events.
+     * @param e a mousePressed event
+     */
 
     public void mousePressed(MouseEvent e){
         JButton button = (JButton)e.getSource();
@@ -466,17 +630,20 @@ public class Game extends JFrame implements MouseListener, Serializable{
         button.setBackground(selectedColor);
     }
 
+    /**
+     * Method for handling mouseReleased events
+     * @param e a mouseReleased event
+     */
+
     public void mouseReleased(MouseEvent e){}
+
+    /**
+     * Method to get the state of a Game object
+     * @return a String value specifying the state of a Game object
+     */
 
     public String toString() {
         String str="Game ID: "+getGameNumber()+"  Mode: "+getMode()+"  Players: "+getStartingPlayers()+"  Winner: "+getResult();
-
-        /*if(result==1){
-            str+="Human";
-        }
-        else if(result==2){
-            str+="CPU";
-        }*/
 
         return str;
     }
