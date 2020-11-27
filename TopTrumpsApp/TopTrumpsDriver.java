@@ -1,6 +1,11 @@
 package TopTrumpsApp;
 
-public class TopTrumpsDriver {
+/**
+ * Abstract class used solely for launching the app.
+ * @author Liam Hurley
+ */
+
+public abstract class TopTrumpsDriver {
     public TopTrumpsDriver(){
     }
 

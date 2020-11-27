@@ -27,13 +27,12 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
     private JTextArea textarea;
     private Game g;
     private Card c;
-    private ArrayList<String> finishedGames;
+    private ArrayList<String> finishedGames = new ArrayList<>();
     private static final long serialVersionUID = 1;
     private ArrayList<Card> createdCards=new ArrayList<>();
     //private Clip clip;
 
     // card images sourced from https://cartophilic-info-exch.blogspot.com/2016/10/top-trumps-world-football-stars-2015.html?m=1 //
-
     private Card courtois = new Card("Thibaut Courtois", 4, 99, 199, 31, 0, 6, 84, new ImageIcon("TopTrumpsApp/images/courtois.png"));
     private Card neuer = new Card("Manuel Neuer", 5, 100, 193, 57, 0, 12, 97, new ImageIcon("TopTrumpsApp/images/neuer.png"));
     private Card kompany = new Card("Vincent Kompany", 60, 94, 193, 66, 4, 7, 73, new ImageIcon("TopTrumpsApp/images/kompany.png"));
@@ -502,7 +501,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
             JOptionPane.showMessageDialog(null,textArea,"Cards Found",JOptionPane.PLAIN_MESSAGE);
 
-            /*int choice = Integer.parseInt(JOptionPane.showInputDialog("Cards that matched your query:\n\n"+related+"\n\nEnter the ID of the card you wish" +
+            int choice = Integer.parseInt(JOptionPane.showInputDialog("Enter the ID of the card you wish" +
                     " to remove"));
 
             for(Card c : matchingCards){
@@ -516,7 +515,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
                    JOptionPane.showMessageDialog(null,c.getName() + " successfully removed!","Player Removed",JOptionPane.INFORMATION_MESSAGE);
                 }
-            }*/
+            }
         }
 
         if(menuName.equals("View Cards")){
@@ -537,7 +536,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                             c.getCaps(),c.getGoals(),c.getTrophies(),c.getRating()));
                 }
 
-                JOptionPane.showMessageDialog(null,textArea,"Cards",JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null,textArea,"Created Cards",JOptionPane.PLAIN_MESSAGE);
 
                 objectInStream.close();
             }
