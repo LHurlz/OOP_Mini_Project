@@ -13,6 +13,12 @@ import java.util.Collections;
 import java.util.LinkedList;
 import javax.sound.sampled.*;
 
+/**
+ * Instantiable class which defines a TopTrumpsMenu. This class implements the ActionListener interface to button clicking events
+ * as well as JMenu selection events.
+ * @author Liam Hurley
+ */
+
 public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable {
     private JButton playButton;
     private JButton historyButton;
@@ -26,11 +32,14 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
     private ArrayList<Card> middlePile = new ArrayList<>();
     private JTextArea textarea;
     private Game g;
-    private Card c;
     private ArrayList<String> finishedGames = new ArrayList<>();
     private static final long serialVersionUID = 1;
     private ArrayList<Card> createdCards=new ArrayList<>();
     //private Clip clip;
+
+    /**
+     * Creating the 30 cards to be used in games of Top Trumps.
+     */
 
     // card images sourced from https://cartophilic-info-exch.blogspot.com/2016/10/top-trumps-world-football-stars-2015.html?m=1 //
     private Card courtois = new Card("Thibaut Courtois", 4, 99, 199, 31, 0, 6, 84, new ImageIcon("TopTrumpsApp/images/courtois.png"));
@@ -68,6 +77,10 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             , gervinho, hazard, ibrahimovic, messi, neymar, rooney, aguero, bale, oscar, robben, muller, modric, ramos, lahm, rojo, vanPersie, costa));
     private Deck worldStars2015 = new Deck("World Football Stars 2015", allCards);
     private ArrayList<Deck> allDecks = new ArrayList<>(Arrays.asList(worldStars2015));
+
+    /**
+     * TopTrumpsMenu no-argument constructor. Sets some default values for the Menu as well as creating JButtons and JMenus.
+     */
 
     public TopTrumpsMenu() {
         /*try                                             // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
@@ -124,6 +137,10 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Method for creating the "Cards" JMenu.
+     */
+
     public void createCardsMenu(){
         JMenuItem item;
         this.cardsMenu = new JMenu("Cards");
@@ -145,6 +162,10 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         this.cardsMenu.add(item);
     }
 
+    /**
+     * Method for creating the "Help" JMenu.
+     */
+
     public void createHelpMenu(){
         JMenuItem item;
         this.helpMenu = new JMenu("Help");
@@ -153,6 +174,10 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         item.addActionListener(this);
         this.helpMenu.add(item);
     }
+
+    /**
+     * Method for creating the "Quit" JMenu.
+     */
 
     public void createExitMenu() {
         JMenuItem item;
@@ -163,7 +188,13 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         this.exitMenu.add(item);
     }
 
-    public boolean hasSpecialCharacter(String string){
+    /**
+     * Method for checking whether or not a String value contains "special" characters
+     * @param string the String value to be checked
+     * @return a boolean value specifying whether or not the String in question contains a special character.
+     */
+
+    public boolean hasNoSpecialCharacter(String string){
         for(int i=0; i<string.length(); i++){
             if(string.charAt(i)=='!'||string.charAt(i)=='?'||string.charAt(i)=='.'||string.charAt(i)=='@'||string.charAt(i)=='&'||string.charAt(i)=='#'||string.charAt(i)=='='
                     ||string.charAt(i)=='('||string.charAt(i)==')'||string.charAt(i)=='_'||string.charAt(i)=='+'||string.charAt(i)=='"'
@@ -178,7 +209,13 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         return true;
     }
 
-    public boolean hasDigit(String string){
+    /**
+     * Method for checking whether or not a String value contains a digit.
+     * @param string the String value to be checked
+     * @return a boolean value specifying whether or not the String contains a digit.
+     */
+
+    public boolean hasNoDigit(String string){
         for(int i=0; i<string.length(); i++){
             if(Character.isDigit(string.charAt(i)))
                 return false;
@@ -186,6 +223,12 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
         return true;
     }
+
+    /**
+     * Method to determine if certain user-supplied stats are valid and able to be assigned to a Card.
+     * @param stat the stat value to be assessed
+     * @return a boolean value specifying if the stat is valid.
+     */
 
     public boolean isValidStat(String stat){
         if(stat.equals(""))
@@ -204,6 +247,12 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         return true;
     }
 
+    /**
+     * Method to determine if a user-supplied Height stat value is valid and able to be assigned to a Card
+     * @param stat the Height value to be assessed
+     * @return a boolean value specifying if the stat is valid.
+     */
+
     public boolean isValidStatHeight(String stat){
         if(stat.equals(""))
             return false;
@@ -220,6 +269,12 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
         return true;
     }
+
+    /**
+     * Method to determine if a user-supplied Caps stat value is valid and able to be assigned to a Card
+     * @param stat the Caps value to be assessed
+     * @return a boolean value specifying if the stat is valid.
+     */
 
     public boolean isValidStatCaps(String stat){
         if(stat.equals(""))
@@ -238,6 +293,12 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         return true;
     }
 
+    /**
+     * Method to determine if a user-supplied Trophies stat value is valid and able to be assigned to a Card
+     * @param stat the Trophies value to be assessed
+     * @return a boolean value specifying if the stat is valid.
+     */
+
     public boolean isValidStatTrophies(String stat){
         if(stat.equals(""))
             return false;
@@ -255,6 +316,10 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         return true;
     }
 
+    /**
+     * Method to extract game details from a deserialized ArrayList of String values.
+     */
+
     public void loadHistory(){
         String str="";
 
@@ -268,6 +333,11 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
         JOptionPane.showMessageDialog(null,str,"Game History",JOptionPane.PLAIN_MESSAGE);
     }
+
+    /**
+     * Method for serializing user created or edited Card objects.
+     * This method contains exception-handling code in case of a File error.
+     */
 
     public void saveCards(){
         try {
@@ -286,6 +356,11 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                     "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    /**
+     * Method for opening input streams to allow Cards and Game History data to be loaded into the application.
+     * This method contains exception-handling code in case of a File error.
+     */
 
     private void open(){
         try{
@@ -317,6 +392,11 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                     "Object!",JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    /**
+     * Method for handling button click events. This method handles ActionEvents for all JMenu items and buttons featured on the menu.
+     * @param e an ActionEvent.
+     */
 
     public void actionPerformed(ActionEvent e) {
         String menuName = e.getActionCommand();
@@ -355,16 +435,16 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             String related="";
 
 
-            while(!hasDigit(name) || !hasSpecialCharacter(name) || name.equals("")){
+            while(!hasNoDigit(name) || !hasNoSpecialCharacter(name) || name.equals("")){
                 name = JOptionPane.showInputDialog("Invalid entry!!\n\nPlease enter the name or part of the name of the card you wish to edit");
             }
 
-            for(Card c : createdCards){
+            for(Card c : createdCards){      //Adding cards which matched the searched name to a new ArrayList of Cards called matchingCards
                 if(c.getName().toLowerCase().contains(name))
                     matchingCards.add(c);
             }
 
-            for(Card c : matchingCards){
+            for(Card c : matchingCards){    //Adding matching cards to String to be displayed in InputDialog
                 if(c!=null){
                     related+=c.toString()+"\n";
                 }
@@ -373,7 +453,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             String choiceStr = JOptionPane.showInputDialog("Cards that matched your query:\n\n"+related+"\n\nEnter the ID of the card you wish" +
                     " to edit");
 
-            while(hasDigit(choiceStr) || !hasSpecialCharacter(choiceStr) || choiceStr.equals(""))
+            while(hasNoDigit(choiceStr) || !hasNoSpecialCharacter(choiceStr) || choiceStr.equals(""))
             {
                 choiceStr = JOptionPane.showInputDialog("Invalid Entry!!!\n\nCards that matched your query:\n\n"+related+"\n\nEnter the ID of the card you wish" +
                         " to edit");
@@ -480,28 +560,18 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         if(menuName.equals("Remove Cards")){
             ArrayList<Card> matchingCards = new ArrayList<>();
             String name = JOptionPane.showInputDialog("Please enter the name of the card you wish to remove");
-            //String related="";
+            String related="";
 
             for(Card c : createdCards){
                 if(c.getName().toLowerCase().contains(name))
                     matchingCards.add(c);
             }
 
-            JTextArea textArea=new JTextArea();
-            Font font = new Font("Monospaced",Font.PLAIN,12);
-            textArea.setFont(font);
-            textArea.append(String.format("%-5s%-30s%-10s%-10s%-10s%-10s%-10s%-10s%-10s","ID","Name","Attack","Defence","Height","Caps","Goals","Trophies","TOP Rating"));
-            textArea.append(String.format("\n"+"%-5s%-30s%-10s%-10s%-10s%-10s%-10s%-10s%-10s","----","------------","--------","--------","--------",
-                    "--------","--------","--------","--------"+"\n"));
-
             for(Card c : matchingCards){
-                textArea.append(String.format("\n"+"%-5s%-30s%-10s%-10s%-10s%-10s%-10s%-10s%-10s",c.getCardNumber(),c.getName(),c.getAttack(),c.getDefence(),c.getHeight(),
-                        c.getCaps(),c.getGoals(),c.getTrophies(),c.getRating()));
+                related+="ID: "+c.getCardNumber()+"    Name: "+c.getName()+"\n";
             }
 
-            JOptionPane.showMessageDialog(null,textArea,"Cards Found",JOptionPane.PLAIN_MESSAGE);
-
-            int choice = Integer.parseInt(JOptionPane.showInputDialog("Enter the ID of the card you wish" +
+            int choice = Integer.parseInt(JOptionPane.showInputDialog("Cards that matched your search:\n\n"+related+"\n\nEnter the ID of the card you wish" +
                     " to remove"));
 
             for(Card c : matchingCards){
@@ -563,6 +633,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         }
 
         if(menuName.equals("Add Card")){
+            this.open();
             int spaceCounter=0;
             boolean lastCharSpace=false;
 
@@ -577,10 +648,10 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                 }
             }
 
-            while(!hasDigit(name) || !hasSpecialCharacter(name) || spaceCounter>2 || name.equals("") || lastCharSpace){
-                if(!hasDigit(name))
+            while(!hasNoDigit(name) || !hasNoSpecialCharacter(name) || spaceCounter>2 || name.equals("") || lastCharSpace){
+                if(!hasNoDigit(name))
                     name=JOptionPane.showInputDialog("Player Name invalid! May not contain numbers!\n\nPlease try again:");
-                if(!hasSpecialCharacter(name))
+                if(!hasNoSpecialCharacter(name))
                     name=JOptionPane.showInputDialog("Player Name invalid! May not contain special characters!\n\nPlease try again:");
                 if(spaceCounter>3)
                     name=JOptionPane.showInputDialog("Player Name invalid! May not contain more than 3 spaces!\n\nPlease try again:");
@@ -635,8 +706,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             }
             int rating=Integer.parseInt(ratingStr);
 
-            c=new Card(name,attack,defence,height,caps,goals,trophies,rating);
-            createdCards.add(c);
+            createdCards.add(new Card(name,attack,defence,height,caps,goals,trophies,rating));
             saveCards();
 
             JOptionPane.showMessageDialog(null,name+" successfully created! Check the \"View Cards\" tab for confirmation!","Success!",JOptionPane.INFORMATION_MESSAGE);
@@ -684,10 +754,10 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                     }
                 }
 
-                String deckList = "";
+                String deckList = "Available Decks:\n\n";
 
                 for (int i = 0; i < allDecks.size(); i++) {
-                    deckList += "ID: " + allDecks.get(i).getDeckNumber() + "\t\tName: " + allDecks.get(i).getName();
+                    deckList += "ID: " + allDecks.get(i).getDeckNumber() + "  Name: " + allDecks.get(i).getName()+"\n";
                 }
 
                 String chooseDeck = JOptionPane.showInputDialog(deckList + "\n\nEnter the ID number of the deck you wish to use");
@@ -727,7 +797,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
                 JOptionPane.showMessageDialog(null,str);
 
-                g = (new Game(modeString,playersDealtTo,cpuPlayers + 1,allDecks.get(chosenDeck-1),middlePile));
+                g = new Game(modeString,playersDealtTo,cpuPlayers + 1,allDecks.get(chosenDeck-1),middlePile);
                 games.add(g);
                 g.startGame();
 

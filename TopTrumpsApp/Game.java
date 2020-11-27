@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  * An instantiable class which defines a Game.  This class contains methods that allow games of top trumps to
- * be played and serialized.
+ * be played and serialized.  It also implements the MouseListener interface to handle MouseEvents on JButtons.
  * @author Liam Hurley
  */
 
