@@ -94,6 +94,24 @@ public class Card implements Serializable {
     }
 
     /**
+     * JB - Method to get the static Card ID of all Card objects
+     * @return an Integer value specifying the static ID of all Card objects
+     */
+
+    public static int getCardID() {
+        return cardID;
+    }
+
+    /**
+     * JB - Method to set the static ID value of all Card objects - needed to allow values to be
+     * read/written from/to file successfully
+     */
+
+    public static void setCardID(int cardID) {
+        Card.cardID = cardID;
+    }
+
+    /**
      * Method to get the name of a Card object
      * @return a String value specifying the name of a Card object
      */

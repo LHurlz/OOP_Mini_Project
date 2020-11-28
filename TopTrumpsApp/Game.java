@@ -38,7 +38,6 @@ public class Game extends JFrame implements MouseListener, Serializable{
     private int startingPlayers;
     private ArrayList<String> finishedGames=new ArrayList<>();
     private static final long serialVersionUID = 1;
-    private TopTrumpsMenu t = new TopTrumpsMenu();
     //private Clip clip;
 
     /**
@@ -64,7 +63,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
     }
 
     /**
-     * Method to get list of games that have been completed and stored in a date file.
+     * Method to get list of games that have been completed and stored in a data file.
      * @return ArrayList of String values containing information about completed games.
      */
 
@@ -199,6 +198,24 @@ public class Game extends JFrame implements MouseListener, Serializable{
     public void setGameNumber() {
         gameID++;
         this.gameNumber = gameID;
+    }
+
+    /**
+     * JB - Method to get the static game ID of all Game objects
+     * @return an Integer value specifying the static game ID value
+     */
+
+    public static int getGameID() {
+        return gameID;
+    }
+
+    /**
+     * JB - Method to set the static game ID of all Game objects, needed to allow values to be
+     * read/written from/to file successfully
+     */
+
+    public static void setGameID(int gameID) {
+        Game.gameID = gameID;
     }
 
     /**

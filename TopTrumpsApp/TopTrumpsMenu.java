@@ -343,15 +343,46 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         try{
             ObjectInputStream objectInStream = new ObjectInputStream(new FileInputStream("TopTrumpsApp/cards.data"));
             createdCards  = (ArrayList)objectInStream.readObject();
+
+            /*************************************************************
+             *    Code from lecturer
+             *    Title:   TopTrumpsMenu.java lines 384-385, 395-396, 406
+             *             Game.java lines 200-216
+             *             Card.java lines 96-112
+             *    Author: John Brosnan
+             *    Site owner/sponsor:  NA
+             *    Date: 28/11/2020
+             *    Code version:  NA
+             *    Availability:  NA
+
+             *    Modified:  Additional logic and supporting methods added
+             *               to fix logical problem
+             *************************************************************/
+
+            //JB - get the last card number used for cards in the file and reset card ID to this value
+            int latestCardID = createdCards.get(createdCards.size()-1).getCardNumber();
+            Card.setCardID(latestCardID);
+
             objectInStream.close();
             ObjectInputStream objectInStream2 = new ObjectInputStream(new FileInputStream("TopTrumpsApp/game_history.data"));
             finishedGames  = (ArrayList)objectInStream2.readObject();
+
+            //JB - get the last game number used for games in the file and reset game ID to this value
+            String lastStringInFile = finishedGames.get(finishedGames.size()-5);
+            //System.out.println(lastStringInFile);
+            //System.out.println(lastStringInFile.substring(lastStringInFile.length()-3));
+            int latestGameID = Integer.parseInt(lastStringInFile.substring(lastStringInFile.length()-3).trim());
+            Game.setGameID(latestGameID);
+
             objectInStream2.close();
         }
         catch(FileNotFoundException fnfe){
             fnfe.printStackTrace();
             JOptionPane.showMessageDialog(null,"You have not created any cards yet!",
                     "No Created Cards!",JOptionPane.ERROR_MESSAGE);
+
+            //JB - if the file hasn't yet been created hard-code game ID to zero
+            Game.setGameID(0);
         }
         catch(IOException ioe){
             ioe.printStackTrace();
