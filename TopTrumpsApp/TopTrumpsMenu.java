@@ -77,6 +77,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
     /**
      * TopTrumpsMenu no-argument constructor. Sets some default values for the Menu as well as creating JButtons and JMenus.
+     * First action is to initialise a Clip and provide the Menu with music. Contains exception-handling code.
      */
 
     public TopTrumpsMenu() {
