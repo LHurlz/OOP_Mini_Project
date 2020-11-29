@@ -460,17 +460,26 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             String name = JOptionPane.showInputDialog("Please enter the name or part of the name of the card you wish to edit");
             String related="";
 
-
-            while(!hasNoDigit(name) || !hasNoSpecialCharacter(name) || name.equals("")){
-                name = JOptionPane.showInputDialog("Invalid entry!!\n\nPlease enter the name or part of the name of the card you wish to edit");
+            while(!hasNoDigit(name) || !hasNoSpecialCharacter(name) ||name.equals("")){
+                name = JOptionPane.showInputDialog("Name must not be blank, contain special characters or contain digits.\n\nPlease try again");
             }
+            String validName=name;
 
-            for(Card c : createdCards){      //Adding cards which matched the searched name to a new ArrayList of Cards called matchingCards
-                if(c.getName().toLowerCase().contains(name))
+            for(Card c : createdCards){
+                if(c.getName().toLowerCase().contains(validName)){
                     matchingCards.add(c);
+                }
             }
 
-            for(Card c : matchingCards){    //Adding matching cards to String to be displayed in InputDialog
+            if(matchingCards.size()==0){
+                JOptionPane.showMessageDialog(null,"No cards matched your query, returning to main menu.");
+                clip.stop();
+                clip.close();
+                new TopTrumpsMenu();
+                this.dispose();
+            }
+
+            for(Card c : matchingCards){
                 if(c!=null){
                     related+=c.toString()+"\n";
                 }
@@ -495,7 +504,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                     while(statSelect!=1 && statSelect!=2&&statSelect!=3 &&statSelect!=4 &&statSelect!=5 &&statSelect!=6 &&statSelect!=7){
                         statSelect = Integer.parseInt(JOptionPane.showInputDialog("The details of the card you wish to edit are:\n\n"+c.toString()+
                                 "\n1 - Edit Attack\n2 - Edit Defence\n3 - Edit Height\n4 - Edit Caps\n5 - Edit Goals\n6 - Edit Trophies\n7 - Edit Rating" +
-                                "\n\nInvalid entry, select a number between 1 and 7 inclusive"));
+                                "\n\nInvalid entry, enter a number between 1 and 7 inclusive!"));
                     }
 
                     if(statSelect==1){
@@ -579,6 +588,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                         c.setRating(newStat);
                         JOptionPane.showMessageDialog(null,"Overall TOP rating for "+c.getName()+" successfully changed from "+oldStat+" to "+c.getRating());
                     }
+                    saveCards();
                 }
             }
         }
@@ -587,12 +597,25 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             ArrayList<Card> matchingCards = new ArrayList<>();
             String name = JOptionPane.showInputDialog("Please enter the name or part of a name of the Card you wish to remove");
             String related="";
+            int hits=0;
+
+            while(!hasNoDigit(name) || !hasNoSpecialCharacter(name) ||name.equals("")){
+                name = JOptionPane.showInputDialog("Name must not be blank, contain special characters or contain digits.\n\nPlease try again");
+            }
+            String validName=name;
 
             for(Card c : createdCards){
-                while(!c.getName().toLowerCase().contains(name)){
-                    name = JOptionPane.showInputDialog("Your search returned no matches.\n\nPlease try again");
+                if(c.getName().toLowerCase().contains(validName)){
+                    matchingCards.add(c);
                 }
-                matchingCards.add(c);
+            }
+
+            if(matchingCards.size()==0){
+                JOptionPane.showMessageDialog(null,"No cards matched your query, returning to main menu.");
+                clip.stop();
+                clip.close();
+                new TopTrumpsMenu();
+                this.dispose();
             }
 
             for(Card c : matchingCards){
@@ -610,6 +633,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
             for(Card c : matchingCards){
                 if(c.getCardNumber()==choice){
+                   hits++;
                    int confirm = JOptionPane.showConfirmDialog(null,"Are you sure you want to remove "+c.getName()+ " from Top Trumps?");
 
                    if(confirm==JOptionPane.YES_OPTION){
@@ -617,6 +641,13 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                        saveCards();
                        JOptionPane.showMessageDialog(null,c.getName() + " successfully removed!","Player Removed",JOptionPane.INFORMATION_MESSAGE);
                    }
+                }
+                if(hits==0){
+                    JOptionPane.showMessageDialog(null,"No cards matched your query, returning to main menu.");
+                    clip.stop();
+                    clip.close();
+                    new TopTrumpsMenu();
+                    this.dispose();
                 }
             }
         }
