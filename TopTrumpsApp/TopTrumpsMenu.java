@@ -32,7 +32,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
     private ArrayList<String> finishedGames = new ArrayList<>();
     private static final long serialVersionUID = 1;
     private ArrayList<Card> createdCards=new ArrayList<>();
-    //private Clip clip;
+    private Clip clip;
 
     /**
      * Creating the 30 cards to be used in games of Top Trumps.
@@ -80,10 +80,10 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
      */
 
     public TopTrumpsMenu() {
-        /*try                                             // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
+        try                                    // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
             {
                 clip = AudioSystem.getClip();
-                clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/gametheme.wav")));  // music from https://www.youtube.com/watch?v=_8DN1vbnjMk
+                clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/motd.wav")));  // music from https://www.youtube.com/watch?v=V1VscTjwlco
                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
                 gainControl.setValue(-30.0f);       // learned from https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java //
                 clip.start();
@@ -92,7 +92,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
         catch (Exception exc)
             {
                 exc.printStackTrace(System.out);
-            }*/
+            }
 
         this.setTitle("Welcome to Top Trumps");
         this.setSize(750, 750);
@@ -828,6 +828,9 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                 str+="\n\nGet ready to play Top Trumps!!";
 
                 JOptionPane.showMessageDialog(null,str);
+
+                clip.stop();
+                clip.close();
 
                 g = new Game(modeString,playersDealtTo,cpuPlayers + 1,allDecks.get(chosenDeck-1),middlePile);
                 games.add(g);

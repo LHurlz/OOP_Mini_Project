@@ -38,7 +38,8 @@ public class Game extends JFrame implements MouseListener, Serializable{
     private int startingPlayers;
     private ArrayList<String> finishedGames=new ArrayList<>();
     private static final long serialVersionUID = 1;
-    //private Clip clip;
+    private Clip whistleClip;
+    private Clip themeClip;
 
     /**
      * Game 5-argument constructor.  Calls 5 mutators to initialise the attributes of a Game object with some user supplied values.
@@ -60,6 +61,8 @@ public class Game extends JFrame implements MouseListener, Serializable{
         setDeck(deck);
         setStartingPlayers(startingPlayers);
         this.openGame();
+        this.playWhistleClip();
+        this.playThemeClip();
     }
 
     /**
@@ -80,21 +83,46 @@ public class Game extends JFrame implements MouseListener, Serializable{
         this.finishedGames = finishedGames;
     }
 
-    /*public void playClip(){
+    /**
+     * Method to play an audio clip signalling the beginning of a Game.
+     * Contains exception-handling code.
+     */
+
+    public void playWhistleClip(){
         try
         {
-            clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/whistle.wav"))); // audio sourced from https://www.youtube.com/watch?v=CgTc_-A_Gzw
-            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-20.0f);       //   setting volume -20dB than default   //
-            clip.setFramePosition(50000);       //    setting frame position of clip due to silence in first 1-2 seconds of file  //
-            clip.start();
+            whistleClip = AudioSystem.getClip();
+            whistleClip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/whistle.wav"))); // audio sourced from https://www.youtube.com/watch?v=CgTc_-A_Gzw
+            FloatControl gainControl = (FloatControl) whistleClip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-25.0f);       //   setting volume 25dB lower than default   //
+            whistleClip.setFramePosition(50000);       //    setting frame position of clip due to silence in first 1-2 seconds of file  //
+            whistleClip.start();
         }
         catch (Exception exc)
         {
             exc.printStackTrace(System.out);
         }
-    }*/
+    }
+
+    /**
+     * Method to play an audio clip that will provide background music for the Game.
+     * Contains exception-handling code.
+     */
+
+    public void playThemeClip(){
+        try
+        {
+            themeClip = AudioSystem.getClip();
+            themeClip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/gametheme.wav"))); // audio sourced from https://www.youtube.com/watch?v=_8DN1vbnjMk
+            FloatControl gainControl = (FloatControl) themeClip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-25.0f);       //   setting volume 25dB lower than default   //
+            themeClip.start();
+        }
+        catch (Exception exc)
+        {
+            exc.printStackTrace(System.out);
+        }
+    }
 
     /**
      * Method to start a game of Top Trumps and every subsequent round in which it is the human player's turn.  Method begins with a check to
@@ -134,7 +162,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
         this.goalsButton=new JButton();
         this.goalsButton.setBounds(303,389,83,15);
         this.trophiesButton=new JButton();
-        this.trophiesButton.setBounds(303,407,83,15);
+        this.trophiesButton.setBounds(303,406,83,15);
         this.ratingButton=new JButton();
         this.ratingButton.setBounds(303,423,83,15);
         this.attackButton=new JButton();
@@ -492,11 +520,15 @@ public class Game extends JFrame implements MouseListener, Serializable{
             JOptionPane.showMessageDialog(null, "Now returning to the main menu so you can set up a new game of " +
                     "Top Trumps!", "Returning to Main Menu", JOptionPane.PLAIN_MESSAGE);
             System.out.println("\n\n"+getFinishedGames()+"\n\n");
+            whistleClip.close();
+            themeClip.close();
             new TopTrumpsMenu();
             this.dispose();
         }
         else {
             JOptionPane.showMessageDialog(null, "Thanks for playing Top Trumps! See you again soon!", "Goodbye", JOptionPane.PLAIN_MESSAGE);
+            whistleClip.close();
+            themeClip.close();
             this.dispose();
             System.exit(0);
         }
