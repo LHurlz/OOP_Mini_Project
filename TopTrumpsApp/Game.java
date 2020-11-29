@@ -434,7 +434,6 @@ public class Game extends JFrame implements MouseListener, Serializable{
                     output+="You won! Congratulations!!";
                     JOptionPane.showMessageDialog(null,output,"You Won!",JOptionPane.INFORMATION_MESSAGE);
                     this.setResult("Human");
-                    this.gameOver();
                 }
                 this.gameOver();
             }

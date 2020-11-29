@@ -7,10 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.*;
 import javax.sound.sampled.*;
 
 /**
@@ -323,13 +320,9 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
     public void loadHistory(){
         String str="";
 
-        if(finishedGames==null){
-            str+="You have not played any games yet!";
-        }
-        else{
-            for(String s : finishedGames)
+        for(String s : finishedGames)
                 str+=s;
-        }
+
 
         JOptionPane.showMessageDialog(null,str,"Game History",JOptionPane.PLAIN_MESSAGE);
     }
@@ -364,6 +357,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             Card.setCardID(latestCardID);
 
             objectInStream.close();
+
             ObjectInputStream objectInStream2 = new ObjectInputStream(new FileInputStream("TopTrumpsApp/game_history.data"));
             finishedGames  = (ArrayList)objectInStream2.readObject();
 
@@ -590,20 +584,28 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
         if(menuName.equals("Remove Cards")){
             ArrayList<Card> matchingCards = new ArrayList<>();
-            String name = JOptionPane.showInputDialog("Please enter the name of the card you wish to remove");
+            String name = JOptionPane.showInputDialog("Please enter the name or part of a name of the Card you wish to remove");
             String related="";
 
             for(Card c : createdCards){
-                if(c.getName().toLowerCase().contains(name))
-                    matchingCards.add(c);
+                while(!c.getName().toLowerCase().contains(name)){
+                    name = JOptionPane.showInputDialog("Your search returned no matches.\n\nPlease try again");
+                }
+                matchingCards.add(c);
             }
 
             for(Card c : matchingCards){
                 related+="ID: "+c.getCardNumber()+"    Name: "+c.getName()+"\n";
             }
 
-            int choice = Integer.parseInt(JOptionPane.showInputDialog("Cards that matched your search:\n\n"+related+"\n\nEnter the ID of the card you wish" +
-                    " to remove"));
+            String choiceStr = JOptionPane.showInputDialog("Cards that matched your search:\n\n"+related+"\n\nEnter the ID of the card you wish" +
+                    " to remove");
+
+            while(hasNoDigit(choiceStr)){
+                choiceStr = JOptionPane.showInputDialog("Cards that matched your search:\n\n"+related+"\n\nPlease enter a numeric value");
+            }
+
+            int choice = Integer.parseInt(choiceStr);
 
             for(Card c : matchingCards){
                 if(c.getCardNumber()==choice){
@@ -612,9 +614,8 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                    if(confirm==JOptionPane.YES_OPTION){
                        createdCards.remove(c);
                        saveCards();
+                       JOptionPane.showMessageDialog(null,c.getName() + " successfully removed!","Player Removed",JOptionPane.INFORMATION_MESSAGE);
                    }
-
-                   JOptionPane.showMessageDialog(null,c.getName() + " successfully removed!","Player Removed",JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }
