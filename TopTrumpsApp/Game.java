@@ -240,6 +240,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
     /**
      * JB - Method to set the static game ID of all Game objects, needed to allow values to be
      * read/written from/to file successfully
+     * @param gameID the ID of the Game object.
      */
 
     public static void setGameID(int gameID) {
