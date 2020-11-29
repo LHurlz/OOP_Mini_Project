@@ -143,6 +143,8 @@ public class Game extends JFrame implements MouseListener, Serializable{
             }
         }
 
+        //System.out.println("you now have "+players.get(0).getHand().size()+" cards remaining");
+
         this.setTitle("Your Card");
         this.setSize(600,600);
         this.setLocationRelativeTo(null);
@@ -187,7 +189,8 @@ public class Game extends JFrame implements MouseListener, Serializable{
         this.setResizable(false);
         this.setContentPane(panel);
         this.setVisible(true);
-        JOptionPane.showMessageDialog(null,"It's your turn!\nPick a stat and try to beat the computer!","Your Turn",JOptionPane.QUESTION_MESSAGE);
+        JOptionPane.showMessageDialog(null,"It's your turn!\n\nPick a stat and try to beat the computer!\n\nChoose wisely, as you only have " +
+                players.get(0).getHand().size()+" cards remaining!","Your Turn",JOptionPane.QUESTION_MESSAGE);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
@@ -354,8 +357,6 @@ public class Game extends JFrame implements MouseListener, Serializable{
         int highest = players.get(0).getHand().get(0).getValueAtIndex(selectedStat);
         int winningPlayer=1;
         boolean isDraw=false;
-
-        System.out.println(this.getGameNumber()+"\n"+this.getMode().toLowerCase()+"\n");
 
         players = isOut(players);
 

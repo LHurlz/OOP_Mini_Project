@@ -121,7 +121,7 @@ public class Deck implements Serializable {
      * Method to deal the cards of a Deck object to players in a Game object
      * @param shuffledDeck Deck object which has been shuffled
      * @param players ArrayList of Player objects inside a Game object
-     * @return an ArrayList of Player objects with cards added to their "hands" so they maybe partake in a game
+     * @return an ArrayList of Player objects with cards added to their "hands" so they may partake in a game
      * of Top Trumps.
      */
 
