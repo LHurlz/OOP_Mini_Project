@@ -1,5 +1,4 @@
 package TopTrumpsApp;
-import jdk.nashorn.internal.scripts.JO;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
@@ -34,7 +33,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
     private JButton trophiesButton;
     private JButton ratingButton;
     private JButton[] buttons;
-    private Color selectedColor = new Color(150,150,250,62);
+    private final Color selectedColor = new Color(150,150,250,62);
     private int startingPlayers;
     private ArrayList<String> finishedGames=new ArrayList<>();
     private static final long serialVersionUID = 1;
@@ -143,8 +142,6 @@ public class Game extends JFrame implements MouseListener, Serializable{
             }
         }
 
-        //System.out.println("you now have "+players.get(0).getHand().size()+" cards remaining");
-
         this.setTitle("Your Card");
         this.setSize(600,600);
         this.setLocationRelativeTo(null);
@@ -189,7 +186,7 @@ public class Game extends JFrame implements MouseListener, Serializable{
         this.setResizable(false);
         this.setContentPane(panel);
         this.setVisible(true);
-        JOptionPane.showMessageDialog(null,"It's your turn!\n\nPick a stat and try to beat the computer!\n\nChoose wisely, as you only have " +
+        JOptionPane.showMessageDialog(null,"It's your turn!\n\nPick a stat and try to beat the computer!\n\nYou have " +
                 players.get(0).getHand().size()+" cards remaining!","Your Turn",JOptionPane.QUESTION_MESSAGE);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
@@ -360,9 +357,9 @@ public class Game extends JFrame implements MouseListener, Serializable{
 
         players = isOut(players);
 
-        for(int i=0; i<players.size(); i++)
-            if(players.get(i)!=null)
-                middlePile.add(players.get(i).getHand().get(0));
+        for (Player player : players)
+            if (player != null)
+                middlePile.add(player.getHand().get(0));
 
         String str="The cards currently in play are:\n\n";
 
@@ -387,24 +384,24 @@ public class Game extends JFrame implements MouseListener, Serializable{
         if((winningPlayer-1)==0){
             winnerString+="You Won!\n\nYou have gained the following cards from the other players:\n\n";
 
-            for(int i=0; i< middlePile.size(); i++){
+            for(int i=1; i< middlePile.size(); i++){
                 winnerString+=middlePile.get(i).getName()+"\n";
             }
         }
         else{
             winnerString+="CPU Player "+winningPlayer+" won.\n\nThey acquired the following cards (including their own):\n\n";
 
-            for(int i=0; i< middlePile.size(); i++){
-                winnerString+=middlePile.get(i).getName()+"\n";
+            for(Card card : middlePile) {
+                winnerString += card.getName() + "\n";
             }
         }
 
-        for(int i=0; i<players.size(); i++)
-            players.get(i).getHand().remove(0);
+        for (Player player : players)
+            player.getHand().remove(0);
 
         if(!isDraw){
-            for(int i=0; i<middlePile.size(); i++)
-                players.get(winningPlayer-1).getHand().add(middlePile.get(i));
+            for (Card card : middlePile)
+                players.get(winningPlayer - 1).getHand().add(card);
 
             JOptionPane.showMessageDialog(null,winnerString,"Winners New Hand",JOptionPane.INFORMATION_MESSAGE);
         }
@@ -417,8 +414,8 @@ public class Game extends JFrame implements MouseListener, Serializable{
 
             drawString+="\nCards in middle pile\n\n";
 
-            for(int i=0; i<middlePile.size(); i++)
-                drawString+=middlePile.get(i).getName()+"\n";
+            for (Card card : middlePile)
+                drawString += card.getName() + "\n";
 
             JOptionPane.showMessageDialog(null,drawString,"Round Drawn!",JOptionPane.INFORMATION_MESSAGE);
         }

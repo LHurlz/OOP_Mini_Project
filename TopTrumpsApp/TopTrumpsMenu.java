@@ -1,14 +1,10 @@
 package TopTrumpsApp;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
-import javax.sound.sampled.*;
 
 /**
  * Instantiable class which defines a TopTrumpsMenu. This class implements the ActionListener interface to button clicking events
@@ -17,63 +13,61 @@ import javax.sound.sampled.*;
  */
 
 public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable {
-    private JButton playButton;
-    private JButton historyButton;
+    private final JButton playButton;
+    private final JButton historyButton;
     private JMenu exitMenu;
     private JMenu cardsMenu;
     private JMenu helpMenu;
-    private JLabel imageLabel;
-    private JPanel panel;
-    private ArrayList<Game> games = new ArrayList<>();
+    private final JLabel imageLabel;
+    private final JPanel panel;
+    private final ArrayList<Game> games = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<>();
-    private ArrayList<Card> middlePile = new ArrayList<>();
+    private final ArrayList<Card> middlePile = new ArrayList<>();
     private JTextArea textarea;
     private Game g;
     private ArrayList<String> finishedGames = new ArrayList<>();
     private static final long serialVersionUID = 1;
     private ArrayList<Card> createdCards=new ArrayList<>();
-    private Clip clip;
-
     /**
      * Creating the 30 cards to be used in games of Top Trumps.
      */
 
     // card images sourced from https://cartophilic-info-exch.blogspot.com/2016/10/top-trumps-world-football-stars-2015.html?m=1 //
-    private Card courtois = new Card("Thibaut Courtois", 4, 99, 199, 31, 0, 6, 84, new ImageIcon("TopTrumpsApp/images/courtois.png"));
-    private Card neuer = new Card("Manuel Neuer", 5, 100, 193, 57, 0, 12, 97, new ImageIcon("TopTrumpsApp/images/neuer.png"));
-    private Card kompany = new Card("Vincent Kompany", 60, 94, 193, 66, 4, 7, 73, new ImageIcon("TopTrumpsApp/images/kompany.png"));
-    private Card hummels = new Card("Mats Hummels", 61, 85, 192, 39, 4, 8, 84, new ImageIcon("TopTrumpsApp/images/hummels.png"));
-    private Card diMaria = new Card("Angel Di Maria", 81, 64, 180, 65, 15, 10, 75, new ImageIcon("TopTrumpsApp/images/dimaria.png"));
-    private Card ronaldo = new Card("Cristiano Ronaldo", 99, 35, 185, 124, 55, 17, 100, new ImageIcon("TopTrumpsApp/images/ronaldo.png"));
-    private Card sterling = new Card("Raheem Sterling", 71, 54, 170, 16, 1, 0, 77, new ImageIcon("TopTrumpsApp/images/sterling.png"));
-    private Card sanchez = new Card("Alexis Sanchez", 90, 45, 169, 86, 27, 11, 94, new ImageIcon("TopTrumpsApp/images/sanchez.png"));
-    private Card vidal = new Card("Arturo Vidal", 79, 83, 180, 69, 12, 8, 74, new ImageIcon("TopTrumpsApp/images/vidal.png"));
-    private Card falcao = new Card("Radamel Falcao", 83, 40, 177, 56, 24, 11, 87, new ImageIcon("TopTrumpsApp/images/falcao.png"));
-    private Card lewandowski = new Card("Robert Lewandowski", 88, 44, 185, 68, 26, 8, 92, new ImageIcon("TopTrumpsApp/images/lewandowski.png"));
-    private Card suarez = new Card("Luis Suarez", 91, 49, 182, 79, 44, 9, 93, new ImageIcon("TopTrumpsApp/images/suarez.png"));
-    private Card benzema = new Card("Karim Benzema", 85, 36, 187, 78, 25, 12, 88, new ImageIcon("TopTrumpsApp/images/benzema.png"));
-    private Card gervinho = new Card("Gervinho", 74, 42, 179, 71, 20, 3, 80, new ImageIcon("TopTrumpsApp/images/gervinho.png"));
-    private Card hazard = new Card("Eden Hazard", 80, 34, 173, 59, 8, 5, 86, new ImageIcon("TopTrumpsApp/images/hazard.png"));
-    private Card ibrahimovic = new Card("Zlatan Ibrahimovic", 95, 44, 195, 105, 56, 27, 99, new ImageIcon("TopTrumpsApp/images/ibrahimovic.png"));
-    private Card messi = new Card("Lionel Messi", 100, 32, 170, 102, 46, 26, 100, new ImageIcon("TopTrumpsApp/images/messi.png"));
-    private  Card neymar = new Card("Neymar Jr.", 82, 33, 174, 63, 43, 10, 96, new ImageIcon("TopTrumpsApp/images/neymar.png"));
-    private Card rooney = new Card("Wayne Rooney", 86, 50, 176, 105, 48, 15, 85, new ImageIcon("TopTrumpsApp/images/rooney.png"));
-    private Card aguero = new Card("Sergio Aguero", 87, 32, 173, 65, 29, 7, 95, new ImageIcon("TopTrumpsApp/images/aguero.png"));
-    private Card bale = new Card("Gareth Bale", 90, 66, 183, 50, 17, 4, 91, new ImageIcon("TopTrumpsApp/images/bale.png"));
-    private Card oscar = new Card("Oscar", 76, 41, 179, 50, 11, 6, 76, new ImageIcon("TopTrumpsApp/images/oscar.png"));
-    private Card robben = new Card("Arjen Robben", 94, 38, 180, 85, 28, 20, 98, new ImageIcon("TopTrumpsApp/images/robben.png"));
-    private Card muller = new Card("Thomas Muller", 83, 52, 186, 62, 26, 13, 90, new ImageIcon("TopTrumpsApp/images/muller.png"));
-    private Card modric = new Card("Luka Modric", 75, 72, 172, 79, 10, 10, 78, new ImageIcon("TopTrumpsApp/images/modric.png"));
-    private Card ramos = new Card("Sergio Ramos", 60, 88, 181, 128, 10, 13, 81, new ImageIcon("TopTrumpsApp/images/ramos.png"));
-    private Card lahm = new Card("Philipp Lahm", 68, 90, 170, 111, 5, 21, 83, new ImageIcon("TopTrumpsApp/images/lahm.png"));
-    private Card rojo = new Card("Marcos Rojo", 64, 75, 186, 37, 2, 1, 79, new ImageIcon("TopTrumpsApp/images/rojo.png"));
-    private Card vanPersie = new Card("Robin Van Persie", 88, 37, 186, 98, 49, 5, 80, new ImageIcon("TopTrumpsApp/images/vanpersie.png"));
-    private Card costa = new Card("Diego Costa", 85, 52, 188, 7, 1, 4, 77, new ImageIcon("TopTrumpsApp/images/diegocosta.png"));
+    private final Card courtois = new Card("Thibaut Courtois", 4, 99, 199, 31, 0, 6, 84, new ImageIcon("TopTrumpsApp/images/courtois.png"));
+    private final Card neuer = new Card("Manuel Neuer", 5, 100, 193, 57, 0, 12, 97, new ImageIcon("TopTrumpsApp/images/neuer.png"));
+    private final Card kompany = new Card("Vincent Kompany", 60, 94, 193, 66, 4, 7, 73, new ImageIcon("TopTrumpsApp/images/kompany.png"));
+    private final Card hummels = new Card("Mats Hummels", 61, 85, 192, 39, 4, 8, 84, new ImageIcon("TopTrumpsApp/images/hummels.png"));
+    private final Card diMaria = new Card("Angel Di Maria", 81, 64, 180, 65, 15, 10, 75, new ImageIcon("TopTrumpsApp/images/dimaria.png"));
+    private final Card ronaldo = new Card("Cristiano Ronaldo", 99, 35, 185, 124, 55, 17, 100, new ImageIcon("TopTrumpsApp/images/ronaldo.png"));
+    private final Card sterling = new Card("Raheem Sterling", 71, 54, 170, 16, 1, 0, 77, new ImageIcon("TopTrumpsApp/images/sterling.png"));
+    private final Card sanchez = new Card("Alexis Sanchez", 90, 45, 169, 86, 27, 11, 94, new ImageIcon("TopTrumpsApp/images/sanchez.png"));
+    private final Card vidal = new Card("Arturo Vidal", 79, 83, 180, 69, 12, 8, 74, new ImageIcon("TopTrumpsApp/images/vidal.png"));
+    private final Card falcao = new Card("Radamel Falcao", 83, 40, 177, 56, 24, 11, 87, new ImageIcon("TopTrumpsApp/images/falcao.png"));
+    private final Card lewandowski = new Card("Robert Lewandowski", 88, 44, 185, 68, 26, 8, 92, new ImageIcon("TopTrumpsApp/images/lewandowski.png"));
+    private final Card suarez = new Card("Luis Suarez", 91, 49, 182, 79, 44, 9, 93, new ImageIcon("TopTrumpsApp/images/suarez.png"));
+    private final Card benzema = new Card("Karim Benzema", 85, 36, 187, 78, 25, 12, 88, new ImageIcon("TopTrumpsApp/images/benzema.png"));
+    private final Card gervinho = new Card("Gervinho", 74, 42, 179, 71, 20, 3, 80, new ImageIcon("TopTrumpsApp/images/gervinho.png"));
+    private final Card hazard = new Card("Eden Hazard", 80, 34, 173, 59, 8, 5, 86, new ImageIcon("TopTrumpsApp/images/hazard.png"));
+    private final Card ibrahimovic = new Card("Zlatan Ibrahimovic", 95, 44, 195, 105, 56, 27, 99, new ImageIcon("TopTrumpsApp/images/ibrahimovic.png"));
+    private final Card messi = new Card("Lionel Messi", 100, 32, 170, 102, 46, 26, 100, new ImageIcon("TopTrumpsApp/images/messi.png"));
+    private final Card neymar = new Card("Neymar Jr.", 82, 33, 174, 63, 43, 10, 96, new ImageIcon("TopTrumpsApp/images/neymar.png"));
+    private final Card rooney = new Card("Wayne Rooney", 86, 50, 176, 105, 48, 15, 85, new ImageIcon("TopTrumpsApp/images/rooney.png"));
+    private final Card aguero = new Card("Sergio Aguero", 87, 32, 173, 65, 29, 7, 95, new ImageIcon("TopTrumpsApp/images/aguero.png"));
+    private final Card bale = new Card("Gareth Bale", 90, 66, 183, 50, 17, 4, 91, new ImageIcon("TopTrumpsApp/images/bale.png"));
+    private final Card oscar = new Card("Oscar", 76, 41, 179, 50, 11, 6, 76, new ImageIcon("TopTrumpsApp/images/oscar.png"));
+    private final Card robben = new Card("Arjen Robben", 94, 38, 180, 85, 28, 20, 98, new ImageIcon("TopTrumpsApp/images/robben.png"));
+    private final Card muller = new Card("Thomas Muller", 83, 52, 186, 62, 26, 13, 90, new ImageIcon("TopTrumpsApp/images/muller.png"));
+    private final Card modric = new Card("Luka Modric", 75, 72, 172, 79, 10, 10, 78, new ImageIcon("TopTrumpsApp/images/modric.png"));
+    private final Card ramos = new Card("Sergio Ramos", 60, 88, 181, 128, 10, 13, 81, new ImageIcon("TopTrumpsApp/images/ramos.png"));
+    private final Card lahm = new Card("Philipp Lahm", 68, 90, 170, 111, 5, 21, 83, new ImageIcon("TopTrumpsApp/images/lahm.png"));
+    private final Card rojo = new Card("Marcos Rojo", 64, 75, 186, 37, 2, 1, 79, new ImageIcon("TopTrumpsApp/images/rojo.png"));
+    private final Card vanPersie = new Card("Robin Van Persie", 88, 37, 186, 98, 49, 5, 80, new ImageIcon("TopTrumpsApp/images/vanpersie.png"));
+    private final Card costa = new Card("Diego Costa", 85, 52, 188, 7, 1, 4, 77, new ImageIcon("TopTrumpsApp/images/diegocosta.png"));
 
-    private ArrayList<Card> allCards = new ArrayList<>(Arrays.asList(courtois, neuer, kompany, hummels, diMaria, ronaldo, sterling, sanchez, vidal, falcao, lewandowski, suarez, benzema
+    private final ArrayList<Card> allCards = new ArrayList<>(Arrays.asList(courtois, neuer, kompany, hummels, diMaria, ronaldo, sterling, sanchez, vidal, falcao, lewandowski, suarez, benzema
             , gervinho, hazard, ibrahimovic, messi, neymar, rooney, aguero, bale, oscar, robben, muller, modric, ramos, lahm, rojo, vanPersie, costa));
-    private Deck worldStars2015 = new Deck("World Football Stars 2015", allCards);
-    private ArrayList<Deck> allDecks = new ArrayList<>(Arrays.asList(worldStars2015));
+    private final Deck worldStars2015 = new Deck("World Football Stars 2015", allCards);
+    private final ArrayList<Deck> allDecks = new ArrayList<>(Arrays.asList(worldStars2015));
 
     /**
      * TopTrumpsMenu no-argument constructor. Sets some default values for the Menu as well as creating JButtons and JMenus.
@@ -81,20 +75,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
      */
 
     public TopTrumpsMenu() {
-        try                                    // learned from https://www.codeproject.com/Questions/1210248/Play-wav-file-in-java //
-            {
-                clip = AudioSystem.getClip();
-                clip.open(AudioSystem.getAudioInputStream(new File("TopTrumpsApp/sounds/motd.wav")));  // music from https://www.youtube.com/watch?v=V1VscTjwlco
-                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                gainControl.setValue(-30.0f);       // learned from https://stackoverflow.com/questions/953598/audio-volume-control-increase-or-decrease-in-java //
-                clip.start();
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            }
-        catch (Exception exc)
-            {
-                exc.printStackTrace(System.out);
-            }
-
         this.setTitle("Welcome to Top Trumps");
         this.setSize(750, 750);
         this.setLocationRelativeTo(null);
@@ -239,10 +219,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
         int statInt = Integer.parseInt(stat);
 
-        if(statInt<1 || statInt>100)
-            return false;
-
-        return true;
+        return statInt >= 1 && statInt <= 100;
     }
 
     /**
@@ -262,10 +239,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
         int statInt = Integer.parseInt(stat);
 
-        if(statInt<150 || statInt>210)
-            return false;
-
-        return true;
+        return statInt >= 150 && statInt <= 210;
     }
 
     /**
@@ -285,10 +259,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
         int statInt = Integer.parseInt(stat);
 
-        if(statInt<0 || statInt>200)
-            return false;
-
-        return true;
+        return statInt >= 0 && statInt <= 200;
     }
 
     /**
@@ -308,10 +279,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
         int statInt = Integer.parseInt(stat);
 
-        if(statInt<0 || statInt>40)
-            return false;
-
-        return true;
+        return statInt >= 0 && statInt <= 40;
     }
 
     /**
@@ -473,8 +441,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
             if(matchingCards.size()==0){
                 JOptionPane.showMessageDialog(null,"No cards matched your query, returning to main menu.");
-                clip.stop();
-                clip.close();
                 new TopTrumpsMenu();
                 this.dispose();
             }
@@ -612,8 +578,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
 
             if(matchingCards.size()==0){
                 JOptionPane.showMessageDialog(null,"No cards matched your query, returning to main menu.");
-                clip.stop();
-                clip.close();
                 new TopTrumpsMenu();
                 this.dispose();
             }
@@ -644,8 +608,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                 }
                 if(hits==0){
                     JOptionPane.showMessageDialog(null,"No cards matched your query, returning to main menu.");
-                    clip.stop();
-                    clip.close();
                     new TopTrumpsMenu();
                     this.dispose();
                 }
@@ -813,7 +775,8 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                 for (int i = 0; i < cpuPlayers + 1; i++) {
                     if (i == 0) {
                         players.add(new Player("Human", null));
-                    } else {
+                    }
+                    else{
                         players.add(new Player("CPU", null));
                     }
                 }
@@ -860,9 +823,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                 str+="\n\nGet ready to play Top Trumps!!";
 
                 JOptionPane.showMessageDialog(null,str);
-
-                clip.stop();
-                clip.close();
 
                 g = new Game(modeString,playersDealtTo,cpuPlayers + 1,allDecks.get(chosenDeck-1),middlePile);
                 games.add(g);

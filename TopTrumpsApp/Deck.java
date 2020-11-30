@@ -92,7 +92,7 @@ public class Deck implements Serializable {
 
     public Deck shuffle(Deck deck){
         ArrayList<Card> shuffledCards = new ArrayList<>(30);
-        boolean alreadyPicked[] = new boolean[30];
+        boolean[] alreadyPicked = new boolean[30];
         int randomNum;
         String output="";
 
