@@ -420,14 +420,6 @@ public class Game extends JFrame implements MouseListener, Serializable{
             JOptionPane.showMessageDialog(null,drawString,"Round Drawn!",JOptionPane.INFORMATION_MESSAGE);
         }
 
-        String stateOfPlayers="";
-
-        for(int i=0; i<players.size(); i++){
-            stateOfPlayers+="Player "+(i+1)+" cards left: "+players.get(i).getHand().size()+"\n";
-        }
-
-        System.out.print(stateOfPlayers+"\n\n");
-
         ArrayList<Player> checkOut = isOut(players);
 
         if(checkOut.get(0).getType().toLowerCase().equals("human")){
@@ -509,16 +501,14 @@ public class Game extends JFrame implements MouseListener, Serializable{
      */
 
     public void gameOver() {
-        System.out.println(this.toString());
         this.saveGame();
-        System.out.println("\n\nGame data saved successfully");
 
         int playAgain = JOptionPane.showConfirmDialog(null, "Would you like to play again");
 
         if (playAgain == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(null, "Now returning to the main menu so you can set up a new game of " +
+            JOptionPane.showMessageDialog(null, "The results of the game have been successfully saved.\nCheck out the \"View History\" button on the main menu to see!\n\n" +
+                    "Now returning to the main menu so you can set up a new game of " +
                     "Top Trumps!", "Returning to Main Menu", JOptionPane.PLAIN_MESSAGE);
-            System.out.println("\n\n"+getFinishedGames()+"\n\n");
             whistleClip.close();
             themeClip.close();
             new TopTrumpsMenu();

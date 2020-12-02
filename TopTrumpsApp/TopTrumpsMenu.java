@@ -18,11 +18,11 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
     private JMenu exitMenu;
     private JMenu cardsMenu;
     private JMenu helpMenu;
-    private final JLabel imageLabel;
-    private final JPanel panel;
-    private final ArrayList<Game> games = new ArrayList<>();
+    private JLabel imageLabel;
+    private JPanel panel;
+    private ArrayList<Game> games = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<>();
-    private final ArrayList<Card> middlePile = new ArrayList<>();
+    private ArrayList<Card> middlePile = new ArrayList<>();
     private JTextArea textarea;
     private Game g;
     private ArrayList<String> finishedGames = new ArrayList<>();
@@ -428,133 +428,126 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             String name = JOptionPane.showInputDialog("Please enter the name or part of the name of the card you wish to edit");
             String related="";
 
-            while(!hasNoDigit(name) || !hasNoSpecialCharacter(name) ||name.equals("")){
-                name = JOptionPane.showInputDialog("Name must not be blank, contain special characters or contain digits.\n\nPlease try again");
-            }
-            String validName=name;
-
-            for(Card c : createdCards){
-                if(c.getName().toLowerCase().contains(validName)){
-                    matchingCards.add(c);
-                }
-            }
+            validateName(matchingCards, name);
 
             if(matchingCards.size()==0){
-                JOptionPane.showMessageDialog(null,"No cards matched your query, returning to main menu.");
+                JOptionPane.showMessageDialog(null,"No cards matched your query, check the \"View Cards\" section to see which cards you can edit." +
+                        "\n\nReturning to main menu.","No Matching Cards",JOptionPane.ERROR_MESSAGE);
                 new TopTrumpsMenu();
                 this.dispose();
             }
+            else {
 
-            for(Card c : matchingCards){
-                if(c!=null){
-                    related+=c.toString()+"\n";
+                for (Card c : matchingCards) {
+                    if (c != null) {
+                        related += c.toString() + "\n";
+                    }
                 }
-            }
 
-            String choiceStr = JOptionPane.showInputDialog("Cards that matched your query:\n\n"+related+"\n\nEnter the ID of the card you wish" +
-                    " to edit");
-
-            while(hasNoDigit(choiceStr) || !hasNoSpecialCharacter(choiceStr) || choiceStr.equals(""))
-            {
-                choiceStr = JOptionPane.showInputDialog("Invalid Entry!!!\n\nCards that matched your query:\n\n"+related+"\n\nEnter the ID of the card you wish" +
+                String choiceStr = JOptionPane.showInputDialog("Cards that matched your query:\n\n" + related + "\n\nEnter the ID of the card you wish" +
                         " to edit");
-            }
 
-            int choice = Integer.parseInt(choiceStr);
+                while (hasNoDigit(choiceStr) || !hasNoSpecialCharacter(choiceStr) || choiceStr.equals("")) {
+                    choiceStr = JOptionPane.showInputDialog("Invalid Entry!!!\n\nCards that matched your query:\n\n" + related + "\n\nEnter the ID of the card you wish" +
+                            " to edit");
+                }
 
-            for(Card c : matchingCards){
-                if(c!=null && c.getCardNumber()==choice){
-                    int statSelect = Integer.parseInt(JOptionPane.showInputDialog("The details of the card you wish to edit are:\n\n"+c.toString()+
-                            "\n\n1 - Edit Attack\n2 - Edit Defence\n3 - Edit Height\n4 - Edit Caps\n5 - Edit Goals\n6 - Edit Trophies\n7 - Edit Rating"));
+                int choice = Integer.parseInt(choiceStr);
 
-                    while(statSelect!=1 && statSelect!=2&&statSelect!=3 &&statSelect!=4 &&statSelect!=5 &&statSelect!=6 &&statSelect!=7){
-                        statSelect = Integer.parseInt(JOptionPane.showInputDialog("The details of the card you wish to edit are:\n\n"+c.toString()+
-                                "\n1 - Edit Attack\n2 - Edit Defence\n3 - Edit Height\n4 - Edit Caps\n5 - Edit Goals\n6 - Edit Trophies\n7 - Edit Rating" +
-                                "\n\nInvalid entry, enter a number between 1 and 7 inclusive!"));
-                    }
+                for (Card c : matchingCards) {
+                    if (c != null && c.getCardNumber() == choice) {
+                        int statSelect = Integer.parseInt(JOptionPane.showInputDialog("The details of the card you wish to edit are:\n\n" + c.toString() +
+                                "\n\n1 - Edit Attack\n2 - Edit Defence\n3 - Edit Height\n4 - Edit Caps\n5 - Edit Goals\n6 - Edit Trophies\n7 - Edit Rating"));
 
-                    if(statSelect==1){
-                        String stat = JOptionPane.showInputDialog("Enter new attack rating for "+c.getName());
-                        int oldStat = c.getAttack();
-
-                        while(!isValidStat(stat)){
-                            stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new attack rating for "+c.getName());
+                        while (statSelect != 1 && statSelect != 2 && statSelect != 3 && statSelect != 4 && statSelect != 5 && statSelect != 6 && statSelect != 7) {
+                            statSelect = Integer.parseInt(JOptionPane.showInputDialog("The details of the card you wish to edit are:\n\n" + c.toString() +
+                                    "\n1 - Edit Attack\n2 - Edit Defence\n3 - Edit Height\n4 - Edit Caps\n5 - Edit Goals\n6 - Edit Trophies\n7 - Edit Rating" +
+                                    "\n\nInvalid entry, enter a number between 1 and 7 inclusive!"));
                         }
-                        int newStat = Integer.parseInt(stat);
-                        c.setAttack(newStat);
-                        JOptionPane.showMessageDialog(null,"Attack rating for "+c.getName()+" successfully changed from "+oldStat+" to "+c.getAttack());
-                    }
 
-                    if(statSelect==2){
-                        String stat = JOptionPane.showInputDialog("Enter new defence rating for "+c.getName());
-                        int oldStat = c.getDefence();
+                        if (statSelect == 1) {
+                            String stat = JOptionPane.showInputDialog("Enter new attack rating for " + c.getName());
+                            int oldStat = c.getAttack();
 
-                        while(!isValidStat(stat)){
-                            stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new defence rating for "+c.getName());
+                            while (!isValidStat(stat)) {
+                                stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new attack rating for " + c.getName());
+                            }
+                            int newStat = Integer.parseInt(stat);
+                            c.setAttack(newStat);
+                            JOptionPane.showMessageDialog(null, "Attack rating for " + c.getName() + " successfully changed from " + oldStat + " to " + c.getAttack());
                         }
-                        int newStat = Integer.parseInt(stat);
-                        c.setDefence(newStat);
-                        JOptionPane.showMessageDialog(null,"Defence rating for "+c.getName()+" successfully changed from "+oldStat+" to "+c.getDefence());
-                    }
 
-                    if(statSelect==3){
-                        String stat = JOptionPane.showInputDialog("Enter new height rating for "+c.getName());
-                        int oldStat = c.getHeight();
+                        if (statSelect == 2) {
+                            String stat = JOptionPane.showInputDialog("Enter new defence rating for " + c.getName());
+                            int oldStat = c.getDefence();
 
-                        while(!isValidStatHeight(stat)){
-                            stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new height rating for "+c.getName());
+                            while (!isValidStat(stat)) {
+                                stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new defence rating for " + c.getName());
+                            }
+                            int newStat = Integer.parseInt(stat);
+                            c.setDefence(newStat);
+                            JOptionPane.showMessageDialog(null, "Defence rating for " + c.getName() + " successfully changed from " + oldStat + " to " + c.getDefence());
                         }
-                        int newStat = Integer.parseInt(stat);
-                        c.setHeight(newStat);
-                        JOptionPane.showMessageDialog(null,"Height rating for "+c.getName()+" successfully changed from "+oldStat+" to "+c.getHeight());
-                    }
 
-                    if(statSelect==4){
-                        String stat = JOptionPane.showInputDialog("Enter new caps rating for "+c.getName());
-                        int oldStat = c.getCaps();
+                        if (statSelect == 3) {
+                            String stat = JOptionPane.showInputDialog("Enter new height rating for " + c.getName());
+                            int oldStat = c.getHeight();
 
-                        while(!isValidStatCaps(stat)){
-                            stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new caps rating for "+c.getName());
+                            while (!isValidStatHeight(stat)) {
+                                stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new height rating for " + c.getName());
+                            }
+                            int newStat = Integer.parseInt(stat);
+                            c.setHeight(newStat);
+                            JOptionPane.showMessageDialog(null, "Height rating for " + c.getName() + " successfully changed from " + oldStat + " to " + c.getHeight());
                         }
-                        int newStat = Integer.parseInt(stat);
-                        c.setCaps(newStat);
-                        JOptionPane.showMessageDialog(null,"Caps rating for "+c.getName()+" successfully changed from "+oldStat+" to "+c.getCaps());
-                    }
 
-                    if(statSelect==5){
-                        String stat = JOptionPane.showInputDialog("Enter new goals rating for "+c.getName());
-                        int oldStat = c.getGoals();
+                        if (statSelect == 4) {
+                            String stat = JOptionPane.showInputDialog("Enter new caps rating for " + c.getName());
+                            int oldStat = c.getCaps();
 
-                        while(!isValidStat(stat)){
-                            stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new goals rating for "+c.getName());
+                            while (!isValidStatCaps(stat)) {
+                                stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new caps rating for " + c.getName());
+                            }
+                            int newStat = Integer.parseInt(stat);
+                            c.setCaps(newStat);
+                            JOptionPane.showMessageDialog(null, "Caps rating for " + c.getName() + " successfully changed from " + oldStat + " to " + c.getCaps());
                         }
-                        int newStat = Integer.parseInt(stat);
-                        c.setGoals(newStat);
-                        JOptionPane.showMessageDialog(null,"Goals rating for "+c.getName()+" successfully changed from "+oldStat+" to "+c.getGoals());
-                    }
-                    if(statSelect==6){
-                        String stat = JOptionPane.showInputDialog("Enter new trophies rating for "+c.getName());
-                        int oldStat = c.getTrophies();
 
-                        while(!isValidStat(stat)){
-                            stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new trophies rating for "+c.getName());
-                        }
-                        int newStat = Integer.parseInt(stat);
-                        c.setTrophies(newStat);
-                        JOptionPane.showMessageDialog(null,"Trophies rating for "+c.getName()+" successfully changed from "+oldStat+" to "+c.getTrophies());
-                    }
-                    if(statSelect==7){
-                        String stat = JOptionPane.showInputDialog("Enter new overall TOP rating for "+c.getName());
-                        int oldStat = c.getRating();
+                        if (statSelect == 5) {
+                            String stat = JOptionPane.showInputDialog("Enter new goals rating for " + c.getName());
+                            int oldStat = c.getGoals();
 
-                        while(!isValidStatTrophies(stat)){
-                            stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new overall TOP rating for "+c.getName());
+                            while (!isValidStat(stat)) {
+                                stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new goals rating for " + c.getName());
+                            }
+                            int newStat = Integer.parseInt(stat);
+                            c.setGoals(newStat);
+                            JOptionPane.showMessageDialog(null, "Goals rating for " + c.getName() + " successfully changed from " + oldStat + " to " + c.getGoals());
                         }
-                        int newStat = Integer.parseInt(stat);
-                        c.setRating(newStat);
-                        JOptionPane.showMessageDialog(null,"Overall TOP rating for "+c.getName()+" successfully changed from "+oldStat+" to "+c.getRating());
+                        if (statSelect == 6) {
+                            String stat = JOptionPane.showInputDialog("Enter new trophies rating for " + c.getName());
+                            int oldStat = c.getTrophies();
+
+                            while (!isValidStat(stat)) {
+                                stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new trophies rating for " + c.getName());
+                            }
+                            int newStat = Integer.parseInt(stat);
+                            c.setTrophies(newStat);
+                            JOptionPane.showMessageDialog(null, "Trophies rating for " + c.getName() + " successfully changed from " + oldStat + " to " + c.getTrophies());
+                        }
+                        if (statSelect == 7) {
+                            String stat = JOptionPane.showInputDialog("Enter new overall TOP rating for " + c.getName());
+                            int oldStat = c.getRating();
+
+                            while (!isValidStatTrophies(stat)) {
+                                stat = JOptionPane.showInputDialog("Invalid!!\n\nEnter new overall TOP rating for " + c.getName());
+                            }
+                            int newStat = Integer.parseInt(stat);
+                            c.setRating(newStat);
+                            JOptionPane.showMessageDialog(null, "Overall TOP rating for " + c.getName() + " successfully changed from " + oldStat + " to " + c.getRating());
+                        }
+                        saveCards();
                     }
-                    saveCards();
                 }
             }
         }
@@ -565,51 +558,44 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
             String related="";
             int hits=0;
 
-            while(!hasNoDigit(name) || !hasNoSpecialCharacter(name) ||name.equals("")){
-                name = JOptionPane.showInputDialog("Name must not be blank, contain special characters or contain digits.\n\nPlease try again");
-            }
-            String validName=name;
-
-            for(Card c : createdCards){
-                if(c.getName().toLowerCase().contains(validName)){
-                    matchingCards.add(c);
-                }
-            }
+            validateName(matchingCards, name);
 
             if(matchingCards.size()==0){
-                JOptionPane.showMessageDialog(null,"No cards matched your query, returning to main menu.");
+                JOptionPane.showMessageDialog(null,"No cards matched your query, check the \"View Cards\" section to see which cards you can remove." +
+                        "\n\nReturning to main menu.","No Matching Cards",JOptionPane.ERROR_MESSAGE);
                 new TopTrumpsMenu();
                 this.dispose();
             }
-
-            for(Card c : matchingCards){
-                related+="ID: "+c.getCardNumber()+"    Name: "+c.getName()+"\n";
-            }
-
-            String choiceStr = JOptionPane.showInputDialog("Cards that matched your search:\n\n"+related+"\n\nEnter the ID of the card you wish" +
-                    " to remove");
-
-            while(hasNoDigit(choiceStr)){
-                choiceStr = JOptionPane.showInputDialog("Cards that matched your search:\n\n"+related+"\n\nPlease enter a numeric value");
-            }
-
-            int choice = Integer.parseInt(choiceStr);
-
-            for(Card c : matchingCards){
-                if(c.getCardNumber()==choice){
-                   hits++;
-                   int confirm = JOptionPane.showConfirmDialog(null,"Are you sure you want to remove "+c.getName()+ " from Top Trumps?");
-
-                   if(confirm==JOptionPane.YES_OPTION){
-                       createdCards.remove(c);
-                       saveCards();
-                       JOptionPane.showMessageDialog(null,c.getName() + " successfully removed!","Player Removed",JOptionPane.INFORMATION_MESSAGE);
-                   }
+            else {
+                for (Card c : matchingCards) {
+                    related += "ID: " + c.getCardNumber() + "    Name: " + c.getName() + "\n";
                 }
-                if(hits==0){
-                    JOptionPane.showMessageDialog(null,"No cards matched your query, returning to main menu.");
-                    new TopTrumpsMenu();
-                    this.dispose();
+
+                String choiceStr = JOptionPane.showInputDialog("Cards that matched your search:\n\n" + related + "\n\nEnter the ID of the card you wish" +
+                        " to remove");
+
+                while (hasNoDigit(choiceStr)) {
+                    choiceStr = JOptionPane.showInputDialog("Cards that matched your search:\n\n" + related + "\n\nPlease enter a numeric value");
+                }
+
+                int choice = Integer.parseInt(choiceStr);
+
+                for (Card c : matchingCards) {
+                    if (c.getCardNumber() == choice) {
+                        hits++;
+                        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove " + c.getName() + " from Top Trumps?");
+
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            createdCards.remove(c);
+                            saveCards();
+                            JOptionPane.showMessageDialog(null, c.getName() + " successfully removed!", "Player Removed", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }
+                    if (hits == 0) {
+                        JOptionPane.showMessageDialog(null, "No cards matched your query, returning to main menu.");
+                        new TopTrumpsMenu();
+                        this.dispose();
+                    }
                 }
             }
         }
@@ -829,6 +815,19 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                 g.startGame();
 
                 this.dispose();
+            }
+        }
+    }
+
+    private void validateName(ArrayList<Card> matchingCards, String name) {
+        while(!hasNoDigit(name) || !hasNoSpecialCharacter(name) ||name.equals("")){
+            name = JOptionPane.showInputDialog("Name must not be blank, contain special characters or contain digits.\n\nPlease try again");
+        }
+        String validName=name;
+
+        for(Card c : createdCards){
+            if(c.getName().toLowerCase().contains(validName)){
+                matchingCards.add(c);
             }
         }
     }
