@@ -388,6 +388,26 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
     }
 
     /**
+     * Method to validate a user-supplied String value intended to search for the Name of a Card. Once value is validated any matching names
+     * are added to an ArrayList of Card called matchingCards.
+     * @param matchingCards the ArrayList of Card that will store Card objects that matched the user's search key.
+     * @param name the user-supplied String value.
+     */
+
+    private void validateName(ArrayList<Card> matchingCards, String name) {
+        while(!hasNoDigit(name) || !hasNoSpecialCharacter(name) ||name.equals("")){
+            name = JOptionPane.showInputDialog("Name must not be blank, contain special characters or contain digits.\n\nPlease try again");
+        }
+        String validName=name;
+
+        for(Card c : createdCards){
+            if(c.getName().toLowerCase().contains(validName)){
+                matchingCards.add(c);
+            }
+        }
+    }
+
+    /**
      * Method for handling button click events. This method handles ActionEvents for all JMenu items and buttons featured on the menu.
      * @param e an ActionEvent.
      */
@@ -815,19 +835,6 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                 g.startGame();
 
                 this.dispose();
-            }
-        }
-    }
-
-    private void validateName(ArrayList<Card> matchingCards, String name) {
-        while(!hasNoDigit(name) || !hasNoSpecialCharacter(name) ||name.equals("")){
-            name = JOptionPane.showInputDialog("Name must not be blank, contain special characters or contain digits.\n\nPlease try again");
-        }
-        String validName=name;
-
-        for(Card c : createdCards){
-            if(c.getName().toLowerCase().contains(validName)){
-                matchingCards.add(c);
             }
         }
     }
