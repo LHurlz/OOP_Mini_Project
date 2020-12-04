@@ -826,7 +826,7 @@ public class TopTrumpsMenu extends JFrame implements ActionListener,Serializable
                      str+=players.get(0).getHand().get(i).getName()+"\n";
                 }
 
-                str+="\n\nGet ready to play Top Trumps!!";
+                 str+="\n\nGet ready to play Top Trumps!!";
 
                 JOptionPane.showMessageDialog(null,str);
 
