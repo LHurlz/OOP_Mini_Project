@@ -26,7 +26,6 @@ public class Deck implements Serializable {
      * @param cards an ArrayList of Cards stored inside the Deck object
      */
 
-
     public Deck(String name, ArrayList<TopTrumpsApp.Card> cards){
         setDeckNumber();
         setName(name);
