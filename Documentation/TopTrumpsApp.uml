@@ -3,107 +3,107 @@
   <ID>JAVA</ID>
   <OriginalElement>TopTrumpsApp</OriginalElement>
   <nodes>
-    <node x="10.5" y="1232.0">TopTrumpsApp.Deck</node>
-    <node x="171.04166666666663" y="1646.0">TopTrumpsApp.Game</node>
-    <node x="375.3016666666667" y="940.0">TopTrumpsApp.Player</node>
-    <node x="299.9416666666666" y="3034.0">TopTrumpsApp.TopTrumpsMenu</node>
-    <node x="343.9416666666666" y="4482.0">TopTrumpsApp.TopTrumpsDriver</node>
-    <node x="244.5980952380952" y="0.0">TopTrumpsApp.Card</node>
+    <node x="0.0" y="1242.0">TopTrumpsApp.Deck</node>
+    <node x="160.54166666666663" y="1656.0">TopTrumpsApp.Game</node>
+    <node x="363.847380952381" y="950.0">TopTrumpsApp.Player</node>
+    <node x="342.737380952381" y="3044.0">TopTrumpsApp.TopTrumpsMenu</node>
+    <node x="297.9973809523809" y="0.0">TopTrumpsApp.Card</node>
+    <node x="398.737380952381" y="4514.0">TopTrumpsApp.TopTrumpsDriver</node>
   </nodes>
   <notes />
   <edges>
     <edge source="TopTrumpsApp.Deck" target="TopTrumpsApp.Player">
       <point x="100.66666666666669" y="-182.0" />
-      <point x="262.1666666666667" y="1212.0" />
-      <point x="393.3016666666667" y="1212.0" />
+      <point x="251.66666666666669" y="1222.0" />
+      <point x="381.847380952381" y="1222.0" />
       <point x="-90.0" y="116.0" />
     </edge>
-    <edge source="TopTrumpsApp.TopTrumpsMenu" target="TopTrumpsApp.Player">
-      <point x="68.26666666666665" y="-699.0" />
-      <point x="496.20833333333326" y="2984.0" />
-      <point x="595.5933333333332" y="2984.0" />
-      <point x="595.5933333333332" y="1192.0" />
-      <point x="573.3016666666666" y="1192.0" />
-      <point x="89.99999999999994" y="116.0" />
-    </edge>
     <edge source="TopTrumpsApp.Game" target="TopTrumpsApp.Deck">
-      <point x="-152.91666666666652" y="-644.0" />
-      <point x="201.6250000000001" y="1621.0" />
-      <point x="221.9" y="1621.0" />
+      <point x="-152.91666666666657" y="-644.0" />
+      <point x="191.12500000000006" y="1636.0" />
+      <point x="211.4" y="1636.0" />
       <point x="60.400000000000006" y="182.0" />
     </edge>
-    <edge source="TopTrumpsApp.TopTrumpsMenu" target="TopTrumpsApp.Card">
-      <point x="119.46666666666671" y="-699.0" />
-      <point x="547.4083333333333" y="3014.0" />
-      <point x="628.5933333333332" y="3014.0" />
-      <point x="628.5933333333332" y="890.0" />
-      <point x="546.6980952380953" y="890.0" />
-      <point x="143.10000000000014" y="435.0" />
-    </edge>
-    <edge source="TopTrumpsApp.Game" target="TopTrumpsApp.TopTrumpsMenu">
-      <point x="146.79999999999995" y="644.0" />
-      <point x="501.3416666666666" y="2954.0" />
-      <point x="445.00833333333327" y="2954.0" />
-      <point x="17.066666666666663" y="-699.0" />
-    </edge>
     <edge source="TopTrumpsApp.Game" target="TopTrumpsApp.Card">
-      <point x="30.583333333333428" y="-644.0" />
-      <point x="385.12500000000006" y="1621.0" />
-      <point x="364.8016666666667" y="1621.0" />
-      <point x="364.8016666666667" y="920.0" />
-      <point x="387.6980952380952" y="920.0" />
-      <point x="-15.899999999999977" y="435.0" />
+      <point x="-30.583333333333314" y="-644.0" />
+      <point x="313.4583333333333" y="1636.0" />
+      <point x="342.347380952381" y="1636.0" />
+      <point x="342.347380952381" y="920.0" />
+      <point x="377.4973809523809" y="920.0" />
+      <point x="-79.5" y="435.0" />
     </edge>
     <edge source="TopTrumpsApp.TopTrumpsMenu" target="TopTrumpsApp.Game">
-      <point x="-51.19999999999999" y="-699.0" />
-      <point x="376.7416666666666" y="2974.0" />
-      <point x="207.74166666666662" y="2974.0" />
+      <point x="-74.66666666666663" y="-710.0" />
+      <point x="408.07071428571436" y="2994.0" />
+      <point x="197.24166666666662" y="2994.0" />
       <point x="-146.8" y="644.0" />
     </edge>
     <edge source="TopTrumpsApp.TopTrumpsDriver" target="TopTrumpsApp.TopTrumpsMenu">
       <point x="0.0" y="-38.5" />
-      <point x="0.0" y="699.0" />
+      <point x="0.0" y="710.0" />
     </edge>
     <edge source="TopTrumpsApp.Deck" target="TopTrumpsApp.Card">
-      <point x="0.0" y="-182.0" />
-      <point x="161.5" y="1212.0" />
-      <point x="125.69285714285718" y="1212.0" />
-      <point x="125.69285714285718" y="920.0" />
-      <point x="324.0980952380952" y="920.0" />
-      <point x="-79.5" y="435.0" />
+      <point x="-100.66666666666669" y="-182.0" />
+      <point x="50.333333333333314" y="1222.0" />
+      <point x="105.92071428571433" y="1222.0" />
+      <point x="105.92071428571433" y="900.0" />
+      <point x="313.8973809523809" y="900.0" />
+      <point x="-143.10000000000002" y="435.0" />
+    </edge>
+    <edge source="TopTrumpsApp.Game" target="TopTrumpsApp.Player">
+      <point x="91.75" y="-644.0" />
+      <point x="435.79166666666663" y="1636.0" />
+      <point x="428.3235714285714" y="1636.0" />
+      <point x="428.3235714285714" y="1222.0" />
+      <point x="417.847380952381" y="1222.0" />
+      <point x="-54.0" y="116.0" />
+    </edge>
+    <edge source="TopTrumpsApp.TopTrumpsMenu" target="TopTrumpsApp.Player">
+      <point x="37.33333333333337" y="-710.0" />
+      <point x="520.0707142857143" y="2974.0" />
+      <point x="573.6569047619048" y="2974.0" />
+      <point x="573.6569047619048" y="1212.0" />
+      <point x="525.847380952381" y="1212.0" />
+      <point x="53.99999999999994" y="116.0" />
+    </edge>
+    <edge source="TopTrumpsApp.TopTrumpsMenu" target="TopTrumpsApp.Card">
+      <point x="74.66666666666663" y="-710.0" />
+      <point x="557.4040476190476" y="2994.0" />
+      <point x="595.6569047619048" y="2994.0" />
+      <point x="595.6569047619048" y="920.0" />
+      <point x="504.69738095238097" y="920.0" />
+      <point x="47.700000000000045" y="435.0" />
+    </edge>
+    <edge source="TopTrumpsApp.Game" target="TopTrumpsApp.TopTrumpsMenu">
+      <point x="146.79999999999995" y="644.0" />
+      <point x="490.8416666666666" y="3024.0" />
+      <point x="482.737380952381" y="3024.0" />
+      <point x="0.0" y="-710.0" />
     </edge>
     <edge source="TopTrumpsApp.Player" target="TopTrumpsApp.Card">
       <point x="-54.00000000000006" y="-116.0" />
-      <point x="429.3016666666666" y="920.0" />
-      <point x="419.49809523809523" y="920.0" />
-      <point x="15.900000000000034" y="435.0" />
+      <point x="417.84738095238095" y="930.0" />
+      <point x="441.09738095238095" y="930.0" />
+      <point x="-15.899999999999977" y="435.0" />
     </edge>
     <edge source="TopTrumpsApp.TopTrumpsMenu" target="TopTrumpsApp.Deck">
-      <point x="-85.33333333333331" y="-699.0" />
-      <point x="342.6083333333333" y="2994.0" />
-      <point x="92.4016666666667" y="2994.0" />
-      <point x="92.4016666666667" y="1621.0" />
-      <point x="101.10000000000002" y="1621.0" />
-      <point x="-60.39999999999998" y="182.0" />
-    </edge>
-    <edge source="TopTrumpsApp.Game" target="TopTrumpsApp.Player">
-      <point x="152.91666666666669" y="-644.0" />
-      <point x="507.4583333333333" y="1621.0" />
-      <point x="469.30642857142857" y="1621.0" />
-      <point x="469.30642857142857" y="1212.0" />
-      <point x="465.3016666666667" y="1212.0" />
-      <point x="-18.0" y="116.0" />
+      <point x="-130.66666666666663" y="-710.0" />
+      <point x="352.07071428571436" y="3024.0" />
+      <point x="94.92071428571433" y="3024.0" />
+      <point x="94.92071428571433" y="1636.0" />
+      <point x="30.19999999999999" y="1636.0" />
+      <point x="-120.80000000000001" y="182.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="271.4999999999998" y="302.0" />
+  <settings layout="Hierarchic Group" zoom="0.5921492084146606" x="316.50000000000045" y="2295.5" />
   <SelectedNodes>
-    <node>TopTrumpsApp.TopTrumpsMenu</node>
+    <node>TopTrumpsApp.Game</node>
   </SelectedNodes>
   <Categories>
-    <Category>Constructors</Category>
-    <Category>Inner Classes</Category>
     <Category>Fields</Category>
+    <Category>Constructors</Category>
     <Category>Methods</Category>
+    <Category>Inner Classes</Category>
   </Categories>
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>
